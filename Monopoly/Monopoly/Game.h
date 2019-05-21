@@ -28,6 +28,9 @@ public:
 	Game();
 	~Game();
 	void enterScreen();
+	void startGame();
+	void loadGame();
+	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
 	void setTextStyle(int color, int backgroundColor);

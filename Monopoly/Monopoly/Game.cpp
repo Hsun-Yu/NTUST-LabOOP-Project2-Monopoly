@@ -66,7 +66,16 @@ void Game::enterScreen()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-
+			if (markPosition.y == 15)
+				Game::startGame();
+			else if (markPosition.y == 18)
+				Game::loadGame();
+			else if (markPosition.y == 21)
+				Game::settingGame();
+			else
+			{
+				exit(1);
+			}
 		}
 		else
 		{
@@ -86,6 +95,19 @@ void Game::enterScreen()
 		}
 	}
 }
+void Game::startGame()
+{
+	Game::display();
+}
+
+void Game::loadGame()
+{
+}
+
+void Game::settingGame()
+{
+}
+
 void Game::setCursorXY(int x, int y)
 {
 	Game::cursorXY.X = x;
@@ -96,15 +118,6 @@ void Game::setCursorXY(int x, int y)
 void Game::moveCursor(int x, int y)
 {
 	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
-}
-
-void Game::menu()
-{
-}
-
-void Game::display()
-{
-
 }
 
 Position Game::optionUp(Position markPosition)
@@ -147,4 +160,24 @@ void Game::showOption(Position markPosition, vector<string> option)
 		cout << option[markPosition.y - 15 + i] << endl;
 	}
 	Game::setCursorXY(markPosition.x, markPosition.y);
+}
+
+void Game::menu()
+{
+}
+
+void Game::display()
+{
+	system("cls");
+
+	ifstream inputS("Basemap\\basemap_template.txt");
+	string str;
+
+	Game::setTextStyle(WHITE, BLACK);
+	while (getline(inputS, str))
+	{
+		cout << str << endl;
+	}
+
+	inputS.close();
 }
