@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <iomanip>
 #include <fstream>
 #include <Windows.h>
 #include <conio.h>
 #include <MMSystem.h>
+#include "Position.h"
+using namespace std;
 
 #define BLACK 0
 #define BLACK2 FOREGROUND_INTENSITY
@@ -24,24 +27,21 @@ class Game
 public:
 	Game();
 	~Game();
-	void setTextStyle(int color, int backgroundColor);
 	void enterScreen();
-	void initialize();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
-
+	void setTextStyle(int color, int backgroundColor);
 	void menu();
 	void display();
-	void menuUp();
-	void menuDown();
-	void menuLeft();
-	void menuRight();
+	Position optionUp(Position markPosition);
+	Position optionDown(Position markPosition);
+	void showOption(Position markPosition, vector<string>);
 
 private:
 
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
-
+	Position markPosition;
 	bool isInGame;
 };
 

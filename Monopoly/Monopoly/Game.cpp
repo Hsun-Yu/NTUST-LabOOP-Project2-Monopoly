@@ -1,14 +1,11 @@
 ﻿#include "Game.h"
 
-using namespace std;
-
 HANDLE Game::outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD Game::cursorXY;
 
 Game::Game()
 {
 	Game::enterScreen();
-
 }
 
 
@@ -23,7 +20,7 @@ void Game::setTextStyle(int color, int backgroundColor)
 
 void Game::enterScreen()
 {
-	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	system("cls");
 	cout << "                  __  __                                                            __            " << endl;
 	cout << "                  F  \\/  ]      ____      _ ___       ____      _ ___       ____     LJ    _    _  " << endl;
@@ -34,25 +31,60 @@ void Game::enterScreen()
 	cout << "                |__L    J__|  J______F  |__L  J__|  J______F  |_J_____F   J______F  |__| J\\______/F" << endl;
 	cout << "                                                              L_J                         J______F " << endl;
 
-	cout << endl << endl << endl;
-	cout << "                                               ＿＿＿＿＿＿＿＿ " << endl;
-	cout << "                                              |                |" << endl;
-	cout << "                                              |    開始遊戲    |" << endl;
-	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
-	cout << "                                              |                |" << endl;
-	cout << "                                              |    載入遊戲    |" << endl;
-	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
-	cout << "                                              |                |" << endl;
-	cout << "                                              |      設定      |" << endl;
-	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
-	cout << "                                              |                |" << endl;
-	cout << "                                              |    離開遊戲    |" << endl;
-	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
-	cout << endl << endl << endl;
-	cout << "倉頡輸入法" << endl;
-}
-void Game::initialize()
-{
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|    開始遊戲    |",
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"|    載入遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|      設定      |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"|    離開遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(46, 12 + i); //起始點 (46,12) 
+		cout << option[i] << endl;
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < 13; i++)
+	{
+		Game::setCursorXY(46, 12 + i);
+		cout << option[i] << endl;
+	}
+
+	Game::setCursorXY(0, 28);
+	cout << "倉頡輸入法：" << endl;
+	Game::setCursorXY(54, 15);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				markPosition = optionUp(markPosition);
+				showOption(markPosition, option);
+				break;
+			case 80://下
+				markPosition = optionDown(markPosition);
+				showOption(markPosition, option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 void Game::setCursorXY(int x, int y)
 {
@@ -72,20 +104,47 @@ void Game::menu()
 
 void Game::display()
 {
+
 }
 
-void Game::menuUp()
+Position Game::optionUp(Position markPosition)
 {
+	if (markPosition.y == 15)
+		return markPosition;
+	else
+	{
+		markPosition.y -= 3;
+		moveCursor(0, -3);
+	}
+	return markPosition;
 }
 
-void Game::menuDown()
+Position Game::optionDown(Position markPosition)
 {
+	if (markPosition.y == 24)
+		return markPosition;
+	else
+	{
+		markPosition.y += 3;
+		moveCursor(0, 3);
+	}
+	return markPosition;
 }
 
-void Game::menuLeft()
+void Game::showOption(Position markPosition, vector<string> option)
 {
-}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 0; i < 13; i++)
+	{
+		Game::setCursorXY(46, 12 + i);
+		cout << option[i] << endl;
+	}
+	Game::setTextStyle(GOLD, BLACK);
 
-void Game::menuRight()
-{
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(46, markPosition.y - 3 + i);
+		cout << option[markPosition.y - 15 + i] << endl;
+	}
+	Game::setCursorXY(markPosition.x, markPosition.y);
 }
