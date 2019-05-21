@@ -5,6 +5,7 @@ COORD Game::cursorXY;
 
 Game::Game()
 {
+	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
 
@@ -20,7 +21,6 @@ void Game::setTextStyle(int color, int backgroundColor)
 
 void Game::enterScreen()
 {
-	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	system("cls");
 	cout << "                  __  __                                                            __            " << endl;
 	cout << "                  F  \\/  ]      ____      _ ___       ____      _ ___       ____     LJ    _    _  " << endl;
@@ -95,9 +95,67 @@ void Game::enterScreen()
 		}
 	}
 }
+void Game::showHowManyPlayer(int howManyPlayer)
+{
+	Game::setCursorXY(54, 20);
+	if (howManyPlayer == 1)
+		cout << "１" << endl;
+	else if (howManyPlayer == 2)
+		cout << "２" << endl;
+	else if (howManyPlayer == 3)
+		cout << "３" << endl;
+	else
+		cout << "４" << endl;
+}
 void Game::startGame()
 {
-	Game::display();
+	Game::howManyPlayer = 1;
+	vector<string> howManyPlayerBoard;
+	howManyPlayerBoard = {
+		" ________________ " ,
+		"|                |" ,
+		"|    遊玩人數    |" ,
+		"|________________|" ,
+		"|                |" ,
+		"|    ＜ １ ＞    |" ,
+		"|________________|" };
+	for (int i = 0; i < howManyPlayerBoard.size(); i++)
+	{
+		Game::setTextStyle(CYAN, BLACK);
+		Game::setCursorXY(46, 15 + i);
+		cout << howManyPlayerBoard[i] << endl;
+	}
+	while (1)
+	{
+		Game::setCursorXY(54, 20);
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			Game::display();
+		}
+		else if (c == 27) //esc
+		{
+			Game::enterScreen();
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75: //左
+				if (howManyPlayer != 1)
+					howManyPlayer--;
+				showHowManyPlayer(howManyPlayer);
+				break;
+			case 77: //右
+				if (howManyPlayer != 4)
+					howManyPlayer++;
+				showHowManyPlayer(howManyPlayer);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void Game::loadGame()
@@ -178,6 +236,6 @@ void Game::display()
 	{
 		cout << str << endl;
 	}
-
 	inputS.close();
+	cout << Game::howManyPlayer << " Player";
 }

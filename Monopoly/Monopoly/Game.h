@@ -28,6 +28,7 @@ public:
 	Game();
 	~Game();
 	void enterScreen();
+	void showHowManyPlayer(int);
 	void startGame();
 	void loadGame();
 	void settingGame();
@@ -39,6 +40,7 @@ public:
 	Position optionUp(Position markPosition);
 	Position optionDown(Position markPosition);
 	void showOption(Position markPosition, vector<string>);
+	int howManyPlayer;
 
 private:
 
