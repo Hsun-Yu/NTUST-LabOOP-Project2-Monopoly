@@ -33,7 +33,59 @@ void Game::enterScreen()
 	cout << "                J__L    J__L J\\______/F J__L  J__L J\\______/F J  _____/L J\\______/F J__L  )-____  L" << endl;
 	cout << "                |__L    J__|  J______F  |__L  J__|  J______F  |_J_____F   J______F  |__| J\\______/F" << endl;
 	cout << "                                                              L_J                         J______F " << endl;
+
+	cout << endl << endl << endl;
+	cout << "                                               ＿＿＿＿＿＿＿＿ " << endl;
+	cout << "                                              |                |" << endl;
+	cout << "                                              |    開始遊戲    |" << endl;
+	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
+	cout << "                                              |                |" << endl;
+	cout << "                                              |    載入遊戲    |" << endl;
+	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
+	cout << "                                              |                |" << endl;
+	cout << "                                              |      設定      |" << endl;
+	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
+	cout << "                                              |                |" << endl;
+	cout << "                                              |    離開遊戲    |" << endl;
+	cout << "                                              |＿＿＿＿＿＿＿＿|" << endl;
+	cout << endl << endl << endl;
+	cout << "倉頡輸入法" << endl;
 }
 void Game::initialize()
+{
+}
+void Game::setCursorXY(int x, int y)
+{
+	Game::cursorXY.X = x;
+	Game::cursorXY.Y = y;
+	SetConsoleCursorPosition(Game::outputHandle, Game::cursorXY);
+}
+
+void Game::moveCursor(int x, int y)
+{
+	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
+}
+
+void Game::menu()
+{
+}
+
+void Game::display()
+{
+}
+
+void Game::menuUp()
+{
+}
+
+void Game::menuDown()
+{
+}
+
+void Game::menuLeft()
+{
+}
+
+void Game::menuRight()
 {
 }

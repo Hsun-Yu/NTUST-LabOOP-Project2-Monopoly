@@ -27,10 +27,17 @@ public:
 	void setTextStyle(int color, int backgroundColor);
 	void enterScreen();
 	void initialize();
+	void setCursorXY(int x, int y);
+	void moveCursor(int x, int y);
+
+	void menu();
+	void display();
+	void menuUp();
+	void menuDown();
+	void menuLeft();
+	void menuRight();
 
 private:
-	bool whoPlay;	//red true, black false
-	bool AIType;	//AI Type: true
 
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
