@@ -1,7 +1,51 @@
 ﻿  Game.cpp
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4eb 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4f1 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4f2 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68a 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68c 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68d 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68e 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x690 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x691 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a2 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a6 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a8 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6bf 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c1 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c5 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c6 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6f8 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fa 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fb 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fc 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fd 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
 c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(34): warning C4018: '<': signed/unsigned 不相符
 c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(116): warning C4018: '<': signed/unsigned 不相符
 c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(179): warning C4018: '<': signed/unsigned 不相符
 c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(212): warning C4018: '<': signed/unsigned 不相符
-c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(223): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(225): warning C4018: '<': signed/unsigned 不相符
+  main.cpp
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4eb 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4f1 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x4f2 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68a 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68c 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68d 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x68e 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x690 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x691 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a2 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a6 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6a8 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6bf 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c1 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c5 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6c6 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6f8 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fa 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fb 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fc 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.h : warning C4828: 檔案包含起始於位移 0x6fd 的字元，在目前的來源字元集 (字碼頁 65001) 中不是合法的字元。
+  正在產生程式碼...
   Monopoly.vcxproj -> C:\Users\User\Documents\GitHub\NTUST_LabOOP_Project2_Monopoly\Monopoly\Debug\Monopoly.exe

@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <MMSystem.h>
 #include <filesystem>
+#include<algorithm>
 
 #include "Player.h"
 #include "Local.h"
@@ -38,21 +39,27 @@ public:
 	void showHowManyPlayer(int);
 	void loadGame();
 	vector<string> get_all_files_names_within_folder(string folder);
-	vector<string> fileName;
-	string file;
+	vector<string> allFileName;
+	string fileName; //檔案名稱
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
 	void displayTemplate();
-	void displayMap(string);
+	void processLocalInformation(string);
+	void splitStr2Vec(string s, vector<string>& buf);
+	void displayMap();
 	void optionUp();
 	void optionDown();
 	void showOption(vector<string>);
 
 private:
-	int howManyPlayer;
+	int howManyPlayer; //遊玩人數
+	int round; //剩餘回合
+	string mapName; //地圖名稱
+	vector< vector <string> > localInformation; //地產資訊
+
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
 	bool isInGame;

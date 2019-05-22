@@ -126,8 +126,8 @@ void Game::startGame()
 		if (c == 13) //Enter
 		{
 			Game::displayTemplate();
-			Game::file = "basemap.txt";
-			Game::displayMap(file);
+			Game::fileName = "initial.txt";
+			Game::processLocalInformation(Game::fileName);
 		}
 		else if (c == 27) //esc
 		{
@@ -182,9 +182,9 @@ void Game::loadGame()
 		Game::setCursorXY(46, 18 + i);
 		cout << whichFileWantLoad[i] << endl;
 		string folder = "Basemap";
-		fileName = get_all_files_names_within_folder(folder);
+		allFileName = get_all_files_names_within_folder(folder);
 		Game::setCursorXY(50, 20);
-		cout << fileName[0];
+		cout << allFileName[0];
 	}
 	int index = 0;
 	while (1)
@@ -193,7 +193,7 @@ void Game::loadGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-			Game::displayMap(fileName[index]);
+			Game::processLocalInformation(allFileName[index]);
 		}
 		else if (c == 27) //esc
 		{
@@ -208,21 +208,25 @@ void Game::loadGame()
 				{
 					index--;
 					Game::setCursorXY(46, 20);
-					cout << "|＜" << fileName[index];
-					for (int i = 0; i < 12 - fileName[index].size(); i++)
+					cout << "|＜" << allFileName[index];
+					for (int i = 0; i < 12 - allFileName[index].size(); i++)
 						cout << " ";
 					cout << "＞|";
+					string name = allFileName[index];
+					Game::fileName = name;
 				}
 				break;
 			case 77: //右
-				if (index != fileName.size() - 1)
+				if (index != allFileName.size() - 1)
 				{
 					index++;
 					Game::setCursorXY(46, 20);
-					cout << "|＜" << fileName[index];
-					for (int i = 0; i < 12 - fileName[index].size(); i++)
+					cout << "|＜" << allFileName[index];
+					for (int i = 0; i < 12 - allFileName[index].size(); i++)
 						cout << " ";
 					cout << "＞|";
+					string name = allFileName[index];
+					Game::fileName = name;
 				}
 				break;
 			default:
@@ -314,7 +318,7 @@ void Game::displayTemplate()
 {
 	system("cls");
 
-	ifstream inputBasemap_template("Basemap_template\\basemap_template.txt");
+	ifstream inputBasemap_template("Basemap_template\\base.txt");
 	string str;
 	vector <string> item;
 
@@ -327,8 +331,7 @@ void Game::displayTemplate()
 	cout << Game::howManyPlayer << " Player";
 
 }
-
-void Game::displayMap(string fileName)
+void Game::processLocalInformation(string fileName)
 {
 	string _fileName = "Basemap\\";
 	_fileName += fileName;
@@ -340,4 +343,34 @@ void Game::displayMap(string fileName)
 		item.push_back(str);
 	}
 	file.close();
+	vector<string> buf;
+	splitStr2Vec(item[0], buf);
+	Game::mapName = buf[0];
+	Game::round = stoi(buf[1]);
+	if(Game::fileName != "initial.txt")
+		Game::howManyPlayer = stoi(buf[2]);
+	cout << Game::howManyPlayer;
+}
+
+void Game::splitStr2Vec(string s, vector<string>& buf)
+{
+	int current = 0; //最初由 0 的位置開始找
+	int next;
+	while (1)
+	{
+		next = s.find_first_of(" ", current);
+		if (next != current)
+		{
+			string tmp = s.substr(current, next - current);
+			if (tmp.size() != 0) //忽略空字串
+				buf.push_back(tmp);
+		}
+		if (next == string::npos) break;
+		current = next + 1; //下次由 next + 1 的位置開始找起。
+	}
+}
+
+void Game::displayMap()
+{
+
 }
