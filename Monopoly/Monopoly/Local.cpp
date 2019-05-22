@@ -11,12 +11,3 @@ Local::~Local()
 {
 }
 
-
-Local::Local()
-{
-}
-
-
-Local::~Local()
-{
-}
