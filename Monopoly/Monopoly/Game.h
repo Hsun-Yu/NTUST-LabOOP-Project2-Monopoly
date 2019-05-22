@@ -7,6 +7,12 @@
 #include <conio.h>
 #include <MMSystem.h>
 #include <filesystem>
+
+#include "Player.h"
+#include "Local.h"
+#include "Fortune.h"
+#include "Chance.h"
+#include "Bank.h"
 using namespace std;
 
 #define BLACK 0
@@ -42,12 +48,19 @@ public:
 	void optionUp();
 	void optionDown();
 	void showOption(vector<string>);
-	int howManyPlayer;
 
 private:
-
+	int howManyPlayer;
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
 	bool isInGame;
+
+	vector<Player> players;
+	vector<Local> locals;
+
+	vector<Chance> chances;
+	vector<Fortune> fortunes;
+
+	Bank bank;
 };
 

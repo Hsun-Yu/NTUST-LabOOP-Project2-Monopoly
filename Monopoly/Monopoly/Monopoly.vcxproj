@@ -78,6 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>
       </LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -120,11 +121,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bank.cpp" />
+    <ClCompile Include="Chance.cpp" />
+    <ClCompile Include="Company.cpp" />
+    <ClCompile Include="Fortune.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Local.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Property.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bank.h" />
+    <ClInclude Include="Chance.h" />
+    <ClInclude Include="Company.h" />
+    <ClInclude Include="Fortune.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Local.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Property.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
