@@ -47,8 +47,9 @@ public:
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
 	void displayTemplate();
-	void processLocalInformation(string);
-	void splitStr2Vec(string s, vector<string>& buf);
+	void processTxtInformation(string);
+	void processPlayerRoundName(string);
+	void processLocalinformation(vector<string>);
 	void displayMap();
 	void optionUp();
 	void optionDown();

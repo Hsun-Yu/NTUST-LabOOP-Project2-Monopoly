@@ -127,7 +127,7 @@ void Game::startGame()
 		{
 			Game::displayTemplate();
 			Game::fileName = "initial.txt";
-			Game::processLocalInformation(Game::fileName);
+			Game::processTxtInformation(Game::fileName);
 		}
 		else if (c == 27) //esc
 		{
@@ -193,7 +193,7 @@ void Game::loadGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-			Game::processLocalInformation(allFileName[index]);
+			Game::processTxtInformation(allFileName[index]);
 		}
 		else if (c == 27) //esc
 		{
@@ -331,7 +331,7 @@ void Game::displayTemplate()
 	cout << Game::howManyPlayer << " Player";
 
 }
-void Game::processLocalInformation(string fileName)
+void Game::processTxtInformation(string fileName)
 {
 	string _fileName = "Basemap\\";
 	_fileName += fileName;
@@ -343,31 +343,82 @@ void Game::processLocalInformation(string fileName)
 		item.push_back(str);
 	}
 	file.close();
-	vector<string> buf;
-	splitStr2Vec(item[0], buf);
-	Game::mapName = buf[0];
-	Game::round = stoi(buf[1]);
-	if(Game::fileName != "initial.txt")
-		Game::howManyPlayer = stoi(buf[2]);
-	cout << Game::howManyPlayer;
+	Game::processPlayerRoundName(item[0]);
+	Game::processLocalinformation(item);
 }
 
-void Game::splitStr2Vec(string s, vector<string>& buf)
+void Game::processPlayerRoundName(string item)
 {
-	int current = 0; //最初由 0 的位置開始找
-	int next;
-	while (1)
+	string str;
+	vector <string> information;
+	for (int i = 0; i < item.size(); i++)
 	{
-		next = s.find_first_of(" ", current);
-		if (next != current)
+		if (item[i] != ' ')
 		{
-			string tmp = s.substr(current, next - current);
-			if (tmp.size() != 0) //忽略空字串
-				buf.push_back(tmp);
+			str += item[i];
+			if (i == item.size() - 1)
+			{
+				information.push_back(str);
+				str.erase(0, str.size());
+			}
 		}
-		if (next == string::npos) break;
-		current = next + 1; //下次由 next + 1 的位置開始找起。
+		else
+		{
+			information.push_back(str);
+			str.erase(0, str.size());
+		}
 	}
+	Game::mapName = information[0];
+	Game::round = stoi(information[1]);
+	if (Game::fileName != "initial.txt")
+		Game::howManyPlayer = stoi(information[2]);
+}
+
+void Game::processLocalinformation(vector<string> item)
+{
+	vector<vector<string>> tmp;
+	vector<string> space = { " "," "," "," "," "," "," "," " };
+	for (int i = 0; i < 28; i++)
+	{
+		tmp.push_back(space);
+	}
+	for (int i = 1; i < 29; i++)
+	{
+		string str;
+		vector<string> information;
+		for (int j = 0; j < item[i].size(); j++)
+		{
+			if (item[i][j] != ' ')
+			{
+				str += item[i][j];
+				if (i == item[i].size() - 1)
+				{
+					information.push_back(str);
+					str.erase(0, str.size());
+				}
+			}
+			else
+			{
+				information.push_back(str);
+				str.erase(0, str.size());
+			}
+		}
+		int k = 0;
+		for (; k < information.size(); k++)
+		{
+			tmp[i - 1][k] = information[k];
+		}
+		tmp[i - 1][k] = str;
+	}
+	Game::setCursorXY(0, 30);
+	Game::localInformation = tmp;
+
+	// for (int i = 0; i < 28; i++)            參考
+	//     {
+	//         for (int j = 0; j < 8; j++)
+	//             cout << Game::localInformation[i][j] << " ";
+	//         cout << endl;
+	//     }
 }
 
 void Game::displayMap()
