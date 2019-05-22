@@ -95,18 +95,6 @@ void Game::enterScreen()
 		}
 	}
 }
-void Game::showHowManyPlayer(int howManyPlayer)
-{
-	Game::setCursorXY(54, 20);
-	if (howManyPlayer == 1)
-		cout << "１" << endl;
-	else if (howManyPlayer == 2)
-		cout << "２" << endl;
-	else if (howManyPlayer == 3)
-		cout << "３" << endl;
-	else
-		cout << "４" << endl;
-}
 void Game::startGame()
 {
 	Game::howManyPlayer = 1;
@@ -158,8 +146,100 @@ void Game::startGame()
 	}
 }
 
+void Game::showHowManyPlayer(int howManyPlayer)
+{
+	Game::setCursorXY(54, 20);
+	if (howManyPlayer == 1)
+		cout << "１" << endl;
+	else if (howManyPlayer == 2)
+		cout << "２" << endl;
+	else if (howManyPlayer == 3)
+		cout << "３" << endl;
+	else
+		cout << "４" << endl;
+}
+
 void Game::loadGame()
 {
+	vector<string> whichFileWantLoad;
+
+	whichFileWantLoad = {
+		" ________________ " ,
+		"|                |" ,
+		"|＜            ＞|" ,
+		"|________________|" };
+	for (int i = 0; i < whichFileWantLoad.size(); i++)
+	{
+		Game::setTextStyle(CYAN, BLACK);
+		Game::setCursorXY(46, 18 + i);
+		cout << whichFileWantLoad[i] << endl;
+		string folder = "Basemap";
+		fileName = get_all_files_names_within_folder(folder);
+		Game::setCursorXY(50, 20);
+		cout << fileName[0];
+	}
+	int index = 0;
+	while (1)
+	{
+		Game::setCursorXY(54, 20);
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+		}
+		else if (c == 27) //esc
+		{
+			Game::enterScreen();
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75: //左
+				if (index != 0)
+				{
+					index--;
+					Game::setCursorXY(46, 20);
+					cout << "|＜" << fileName[index];
+					for (int i = 0; i < 12 - fileName[index].size(); i++)
+						cout << " ";
+					cout << "＞|";
+				}
+				break;
+			case 77: //右
+				if (index != fileName.size() - 1)
+				{
+					index++;
+					Game::setCursorXY(46, 20);
+					cout << "|＜" << fileName[index];
+					for (int i = 0; i < 12 - fileName[index].size(); i++)
+						cout << " ";
+					cout << "＞|";
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+vector<string> Game::get_all_files_names_within_folder(string folder)
+{
+	vector<string> names;
+	string search_path = folder + "/*.*";
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			// read all (real) files in current folder
+			// , delete '!' read other 2 default folder . and ..
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+				names.push_back(fd.cFileName);
+			}
+		} while (::FindNextFile(hFind, &fd));
+		::FindClose(hFind);
+	}
+	return names;
 }
 
 void Game::settingGame()
@@ -225,14 +305,16 @@ void Game::display()
 {
 	system("cls");
 
-	ifstream inputS("Basemap\\basemap_template.txt");
+	ifstream inputBasemap_template("Basemap_template\\basemap_template.txt");
 	string str;
+	vector <string> item;
 
 	Game::setTextStyle(WHITE, BLACK);
-	while (getline(inputS, str))
+	while (getline(inputBasemap_template, str))
 	{
 		cout << str << endl;
 	}
-	inputS.close();
+	inputBasemap_template.close();
 	cout << Game::howManyPlayer << " Player";
+
 }

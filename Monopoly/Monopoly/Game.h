@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <MMSystem.h>
+#include <filesystem>
 using namespace std;
 
 #define BLACK 0
@@ -27,9 +28,11 @@ public:
 	Game();
 	~Game();
 	void enterScreen();
-	void showHowManyPlayer(int);
 	void startGame();
+	void showHowManyPlayer(int);
 	void loadGame();
+	vector<string> get_all_files_names_within_folder(string folder);
+	vector<string> fileName;
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);

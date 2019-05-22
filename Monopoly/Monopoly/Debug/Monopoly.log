@@ -1,3 +1,6 @@
 ﻿  Game.cpp
-c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(122): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(110): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(171): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(203): warning C4018: '<': signed/unsigned 不相符
+c:\users\user\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(214): warning C4018: '<': signed/unsigned 不相符
   Monopoly.vcxproj -> C:\Users\User\Documents\GitHub\NTUST_LabOOP_Project2_Monopoly\Monopoly\Debug\Monopoly.exe
