@@ -39,12 +39,14 @@ public:
 	void loadGame();
 	vector<string> get_all_files_names_within_folder(string folder);
 	vector<string> fileName;
+	string file;
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
-	void display();
+	void displayTemplate();
+	void displayMap(string);
 	void optionUp();
 	void optionDown();
 	void showOption(vector<string>);

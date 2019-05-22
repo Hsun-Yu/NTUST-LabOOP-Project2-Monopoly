@@ -5,7 +5,7 @@ COORD Game::cursorXY;
 
 Game::Game()
 {
-	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
 
@@ -125,7 +125,9 @@ void Game::startGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-			Game::display();
+			Game::displayTemplate();
+			Game::file = "basemap.txt";
+			Game::displayMap(file);
 		}
 		else if (c == 27) //esc
 		{
@@ -191,6 +193,7 @@ void Game::loadGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
+			Game::displayMap(fileName[index]);
 		}
 		else if (c == 27) //esc
 		{
@@ -307,7 +310,7 @@ void Game::menu()
 {
 }
 
-void Game::display()
+void Game::displayTemplate()
 {
 	system("cls");
 
@@ -323,4 +326,18 @@ void Game::display()
 	inputBasemap_template.close();
 	cout << Game::howManyPlayer << " Player";
 
+}
+
+void Game::displayMap(string fileName)
+{
+	string _fileName = "Basemap\\";
+	_fileName += fileName;
+	ifstream file(_fileName);
+	string str;
+	vector<string> item;
+	while (getline(file, str))
+	{
+		item.push_back(str);
+	}
+	file.close();
 }
