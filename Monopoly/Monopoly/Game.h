@@ -6,7 +6,6 @@
 #include <Windows.h>
 #include <conio.h>
 #include <MMSystem.h>
-#include "Position.h"
 using namespace std;
 
 #define BLACK 0
@@ -37,16 +36,15 @@ public:
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
 	void display();
-	Position optionUp(Position markPosition);
-	Position optionDown(Position markPosition);
-	void showOption(Position markPosition, vector<string>);
+	void optionUp();
+	void optionDown();
+	void showOption(vector<string>);
 	int howManyPlayer;
 
 private:
 
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
-	Position markPosition;
 	bool isInGame;
 };
 

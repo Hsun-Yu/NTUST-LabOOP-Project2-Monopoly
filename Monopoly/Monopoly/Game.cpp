@@ -66,11 +66,11 @@ void Game::enterScreen()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-			if (markPosition.y == 15)
+			if (Game::cursorXY.Y == 15)
 				Game::startGame();
-			else if (markPosition.y == 18)
+			else if (Game::cursorXY.Y == 18)
 				Game::loadGame();
-			else if (markPosition.y == 21)
+			else if (Game::cursorXY.Y == 21)
 				Game::settingGame();
 			else
 			{
@@ -82,12 +82,12 @@ void Game::enterScreen()
 			switch (c)
 			{
 			case 72://上
-				markPosition = optionUp(markPosition);
-				showOption(markPosition, option);
+				optionUp();
+				showOption(option);
 				break;
 			case 80://下
-				markPosition = optionDown(markPosition);
-				showOption(markPosition, option);
+				optionDown();
+				showOption(option);
 				break;
 			default:
 				break;
@@ -178,32 +178,29 @@ void Game::moveCursor(int x, int y)
 	Game::setCursorXY(Game::cursorXY.X + x, Game::cursorXY.Y + y);
 }
 
-Position Game::optionUp(Position markPosition)
+void Game::optionUp(void)
 {
-	if (markPosition.y == 15)
-		return markPosition;
+	if (Game::cursorXY.Y == 15)
+	{ }
 	else
 	{
-		markPosition.y -= 3;
 		moveCursor(0, -3);
 	}
-	return markPosition;
 }
 
-Position Game::optionDown(Position markPosition)
+void Game::optionDown(void)
 {
-	if (markPosition.y == 24)
-		return markPosition;
+	if (Game::cursorXY.Y == 24)
+	{}
 	else
 	{
-		markPosition.y += 3;
-		moveCursor(0, 3);
+		Game::cursorXY.Y += 3;
 	}
-	return markPosition;
 }
 
-void Game::showOption(Position markPosition, vector<string> option)
+void Game::showOption(vector<string> option)
 {
+	int y = Game::cursorXY.Y;
 	Game::setTextStyle(WHITE, BLACK);
 	for (int i = 0; i < 13; i++)
 	{
@@ -214,10 +211,10 @@ void Game::showOption(Position markPosition, vector<string> option)
 
 	for (int i = 0; i < 4; i++)
 	{
-		Game::setCursorXY(46, markPosition.y - 3 + i);
-		cout << option[markPosition.y - 15 + i] << endl;
+		Game::setCursorXY(46, y - 3 + i);
+		cout << option[y - 15 + i] << endl;
 	}
-	Game::setCursorXY(markPosition.x, markPosition.y);
+	Game::setCursorXY(54, y);
 }
 
 void Game::menu()
