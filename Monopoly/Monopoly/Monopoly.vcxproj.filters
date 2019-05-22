@@ -21,9 +21,51 @@
     <ClCompile Include="Game.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Local.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Chance.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Fortune.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Company.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Bank.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Local.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Chance.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Fortune.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Company.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Bank.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
