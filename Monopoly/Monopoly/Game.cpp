@@ -345,6 +345,7 @@ void Game::processTxtInformation(string fileName)
 	file.close();
 	Game::processPlayerRoundName(item[0]);
 	Game::processLocalinformation(item);
+	Game::processPlayerInformation(item);
 }
 
 void Game::processPlayerRoundName(string item)
@@ -410,15 +411,58 @@ void Game::processLocalinformation(vector<string> item)
 		}
 		tmp[i - 1][k] = str;
 	}
-	Game::setCursorXY(0, 30);
 	Game::localInformation = tmp;
+}
 
-	// for (int i = 0; i < 28; i++)            參考
-	//     {
-	//         for (int j = 0; j < 8; j++)
-	//             cout << Game::localInformation[i][j] << " ";
-	//         cout << endl;
-	//     }
+void Game::processPlayerInformation(vector<string> item)
+{
+	vector<vector<string>> tmp;
+	vector <string> space;
+	for (int i = 0; i < 59; i++)
+	{
+		space.push_back(" ");
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		tmp.push_back(space);
+	}
+	for (int i = 29; i < item.size(); i++)
+	{
+		string str;
+		vector<string> information;
+		for (int j = 0; j < item[i].size(); j++)
+		{
+			if (item[i][j] != ' ')
+			{
+				str += item[i][j];
+				if (i == item[i].size() - 1)
+				{
+					information.push_back(str);
+					str.erase(0, str.size());
+				}
+			}
+			else
+			{
+				information.push_back(str);
+				str.erase(0, str.size());
+			}
+		}
+		int k = 0;
+		for (; k < information.size(); k++)
+		{
+			tmp[i - 29][k] = information[k];
+		}
+		tmp[i - 29][k] = str;
+	}
+	Game::whoPlayer = stoi(tmp[0][1]);
+	for (int i = 0; i < tmp.size(); i++)
+	{
+		if (i == 0)
+		{
+			tmp.erase(tmp.begin() + i);
+		}
+	}
+	Game::playerInformation = tmp;
 }
 
 void Game::displayMap()

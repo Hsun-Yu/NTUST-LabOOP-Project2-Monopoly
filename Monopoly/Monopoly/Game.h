@@ -50,17 +50,25 @@ public:
 	void processTxtInformation(string);
 	void processPlayerRoundName(string);
 	void processLocalinformation(vector<string>);
+	void processPlayerInformation(vector < string>);
 	void displayMap();
 	void optionUp();
 	void optionDown();
 	void showOption(vector<string>);
 
-private:
 	int howManyPlayer; //遊玩人數
 	int round; //剩餘回合
 	string mapName; //地圖名稱
-	vector< vector <string> > localInformation; //地產資訊
+	                                                                                                                      //物件位置 物件名稱 物件類型 初始價格 階段0路費 階段1路費 階段2路費 階段3路費 
+	                                                                                                                //localInformation[8][0]    localInformation[8][1]   ...以此類推
+	vector< vector <string> > localInformation; //地產資訊              08           海王星            1              2000              500              1000             3000             5000
+	
+	int whoPlayer; //輪誰 
+	                                                                                                                              //玩家 所在位置 擁有金錢(所有地產 等級) *n
+																												      // playerInformation[0][0]     playerInformation[0][1]   ...以此類推
+	vector< vector <string>> playerInformation;//人物資訊                 0           00             30000         01 3         02 1
 
+private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
 	bool isInGame;
