@@ -477,15 +477,20 @@ void Game::displayMap()
 	Game::setCursorXY(24, 2);
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
-		Game::setCursorXY(27 + i * 20, 2);
+		Game::setCursorXY(27 + i * 20, 1);
 		if(i + 1 == 1)
-			cout << "１Ｐ" << endl;
+			cout << "１Ｐ";
 		else if ( i + 1 == 2)
-			cout << "２Ｐ" << endl;
+			cout << "２Ｐ";
 		else if (i + 1 == 3)
-			cout << "３Ｐ" << endl;
+			cout << "３Ｐ";
 		else
-			cout << "４Ｐ" << endl;
+			cout << "４Ｐ";
+	}
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		Game::setCursorXY(23 + i * 20, 3);
+		cout << "＄";
 	}
 
 	for (int i = 0; i < 8; i++)
