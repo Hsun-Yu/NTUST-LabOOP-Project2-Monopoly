@@ -14,6 +14,7 @@ Game::~Game()
 {
 }
 
+
 void Game::setTextStyle(int color, int backgroundColor)
 {
 	SetConsoleTextAttribute(Game::outputHandle, color | (backgroundColor * 16));
@@ -101,6 +102,7 @@ void Game::enterScreen()
 		}
 	}
 }
+
 void Game::startGame()
 {
 	Game::howManyPlayer = 1;
@@ -127,8 +129,8 @@ void Game::startGame()
 		{
 			Game::displayTemplate();
 			Game::fileName = "initial.txt";
-			Game::processTxtInformation(Game::fileName);
-			Game::whoPlayer = 0;
+			Game::processFile(Game::fileName);
+			Game::playerState = 0;
 			Game::displayMap();
 		}
 		else if (c == 27) //esc
@@ -195,7 +197,7 @@ void Game::loadGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
-			Game::processTxtInformation(allFileName[index]);
+			Game::processFile(allFileName[index]);
 			Game::displayTemplate();
 			Game::displayMap();
 		}
@@ -314,6 +316,66 @@ void Game::showOption(vector<string> option)
 	Game::setCursorXY(54, y);
 }
 
+void Game::processFile(string filename)
+{
+	string _fileName = "Basemap\\" + filename;
+	_fileName += fileName;
+	ifstream file(_fileName);
+	string str;
+
+	//process game information
+	file >> Game::mapName;
+	file >> Game::howManyRound;
+	file >> Game::howManyPlayer;
+	
+	//process local information
+	for (int i = 0; i <= 27; i++)
+	{
+		Local l;
+		file >> l.Id;
+		file >> l.name;
+		file >> l.localType;
+		if (l.localType == 1)
+		{
+			vector<int> price;
+			for (int j = 0; j < 5; j++)
+			{
+				int p = 0;
+				file >> p;
+				price.push_back(p);
+			}
+			l.priceOfType = price;
+		}
+		Game::locals.push_back(l);
+	}
+
+	//process player information
+	file >> str;
+	file >> Game::playerState;
+
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		Player p;
+		file >> p.Id;
+		file >> p.position;
+		
+		file >> p.property.money;
+		getline(file, str);
+		istringstream iss(str);
+		int localId;
+		while (iss >> localId)
+		{
+			p.property.localIds.push_back(localId);
+			int localPriceType;
+			iss >> localPriceType;
+			Game::locals[localId].nowPriceType = localPriceType;
+		}
+
+		Game::players.push_back(p);
+	}
+	file.close();
+}
+
 void Game::menu()
 {
 }
@@ -335,142 +397,6 @@ void Game::displayTemplate()
 	cout << Game::howManyPlayer << " Player";
 
 }
-void Game::processTxtInformation(string fileName)
-{
-	string _fileName = "Basemap\\";
-	_fileName += fileName;
-	ifstream file(_fileName);
-	string str;
-	vector<string> item;
-	while (getline(file, str))
-	{
-		item.push_back(str);
-	}
-	file.close();
-	Game::processPlayerRoundName(item[0]);
-	Game::processLocalinformation(item);
-	Game::processPlayerInformation(item);
-}
-
-void Game::processPlayerRoundName(string item)
-{
-	string str;
-	vector <string> information;
-	for (int i = 0; i < item.size(); i++)
-	{
-		if (item[i] != ' ')
-		{
-			str += item[i];
-			if (i == item.size() - 1)
-			{
-				information.push_back(str);
-				str.erase(0, str.size());
-			}
-		}
-		else
-		{
-			information.push_back(str);
-			str.erase(0, str.size());
-		}
-	}
-	Game::mapName = information[0];
-	if (Game::fileName != "initial.txt")
-	{
-		Game::round = stoi(information[1]);
-		Game::howManyPlayer = stoi(information[2]);
-	}
-}
-
-void Game::processLocalinformation(vector<string> item)
-{
-	vector<vector<string>> tmp;
-	vector<string> space = { " "," "," "," "," "," "," "," " };
-	for (int i = 0; i < 28; i++)
-	{
-		tmp.push_back(space);
-	}
-	for (int i = 1; i < 29; i++)
-	{
-		string str;
-		vector<string> information;
-		for (int j = 0; j < item[i].size(); j++)
-		{
-			if (item[i][j] != ' ')
-			{
-				str += item[i][j];
-				if (i == item[i].size() - 1)
-				{
-					information.push_back(str);
-					str.erase(0, str.size());
-				}
-			}
-			else
-			{
-				information.push_back(str);
-				str.erase(0, str.size());
-			}
-		}
-		int k = 0;
-		for (; k < information.size(); k++)
-		{
-			tmp[i - 1][k] = information[k];
-		}
-		tmp[i - 1][k] = str;
-	}
-	Game::localInformation = tmp;
-}
-
-void Game::processPlayerInformation(vector<string> item)
-{
-	vector<vector<string>> tmp;
-	vector <string> space;
-	for (int i = 0; i < 59; i++)
-	{
-		space.push_back(" ");
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		tmp.push_back(space);
-	}
-	for (int i = 29; i < item.size(); i++)
-	{
-		string str;
-		vector<string> information;
-		for (int j = 0; j < item[i].size(); j++)
-		{
-			if (item[i][j] != ' ')
-			{
-				str += item[i][j];
-				if (i == item[i].size() - 1)
-				{
-					information.push_back(str);
-					str.erase(0, str.size());
-				}
-			}
-			else
-			{
-				information.push_back(str);
-				str.erase(0, str.size());
-			}
-		}
-		int k = 0;
-		for (; k < information.size(); k++)
-		{
-			tmp[i - 29][k] = information[k];
-		}
-		tmp[i - 29][k] = str;
-	}
-	if (Game::fileName != "initial.txt")
-		Game::whoPlayer = stoi(tmp[0][1]);
-	for (int i = 0; i < tmp.size(); i++)
-	{
-		if (i == 0)
-		{
-			tmp.erase(tmp.begin() + i);
-		}
-	}
-	Game::playerInformation = tmp;
-}
 
 void Game::displayMap()
 {
@@ -490,32 +416,32 @@ void Game::displayMap()
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
 		Game::setCursorXY(23 + i * 20, 3);
-		cout << "＄";
+		cout << "＄" << Game::players[i].property.money;
 	}
 
 	for (int i = 0; i < 8; i++)
 	{
 		Game::setCursorXY(21, 9 + i * 4);
-		cout << localInformation[i][1];
+		cout << Game::locals[i].name;
 	}
 	Game::setCursorXY(31, 37);
 	for (int i = 8; i < 15; i++)
 	{
-		cout << localInformation[i][1] << " ｜ ";
+		cout << Game::locals[i].name << " ｜ ";
 	}
 	for (int i = 15; i < 22; i++)
 	{
 		Game::setCursorXY(91, 37 - (i - 14) * 4);
-		cout << localInformation[i][1];
+		cout << Game::locals[i].name;
 	}
 	Game::setCursorXY(32, 9);
 	for (int i = 27; i > 25; i--)
 	{
-		cout << localInformation[i][1] << "  ｜  ";
+		cout << Game::locals[i].name << " ｜ ";
 	}
 	Game::setCursorXY(51, 9);
 	for (int i = 25; i > 21; i--)
 	{
-		cout << localInformation[i][1] << " ｜ ";
+		cout << Game::locals[i].name << " ｜ ";
 	}
 }

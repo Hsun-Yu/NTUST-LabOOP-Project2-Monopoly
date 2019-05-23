@@ -9,6 +9,7 @@ class Player
 public:
 	Player();
 	~Player();
+	int Id;
 	string name;
 	Property property;
 	int position;

@@ -12,8 +12,9 @@ public:
 	Local();
 	~Local();
 	int Id;
+	int localType;
+	int nowPriceType = 0;
 	string name;
-	int nowType;
 	vector<int> priceOfType;
 };
 

@@ -4,10 +4,11 @@
 
 Local::Local()
 {
-}
 
+}
 
 Local::~Local()
 {
+
 }
 
