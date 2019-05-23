@@ -474,6 +474,20 @@ void Game::processPlayerInformation(vector<string> item)
 
 void Game::displayMap()
 {
+	Game::setCursorXY(24, 2);
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		Game::setCursorXY(27 + i * 20, 2);
+		if(i + 1 == 1)
+			cout << "１Ｐ" << endl;
+		else if ( i + 1 == 2)
+			cout << "２Ｐ" << endl;
+		else if (i + 1 == 3)
+			cout << "３Ｐ" << endl;
+		else
+			cout << "４Ｐ" << endl;
+	}
+
 	for (int i = 0; i < 8; i++)
 	{
 		Game::setCursorXY(21, 9 + i * 4);
