@@ -319,7 +319,6 @@ void Game::showOption(vector<string> option)
 void Game::processFile(string filename)
 {
 	string _fileName = "Basemap\\" + filename;
-	_fileName += fileName;
 	ifstream file(_fileName);
 	string str;
 
