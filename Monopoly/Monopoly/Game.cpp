@@ -129,6 +129,7 @@ void Game::startGame()
 			Game::fileName = "initial.txt";
 			Game::processTxtInformation(Game::fileName);
 			Game::whoPlayer = 0;
+			Game::displayMap();
 		}
 		else if (c == 27) //esc
 		{
@@ -195,6 +196,8 @@ void Game::loadGame()
 		if (c == 13) //Enter
 		{
 			Game::processTxtInformation(allFileName[index]);
+			Game::displayTemplate();
+			Game::displayMap();
 		}
 		else if (c == 27) //esc
 		{
@@ -371,9 +374,11 @@ void Game::processPlayerRoundName(string item)
 		}
 	}
 	Game::mapName = information[0];
-	Game::round = stoi(information[1]);
 	if (Game::fileName != "initial.txt")
+	{
+		Game::round = stoi(information[1]);
 		Game::howManyPlayer = stoi(information[2]);
+	}
 }
 
 void Game::processLocalinformation(vector<string> item)
@@ -469,5 +474,29 @@ void Game::processPlayerInformation(vector<string> item)
 
 void Game::displayMap()
 {
-
+	for (int i = 0; i < 8; i++)
+	{
+		Game::setCursorXY(21, 9 + i * 4);
+		cout << localInformation[i][1];
+	}
+	Game::setCursorXY(31, 37);
+	for (int i = 8; i < 15; i++)
+	{
+		cout << localInformation[i][1] << " ｜ ";
+	}
+	for (int i = 15; i < 22; i++)
+	{
+		Game::setCursorXY(91, 37 - (i - 14) * 4);
+		cout << localInformation[i][1];
+	}
+	Game::setCursorXY(32, 9);
+	for (int i = 27; i > 25; i--)
+	{
+		cout << localInformation[i][1] << "  ｜  ";
+	}
+	Game::setCursorXY(51, 9);
+	for (int i = 25; i > 21; i--)
+	{
+		cout << localInformation[i][1] << " ｜ ";
+	}
 }
