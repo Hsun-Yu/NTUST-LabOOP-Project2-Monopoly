@@ -128,6 +128,7 @@ void Game::startGame()
 			Game::displayTemplate();
 			Game::fileName = "initial.txt";
 			Game::processTxtInformation(Game::fileName);
+			Game::whoPlayer = 0;
 		}
 		else if (c == 27) //esc
 		{
@@ -454,7 +455,8 @@ void Game::processPlayerInformation(vector<string> item)
 		}
 		tmp[i - 29][k] = str;
 	}
-	Game::whoPlayer = stoi(tmp[0][1]);
+	if (Game::fileName != "initial.txt")
+		Game::whoPlayer = stoi(tmp[0][1]);
 	for (int i = 0; i < tmp.size(); i++)
 	{
 		if (i == 0)
