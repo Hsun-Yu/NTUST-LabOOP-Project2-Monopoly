@@ -142,6 +142,7 @@ void Game::selectPlayer()
 			{
 				Player _tmp;
 				_tmp.Id = i;
+				_tmp.name = "  ";
 				_tmp.property.money = 30000;
 				_tmp.position = 0;
 				tmp.push_back(_tmp);
@@ -281,6 +282,7 @@ void Game::loadGame()
 		Game::setCursorXY(50, 20);
 		cout << allFileName[0];
 	}
+	Game::fileName = allFileName[0];
 	int index = 0;
 	while (1)
 	{
@@ -355,7 +357,80 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 
 void Game::InGame()
 {
+	Game::markPlayerAndLocalPosition(Game::players);
+	Game::setTextStyle(WHITE, BLACK);
+}
 
+void Game::markPlayerAndLocalPosition(vector<Player> players)
+{
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		if (i == 0)
+			Game::setTextStyle(RED, RED);
+		else if (i == 1)
+			Game::setTextStyle(GREEN, GREEN);
+		else if (i == 2)
+			Game::setTextStyle(BLUE, BLUE);
+		else if (i == 3)
+			Game::setTextStyle(GOLD, GOLD);
+
+		for (int j = 0; j < players[i].property.localIds.size(); j++)
+		{
+			Game::pocessMarkLocalPosition(players[i].property.localIds[j]);
+			cout << "        ";
+		}
+
+		if (i == 0)
+			Game::setTextStyle(RED, BLACK);
+		else if (i == 1)
+			Game::setTextStyle(GREEN, BLACK);
+		else if (i == 2)
+			Game::setTextStyle(BLUE, BLACK);
+		else if (i == 3)
+			Game::setTextStyle(GOLD, BLACK);
+		Game::pocessPlayerLocalPosition(i, players[i].position);
+		cout << "✈";
+	}
+}
+
+void Game::pocessMarkLocalPosition(int localId)
+{
+	if (localId >= 0 && localId <= 7)
+	{
+		Game::setCursorXY(20, 8 + 4 * localId);
+	}
+	else if (localId >= 8 && localId <= 14)
+	{
+		Game::setCursorXY(30 + 10* (localId - 8), 36);
+	}
+	else if (localId >= 15 && localId <= 21)
+	{
+		Game::setCursorXY(90, 32 - 4 * (localId - 15));
+	}
+	else
+	{
+		Game::setCursorXY(80 - 10 * (localId - 22), 8);
+	}
+}
+
+void Game::pocessPlayerLocalPosition(int ID, int position)
+{
+	if (position >= 0 && position <= 7)
+	{
+		Game::setCursorXY(20 + 2 * ID, 11 + 4 * position);
+	}
+	else if (position >= 8 && position <= 14)
+	{
+		Game::setCursorXY(30 + 10 * (position - 8) + 2 * ID, 39);
+	}
+	else if (position >= 15 && position <= 21)
+	{
+		Game::setCursorXY(90 + 2 * ID, 35 - 4 * (position - 15));
+	}
+	else
+	{
+		Game::setCursorXY(80 - 10 * (position - 22) + 2 * ID, 11);
+	}
 }
 
 void Game::settingGame()
@@ -449,6 +524,9 @@ void Game::processFile(string filename)
 	file >> str;
 	file >> Game::playerState;
 
+	vector<Player> foo; //避免因為切換startGame和loadGame 所產生players push_back的問題
+	Game::players = foo;
+
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
 		Player p;
@@ -466,7 +544,6 @@ void Game::processFile(string filename)
 			iss >> localPriceType;
 			Game::locals[localId].nowPriceType = localPriceType;
 		}
-
 		Game::players.push_back(p);
 	}
 	file.close();
@@ -490,7 +567,7 @@ void Game::displayTemplate()
 		cout << str << endl;
 	}
 	inputBasemap_template.close();
-	cout << Game::howManyPlayer << " Player";
+	cout << Game::howManyPlayer << " Player" << "  file: " << Game::fileName;
 
 }
 
@@ -519,14 +596,14 @@ void Game::displayMap()
 		else if (i + 1 == 3)
 		{
 			cout << "３Ｐ";
-			Game::setTextStyle(GOLD, GOLD);
+			Game::setTextStyle(BLUE, BLUE);
 			Game::setCursorXY(20 + i * 20, 2);
 			cout << color;
 		}
 		else
 		{
 			cout << "４Ｐ";
-			Game::setTextStyle(BLUE, BLUE);
+			Game::setTextStyle(GOLD, GOLD);
 			Game::setCursorXY(20 + i * 20, 2);
 			cout << color;
 		}
