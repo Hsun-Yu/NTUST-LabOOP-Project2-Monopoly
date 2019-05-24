@@ -65,7 +65,7 @@ void Game::enterScreen()
 		cout << option[i] << endl;
 	}
 
-	Game::setCursorXY(0, 28);
+	Game::setCursorXY(0, 30);
 	cout << "倉頡輸入法：" << endl;
 	Game::setCursorXY(54, 15);
 	while (1)
@@ -108,7 +108,11 @@ void Game::startGame()
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
 	Game::playerState = 0;
+	Game::selectPlayer();
+}
 
+void Game::selectPlayer()
+{
 	Game::howManyPlayer = 1;
 	vector<string> howManyPlayerBoard;
 	howManyPlayerBoard = {
@@ -119,6 +123,7 @@ void Game::startGame()
 		"|                |" ,
 		"|    ＜ １ ＞    |" ,
 		"|________________|" };
+
 	for (int i = 0; i < howManyPlayerBoard.size(); i++)
 	{
 		Game::setTextStyle(CYAN, BLACK);
@@ -139,9 +144,7 @@ void Game::startGame()
 				_tmp.property.money = 30000;
 				tmp.push_back(_tmp);
 			}
-			Game::players = tmp;
-			Game::displayTemplate();
-			Game::displayMap();
+			Game::selectRound();
 		}
 		else if (c == 27) //esc
 		{
@@ -179,6 +182,86 @@ void Game::showHowManyPlayer(int howManyPlayer)
 		cout << "３" << endl;
 	else
 		cout << "４" << endl;
+}
+
+void Game::selectRound()
+{
+	Game::howManyRound= 20;
+	vector<string> howManyRoundBoard;
+	howManyRoundBoard = {
+" ________________ " ,
+"|                |" ,
+"|    回合數量    |" ,
+"|________________|" ,
+"|                |" ,
+"|    ＜ 20 ＞    |" ,
+"|________________|" };
+	for (int i = 0; i < howManyRoundBoard.size(); i++)
+	{
+		Game::setTextStyle(BLUE, BLACK);
+		Game::setCursorXY(46, 21 + i);
+		cout << howManyRoundBoard[i] << endl;
+	}
+	while (1)
+	{
+		Game::setCursorXY(54, 26);
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			Game::displayTemplate();
+			Game::displayMap();
+			Game::InGame();
+		}
+		else if (c == 27) //esc
+		{
+			vector<string> back;
+			back = {
+			"|＿＿＿＿＿＿＿＿|",
+			"|                |" ,
+			"|    離開遊戲    |" ,
+			"|＿＿＿＿＿＿＿＿|",
+			"                   " ,
+			"                   " ,
+			"                   " ,
+			"                   " };
+			Game::setTextStyle(CYAN, BLACK);
+			Game::setCursorXY(46, 21);
+			cout << back[0] << endl;
+
+			Game::setTextStyle(WHITE, BLACK);
+			for (int i = 1; i < 8; i++)
+			{
+				Game::setCursorXY(46, 21 + i);
+				cout << back[i] << endl;
+			}
+			Game::setCursorXY(54, 20);
+			Game::selectPlayer();
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75: //左
+				if (howManyRound != 10)
+					Game::howManyRound -= 10;
+				Game::setCursorXY(54, 26);
+				cout << howManyRound;
+				break;
+			case 77: //右
+				if (howManyRound != 50)
+					Game::howManyRound += 10;
+				Game::setCursorXY(54, 26);
+				cout << Game::howManyRound;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::InGame()
+{
 }
 
 void Game::loadGame()

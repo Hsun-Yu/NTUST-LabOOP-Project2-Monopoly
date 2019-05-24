@@ -37,7 +37,10 @@ public:
 	~Game();
 	void enterScreen();
 	void startGame();
+	void selectPlayer();
 	void showHowManyPlayer(int);
+	void selectRound();
+	void InGame();
 	void loadGame();
 	vector<string> get_all_files_names_within_folder(string folder);
 	vector<string> allFileName;
