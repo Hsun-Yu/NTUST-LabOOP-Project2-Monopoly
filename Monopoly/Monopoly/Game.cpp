@@ -107,8 +107,9 @@ void Game::startGame()
 {
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
-	Game::playerState = 0;
 	Game::selectPlayer();
+	Game::playerState = 0;
+	Game::InGame();
 }
 
 void Game::selectPlayer()
@@ -142,6 +143,7 @@ void Game::selectPlayer()
 				Player _tmp;
 				_tmp.Id = i;
 				_tmp.property.money = 30000;
+				_tmp.position = 0;
 				tmp.push_back(_tmp);
 			}
 			Game::selectRound();
@@ -260,10 +262,6 @@ void Game::selectRound()
 	}
 }
 
-void Game::InGame()
-{
-}
-
 void Game::loadGame()
 {
 	vector<string> whichFileWantLoad;
@@ -293,6 +291,7 @@ void Game::loadGame()
 			Game::processFile(allFileName[index]);
 			Game::displayTemplate();
 			Game::displayMap();
+			Game::InGame();
 		}
 		else if (c == 27) //esc
 		{
@@ -352,6 +351,11 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 		::FindClose(hFind);
 	}
 	return names;
+}
+
+void Game::InGame()
+{
+
 }
 
 void Game::settingGame()
@@ -493,18 +497,41 @@ void Game::displayTemplate()
 void Game::displayMap()
 {
 	Game::setCursorXY(24, 2);
+	string color = "　　　　　　      ";
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
+		Game::setTextStyle(WHITE, BLACK);
 		Game::setCursorXY(27 + i * 20, 1);
-		if(i + 1 == 1)
+		if (i + 1 == 1)
+		{
 			cout << "１Ｐ";
-		else if ( i + 1 == 2)
+			Game::setTextStyle(RED, RED);
+			Game::setCursorXY(20 + i * 20, 2);
+			cout << color;
+		}
+		else if (i + 1 == 2)
+		{
 			cout << "２Ｐ";
+			Game::setTextStyle(GREEN, GREEN);
+			Game::setCursorXY(20 + i * 20, 2);
+			cout << color;
+		}
 		else if (i + 1 == 3)
+		{
 			cout << "３Ｐ";
+			Game::setTextStyle(GOLD, GOLD);
+			Game::setCursorXY(20 + i * 20, 2);
+			cout << color;
+		}
 		else
+		{
 			cout << "４Ｐ";
+			Game::setTextStyle(BLUE, BLUE);
+			Game::setCursorXY(20 + i * 20, 2);
+			cout << color;
+		}
 	}
+	Game::setTextStyle(WHITE, BLACK);
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
 		Game::setCursorXY(23 + i * 20, 3);

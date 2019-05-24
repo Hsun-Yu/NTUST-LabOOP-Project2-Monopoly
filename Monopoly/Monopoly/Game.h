@@ -40,11 +40,11 @@ public:
 	void selectPlayer();
 	void showHowManyPlayer(int);
 	void selectRound();
-	void InGame();
 	void loadGame();
 	vector<string> get_all_files_names_within_folder(string folder);
 	vector<string> allFileName;
 	string fileName;
+	void InGame();
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
