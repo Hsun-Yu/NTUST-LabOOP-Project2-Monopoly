@@ -105,6 +105,10 @@ void Game::enterScreen()
 
 void Game::startGame()
 {
+	Game::fileName = "initial.txt";
+	Game::processFile(Game::fileName);
+	Game::playerState = 0;
+
 	Game::howManyPlayer = 1;
 	vector<string> howManyPlayerBoard;
 	howManyPlayerBoard = {
@@ -127,10 +131,16 @@ void Game::startGame()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
+			vector<Player>tmp;
+			for (int i = 0; i < Game::howManyPlayer; i++)
+			{
+				Player _tmp;
+				_tmp.Id = i;
+				_tmp.property.money = 30000;
+				tmp.push_back(_tmp);
+			}
+			Game::players = tmp;
 			Game::displayTemplate();
-			Game::fileName = "initial.txt";
-			Game::processFile(Game::fileName);
-			Game::playerState = 0;
 			Game::displayMap();
 		}
 		else if (c == 27) //esc
@@ -436,7 +446,7 @@ void Game::displayMap()
 	Game::setCursorXY(32, 9);
 	for (int i = 27; i > 25; i--)
 	{
-		cout << Game::locals[i].name << " ｜ ";
+		cout << Game::locals[i].name << "  ｜  ";
 	}
 	Game::setCursorXY(51, 9);
 	for (int i = 25; i > 21; i--)
