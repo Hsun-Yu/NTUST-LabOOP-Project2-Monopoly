@@ -211,6 +211,7 @@ void Game::selectRound()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
+			Game::round = 1;
 			Game::displayTemplate();
 			Game::displayMap();
 			Game::InGame();
@@ -291,6 +292,7 @@ void Game::loadGame()
 		if (c == 13) //Enter
 		{
 			Game::processFile(allFileName[index]);
+			Game::round = 1;
 			Game::displayTemplate();
 			Game::displayMap();
 			Game::InGame();
@@ -371,6 +373,7 @@ void Game::InGame()
 		Game::setCursorXY(104, 25 + i);
 		cout << diceBoard[i] << endl;
 	}
+	int tmpRound = 1;
 	while (1)
 	{
 		Game::markPlayerAndLocalPosition(Game::players);
@@ -385,7 +388,9 @@ void Game::InGame()
 				Game::rollDice();
 				Game::moveCharacter();
 				Game::changeplayerState();
-				Game::round++;
+				if(tmpRound % 4 == 0)
+					Game::round++;
+				tmpRound++;
 				break;
 			}
 			else
@@ -703,7 +708,6 @@ void Game::displayTemplate()
 
 void Game::displayMap()
 {
-	Game::setCursorXY(24, 2);
 	string color = "　　　　　　      ";
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
