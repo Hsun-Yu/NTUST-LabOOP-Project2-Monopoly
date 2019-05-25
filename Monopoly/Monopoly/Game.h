@@ -48,7 +48,7 @@ public:
 	void InGame();
 	void markPlayerAndLocalPosition(vector<Player> players);
 	void processMarkLocalPosition(int);
-	void processPlayerLocalPosition(int, int);
+	void processMarkPlayerPosition(int, int);
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
@@ -60,9 +60,13 @@ public:
 	void optionDown();
 	void showOption(vector<string>);
 	void rollDice();
-	void showDice(int number);
-
+	void showDice();
+	void moveCharacter();
+	void changeplayerState();
+	void deleteBeforePlace();
+	void showPlayerState();
 	int howManyPlayer;
+	int diceNumber;
 	void processFile(string filename);
 
 private:

@@ -372,6 +372,7 @@ void Game::InGame()
 	while (1)
 	{
 		Game::markPlayerAndLocalPosition(Game::players);
+		Game::showPlayerState();
 		while (1)
 		{
 			Game::setCursorXY(109, 17);
@@ -379,10 +380,9 @@ void Game::InGame()
 			if (c == 13) //Enter
 			{
 				Game::rollDice();
-			}
-			else if (c == 27) //esc
-			{
-				Game::rollDice();
+				Game::moveCharacter();
+				Game::changeplayerState();
+				break;
 			}
 			else
 				continue;
@@ -417,7 +417,7 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 			Game::setTextStyle(BLUE, BLACK);
 		else if (i == 3)
 			Game::setTextStyle(KHIKI, BLACK);
-		Game::processPlayerLocalPosition(i, players[i].position);
+		Game::processMarkPlayerPosition(i, players[i].position);
 		cout << "✈";
 	}
 }
@@ -442,7 +442,7 @@ void Game::processMarkLocalPosition(int localId)
 	}
 }
 
-void Game::processPlayerLocalPosition(int ID, int position)
+void Game::processMarkPlayerPosition(int ID, int position)
 {
 	if (position >= 0 && position <= 7)
 	{
@@ -520,27 +520,28 @@ void Game::showOption(vector<string> option)
 void Game::rollDice()
 {
 	srand(time(NULL));
-	showDice(rand() % (6) +1);
+	Game::diceNumber = rand() % (6) + 1;
+	showDice();
 }
 
-void Game::showDice(int number)
+void Game::showDice()
 {
 	fstream file ;
 	string diceFile = "Dice\\dice";
-	string diceNumber;
-	if (number == 1)
-		diceNumber = "1.txt";
-	else if(number == 2)
-		diceNumber = "2.txt";
-	else if (number == 3)
-		diceNumber = "3.txt";
-	else if (number == 4)
-		diceNumber = "4.txt";
-	else if (number == 5)
-		diceNumber = "5.txt";
+	string dice;
+	if (Game::diceNumber == 1)
+		dice = "1.txt";
+	else if(Game::diceNumber == 2)
+		dice = "2.txt";
+	else if (Game::diceNumber == 3)
+		dice = "3.txt";
+	else if (Game::diceNumber == 4)
+		dice = "4.txt";
+	else if (Game::diceNumber == 5)
+		dice = "5.txt";
 	else
-		diceNumber = "6.txt";
-	diceFile += diceNumber;
+		dice= "6.txt";
+	diceFile += dice;
 	file.open(diceFile);
 	Game::setCursorXY(0, 0);
 	string str;
@@ -553,6 +554,55 @@ void Game::showDice(int number)
 		i++;
 	}
 	file.close();
+}
+
+void Game::moveCharacter()
+{
+	Game::deleteBeforePlace();
+	int moveToWhere = Game::players[playerState].position + diceNumber;
+	if(moveToWhere <= 27)
+		Game::players[playerState].position = moveToWhere;
+	else
+		Game::players[playerState].position = moveToWhere - 28;
+}
+
+void Game::changeplayerState()
+{
+	if (Game::playerState < Game::howManyPlayer - 1)
+		Game::playerState += 1;
+	else
+		Game::playerState = 0;
+}
+
+void Game::deleteBeforePlace()
+{
+	Game::processMarkPlayerPosition(Game::playerState, Game::players[playerState].position);
+	cout << "＿";
+}
+
+void Game::showPlayerState()
+{
+	Game::setCursorXY(34,6);
+	if (Game::playerState == 0)
+	{
+		Game::setTextStyle(RED, BLACK);
+		cout << "１Ｐ";
+	}
+	else if (Game::playerState == 1)
+	{
+		Game::setTextStyle(GREEN, BLACK);
+		cout << "２Ｐ";
+	}
+	else if (Game::playerState == 2)
+	{
+		Game::setTextStyle(BLUE, BLACK);
+		cout << "３Ｐ";
+	}
+	else
+	{
+		Game::setTextStyle(KHIKI, BLACK);
+		cout << "４Ｐ";
+	}
 }
 
 void Game::processFile(string filename)
