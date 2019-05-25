@@ -65,6 +65,7 @@ public:
 	void changeplayerState();
 	void deleteBeforePlace();
 	void showPlayerState();
+	void showRound();
 	int howManyPlayer;
 	int diceNumber;
 	void processFile(string filename);

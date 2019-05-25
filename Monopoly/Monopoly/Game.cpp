@@ -359,29 +359,33 @@ void Game::InGame()
 {
 	vector<string>diceBoard;
 	diceBoard = {
-" ________________ " ,
-"|                |" ,
-"|     擲骰子     |" ,
-"|________________|" };
+" __________ " ,
+"|          |" ,
+"|  擲骰子  |" ,
+"|__________|",
+	"",
+	" 請按 Enter  " };
 	for (int i = 0; i < diceBoard.size(); i++)
 	{
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(101, 15 + i);
+		Game::setCursorXY(104, 25 + i);
 		cout << diceBoard[i] << endl;
 	}
 	while (1)
 	{
 		Game::markPlayerAndLocalPosition(Game::players);
 		Game::showPlayerState();
+		Game::showRound();
 		while (1)
 		{
-			Game::setCursorXY(109, 17);
+			Game::setCursorXY(109, 27);
 			char c = _getch();
 			if (c == 13) //Enter
 			{
 				Game::rollDice();
 				Game::moveCharacter();
 				Game::changeplayerState();
+				Game::round++;
 				break;
 			}
 			else
@@ -549,7 +553,7 @@ void Game::showDice()
 	Game::setTextStyle(WHITE, BLACK);
 	while (getline(file, str))
 	{
-		Game::setCursorXY(105, 20 + i);
+		Game::setCursorXY(105, 19 + i);
 		cout << str << endl;
 		i++;
 	}
@@ -603,6 +607,15 @@ void Game::showPlayerState()
 		Game::setTextStyle(KHIKI, BLACK);
 		cout << "４Ｐ";
 	}
+}
+
+void Game::showRound()
+{
+	Game::setTextStyle(CYAN, BLACK);
+	Game::setCursorXY(91, 6);
+	cout << Game::round;
+	Game::setCursorXY(93, 6);
+	cout << " / " << Game::howManyRound;
 }
 
 void Game::processFile(string filename)
