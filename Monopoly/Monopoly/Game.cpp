@@ -388,7 +388,7 @@ void Game::InGame()
 				Game::rollDice();
 				Game::moveCharacter();
 				Game::changeplayerState();
-				if(tmpRound % 4 == 0)
+				if(tmpRound % Game::howManyPlayer == 0)
 					Game::round++;
 				tmpRound++;
 				break;
