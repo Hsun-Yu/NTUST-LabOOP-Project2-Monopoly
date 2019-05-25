@@ -47,8 +47,8 @@ public:
 	string fileName;
 	void InGame();
 	void markPlayerAndLocalPosition(vector<Player> players);
-	void pocessMarkLocalPosition(int);
-	void pocessPlayerLocalPosition(int, int);
+	void processMarkLocalPosition(int);
+	void processPlayerLocalPosition(int, int);
 	void settingGame();
 	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);

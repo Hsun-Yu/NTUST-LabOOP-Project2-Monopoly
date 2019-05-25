@@ -357,9 +357,37 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 
 void Game::InGame()
 {
-	Game::markPlayerAndLocalPosition(Game::players);
-	Game::setTextStyle(WHITE, BLACK);
-	Game::rollDice();
+	vector<string>diceBoard;
+	diceBoard = {
+" ________________ " ,
+"|                |" ,
+"|     擲骰子     |" ,
+"|________________|" };
+	for (int i = 0; i < diceBoard.size(); i++)
+	{
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(101, 15 + i);
+		cout << diceBoard[i] << endl;
+	}
+	while (1)
+	{
+		Game::markPlayerAndLocalPosition(Game::players);
+		while (1)
+		{
+			Game::setCursorXY(109, 17);
+			char c = _getch();
+			if (c == 13) //Enter
+			{
+				Game::rollDice();
+			}
+			else if (c == 27) //esc
+			{
+				Game::rollDice();
+			}
+			else
+				continue;
+		}
+	}
 }
 
 void Game::markPlayerAndLocalPosition(vector<Player> players)
@@ -373,11 +401,11 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 		else if (i == 2)
 			Game::setTextStyle(BLUE, BLUE);
 		else if (i == 3)
-			Game::setTextStyle(GOLD, GOLD);
+			Game::setTextStyle(KHIKI, KHIKI);
 
 		for (int j = 0; j < players[i].property.localIds.size(); j++)
 		{
-			Game::pocessMarkLocalPosition(players[i].property.localIds[j]);
+			Game::processMarkLocalPosition(players[i].property.localIds[j]);
 			cout << "        ";
 		}
 
@@ -388,13 +416,13 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 		else if (i == 2)
 			Game::setTextStyle(BLUE, BLACK);
 		else if (i == 3)
-			Game::setTextStyle(GOLD, BLACK);
-		Game::pocessPlayerLocalPosition(i, players[i].position);
+			Game::setTextStyle(KHIKI, BLACK);
+		Game::processPlayerLocalPosition(i, players[i].position);
 		cout << "✈";
 	}
 }
 
-void Game::pocessMarkLocalPosition(int localId)
+void Game::processMarkLocalPosition(int localId)
 {
 	if (localId >= 0 && localId <= 7)
 	{
@@ -414,7 +442,7 @@ void Game::pocessMarkLocalPosition(int localId)
 	}
 }
 
-void Game::pocessPlayerLocalPosition(int ID, int position)
+void Game::processPlayerLocalPosition(int ID, int position)
 {
 	if (position >= 0 && position <= 7)
 	{
@@ -492,7 +520,7 @@ void Game::showOption(vector<string> option)
 void Game::rollDice()
 {
 	srand(time(NULL));
-	showDice(rand() % (6 - 2) +1);
+	showDice(rand() % (6) +1);
 }
 
 void Game::showDice(int number)
@@ -516,9 +544,13 @@ void Game::showDice(int number)
 	file.open(diceFile);
 	Game::setCursorXY(0, 0);
 	string str;
+	int i = 0;
+	Game::setTextStyle(WHITE, BLACK);
 	while (getline(file, str))
 	{
+		Game::setCursorXY(105, 20 + i);
 		cout << str << endl;
+		i++;
 	}
 	file.close();
 }
@@ -638,7 +670,7 @@ void Game::displayMap()
 		else
 		{
 			cout << "４Ｐ";
-			Game::setTextStyle(GOLD, GOLD);
+			Game::setTextStyle(KHIKI, KHIKI);
 			Game::setCursorXY(20 + i * 20, 2);
 			cout << color;
 		}
