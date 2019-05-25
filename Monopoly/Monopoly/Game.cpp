@@ -359,6 +359,7 @@ void Game::InGame()
 {
 	Game::markPlayerAndLocalPosition(Game::players);
 	Game::setTextStyle(WHITE, BLACK);
+	Game::rollDice();
 }
 
 void Game::markPlayerAndLocalPosition(vector<Player> players)
@@ -486,6 +487,40 @@ void Game::showOption(vector<string> option)
 		cout << option[y - 15 + i] << endl;
 	}
 	Game::setCursorXY(54, y);
+}
+
+void Game::rollDice()
+{
+	srand(time(NULL));
+	showDice(rand() % (6 - 2) +1);
+}
+
+void Game::showDice(int number)
+{
+	fstream file ;
+	string diceFile = "Dice\\dice";
+	string diceNumber;
+	if (number == 1)
+		diceNumber = "1.txt";
+	else if(number == 2)
+		diceNumber = "2.txt";
+	else if (number == 3)
+		diceNumber = "3.txt";
+	else if (number == 4)
+		diceNumber = "4.txt";
+	else if (number == 5)
+		diceNumber = "5.txt";
+	else
+		diceNumber = "6.txt";
+	diceFile += diceNumber;
+	file.open(diceFile);
+	Game::setCursorXY(0, 0);
+	string str;
+	while (getline(file, str))
+	{
+		cout << str << endl;
+	}
+	file.close();
 }
 
 void Game::processFile(string filename)

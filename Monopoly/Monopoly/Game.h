@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <sstream>
+#include <time.h>
 
 #include "Player.h"
 #include "Local.h"
@@ -58,6 +59,8 @@ public:
 	void optionUp();
 	void optionDown();
 	void showOption(vector<string>);
+	void rollDice();
+	void showDice(int number);
 
 	int howManyPlayer;
 	void processFile(string filename);
