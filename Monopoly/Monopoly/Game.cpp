@@ -403,19 +403,24 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 {
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
+
+		int backbroundColour;
 		if (i == 0)
-			Game::setTextStyle(RED, RED);
+			backbroundColour = RED;
 		else if (i == 1)
-			Game::setTextStyle(GREEN, GREEN);
+			backbroundColour = GREEN;
 		else if (i == 2)
-			Game::setTextStyle(BLUE, BLUE);
+			backbroundColour = BLUE;
 		else if (i == 3)
-			Game::setTextStyle(KHIKI, KHIKI);
+			backbroundColour = KHIKI;
 
 		for (int j = 0; j < players[i].property.localIds.size(); j++)
 		{
+			Game::setTextStyle(WHITE, backbroundColour);
 			Game::processMarkLocalPosition(players[i].property.localIds[j]);
-			cout << "        ";
+			cout << " LEVEL:";
+
+			cout << Game::locals[players[i].property.localIds[j]].nowPriceType;
 		}
 
 		if (i == 0)

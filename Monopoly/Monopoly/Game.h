@@ -66,8 +66,6 @@ public:
 	void deleteBeforePlace();
 	void showPlayerState();
 	void showRound();
-	int howManyPlayer;
-	int diceNumber;
 	void processFile(string filename);
 
 private:
@@ -86,5 +84,8 @@ private:
 	Bank bank;
 
 	int playerState;
+
+	int howManyPlayer;
+	int diceNumber;
 };
 
