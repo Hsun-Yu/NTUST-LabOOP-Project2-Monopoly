@@ -594,8 +594,17 @@ void Game::moveCharacter()
 
 	int localId = Game::players[playerState].position;
 
+	//get fee or upgrade
 	if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
 		Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
+	else
+	{
+		if(Game::locals[localId].level < 4)
+			Game::locals[localId].level++;
+	}
+
+	//Do something if has tool
+	Game::locals[localId].tool.method(Game::players[playerState]);
 }
 
 void Game::changeplayerState()
@@ -621,6 +630,7 @@ void Game::showPlayerState()
 		cout << "１Ｐ";
 	}
 	else if (Game::playerState == 1)
+
 	{
 		Game::setTextStyle(GREEN, BLACK);
 		cout << "２Ｐ";
@@ -719,14 +729,18 @@ bool compareInterval(Player p1, Player p2)
 	return (p1.property.getAllProperty() > p2.property.getAllProperty());
 }
 
+void Game::checkAlive()
+{
+	for (int i = 0; i < players.size(); i++)
+		players[i].checkAlive();
+}
+
 void Game::checkWhoWin()
 {
 	if (Game::round > Game::howManyRound)
 	{
 		vector<Player> checkList = Game::players;
-
 		sort(checkList.begin(), checkList.end(), compareInterval);
-
 		Game::endOfGame(checkList[0]);
 	}
 	else
@@ -747,11 +761,6 @@ void Game::endOfGame(Player winner)
 {
 	system("cls");
 	cout << "P" << winner.Id+1 << " WIN" << endl;
-}
-
-void Game::resetCompanyPrice()
-{
-	for(int i = 0; i < 0; i++)
 }
 
 void Game::menu()

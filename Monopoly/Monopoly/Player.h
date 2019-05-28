@@ -14,5 +14,7 @@ public:
 	Property property;
 	int position;
 	
-	bool alive;
+	bool alive = true;
+
+	void checkAlive();
 };

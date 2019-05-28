@@ -1,9 +1,10 @@
 #include <vector>
 #include "Property.h"
-#include "Local.h"
+
 
 using namespace std;
 
 #pragma once
-
+bool deposit(Property & p, unsigned int howmuch);
+bool withdrawal(Property & p, unsigned int howmuch);
 

@@ -14,6 +14,9 @@ Local::~Local()
 
 int Local::getNowPriceOfLevel()
 {
-	return Local::priceOfLevel[Local::level];
+	if (Local::localType == 1)
+		return Local::priceOfLevel[Local::level];
+	else
+		return 0;
 }
 

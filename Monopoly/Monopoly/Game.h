@@ -70,9 +70,10 @@ public:
 	void processFile(string filename);
 	void resetCompanyStock();
 
+	
+	void checkAlive();
 	void checkWhoWin();
 	void endOfGame(Player winnner);
-
 
 	static vector<Player> players;
 	static vector<Local> locals;

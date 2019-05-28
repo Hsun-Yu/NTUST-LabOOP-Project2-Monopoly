@@ -1,8 +1,9 @@
 #include <string>
+#include <vector>
+#include "Tool.h"
 
 using namespace std;
 
-#include <vector>
 
 using namespace std;
 #pragma once
@@ -18,5 +19,7 @@ public:
 	vector<int> priceOfLevel;
 
 	int getNowPriceOfLevel();
+
+	Tool tool;
 };
 
