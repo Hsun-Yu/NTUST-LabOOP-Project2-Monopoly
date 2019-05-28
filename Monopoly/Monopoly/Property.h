@@ -14,5 +14,7 @@ public:
 
 	//int ---componyId
 	vector<int> componyIds;
+
+	bool isMyLocal(int localId);
 };
 

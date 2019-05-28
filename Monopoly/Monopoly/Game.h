@@ -68,16 +68,18 @@ public:
 	void showRound();
 	void processFile(string filename);
 
+	static vector<Player> players;
+	static vector<Local> locals;
+	 
+	static vector<Chance> chances;
+	static vector<Fortune> fortunes;
+
 private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
 	bool isInGame;
 
-	vector<Player> players;
-	vector<Local> locals;
 
-	vector<Chance> chances;
-	vector<Fortune> fortunes;
 	string mapName;
 	int round;
 	int howManyRound;

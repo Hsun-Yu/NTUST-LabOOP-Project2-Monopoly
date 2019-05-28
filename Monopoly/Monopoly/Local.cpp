@@ -12,3 +12,8 @@ Local::~Local()
 
 }
 
+int Local::getNowPriceOfLevel()
+{
+	return Local::priceOfLevel[Local::level];
+}
+

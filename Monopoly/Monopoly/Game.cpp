@@ -3,6 +3,11 @@
 HANDLE Game::outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD Game::cursorXY;
 
+vector<Local> Game::locals;
+vector<Player> Game::players;
+vector<Chance> Game::chances;
+vector<Fortune> Game::fortunes;
+
 Game::Game()
 {
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
@@ -420,7 +425,7 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 			Game::processMarkLocalPosition(players[i].property.localIds[j]);
 			cout << " LEVEL:";
 
-			cout << Game::locals[players[i].property.localIds[j]].nowPriceType;
+			cout << Game::locals[players[i].property.localIds[j]].level;
 		}
 
 		if (i == 0)
@@ -578,6 +583,13 @@ void Game::moveCharacter()
 		Game::players[playerState].position = moveToWhere;
 	else
 		Game::players[playerState].position = moveToWhere - 28;
+
+	int localId = Game::players[playerState].position;
+
+	if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
+		Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
+
+	Game::displayMap();
 }
 
 void Game::changeplayerState()
@@ -655,7 +667,7 @@ void Game::processFile(string filename)
 				file >> p;
 				price.push_back(p);
 			}
-			l.priceOfType = price;
+			l.priceOfLevel = price;
 		}
 		Game::locals.push_back(l);
 	}
@@ -682,7 +694,7 @@ void Game::processFile(string filename)
 			p.property.localIds.push_back(localId);
 			int localPriceType;
 			iss >> localPriceType;
-			Game::locals[localId].nowPriceType = localPriceType;
+			Game::locals[localId].level = localPriceType;
 		}
 		Game::players.push_back(p);
 	}
