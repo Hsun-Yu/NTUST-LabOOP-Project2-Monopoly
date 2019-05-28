@@ -1,3 +1,5 @@
+#include "Player.h"
+
 #pragma once
 class Chance
 {

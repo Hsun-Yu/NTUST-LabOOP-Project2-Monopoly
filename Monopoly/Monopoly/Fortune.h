@@ -1,7 +1,7 @@
 #include <string>
 
 using namespace std;
-
+#include "Player.h"
 #pragma once
 class Fortune
 {
