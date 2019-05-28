@@ -5,11 +5,5 @@
 using namespace std;
 
 #pragma once
-class Bank
-{
-public:
-	Bank();
-	~Bank();
-	Property property;
-};
+
 

@@ -16,6 +16,7 @@
 #include "Fortune.h"
 #include "Chance.h"
 #include "Bank.h"
+#include "Company.h"
 using namespace std;
 
 #define BLACK 0
@@ -67,12 +68,19 @@ public:
 	void showPlayerState();
 	void showRound();
 	void processFile(string filename);
+	void resetCompanyStock();
+
+	void checkWhoWin();
+	void endOfGame(Player winnner);
+
 
 	static vector<Player> players;
 	static vector<Local> locals;
+	static vector<Company> companys;
 	 
 	static vector<Chance> chances;
 	static vector<Fortune> fortunes;
+
 
 private:
 	static HANDLE outputHandle;
@@ -83,7 +91,6 @@ private:
 	string mapName;
 	int round;
 	int howManyRound;
-	Bank bank;
 
 	int playerState;
 

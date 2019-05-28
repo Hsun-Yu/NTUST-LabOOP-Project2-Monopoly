@@ -7,6 +7,7 @@ vector<Local> Game::locals;
 vector<Player> Game::players;
 vector<Chance> Game::chances;
 vector<Fortune> Game::fortunes;
+vector<Company> Game::companys;
 
 Game::Game()
 {
@@ -384,6 +385,9 @@ void Game::InGame()
 		Game::markPlayerAndLocalPosition(Game::players);
 		Game::showPlayerState();
 		Game::showRound();
+		Game::displayMap();
+		Game::checkWhoWin();
+
 		while (1)
 		{
 			Game::setCursorXY(109, 27);
@@ -393,8 +397,12 @@ void Game::InGame()
 				Game::rollDice();
 				Game::moveCharacter();
 				Game::changeplayerState();
-				if(tmpRound % Game::howManyPlayer == 0)
+				if (tmpRound % Game::howManyPlayer == 0)
+				{
+					//new round
 					Game::round++;
+					Game::resetCompanyStock();
+				}
 				tmpRound++;
 				break;
 			}
@@ -588,8 +596,6 @@ void Game::moveCharacter()
 
 	if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
 		Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
-
-	Game::displayMap();
 }
 
 void Game::changeplayerState()
@@ -701,6 +707,53 @@ void Game::processFile(string filename)
 	file.close();
 }
 
+void Game::resetCompanyStock()
+{
+	for (int i = 0; i < Game::companys.size(); i++)
+		Game::companys[i].updateStockPrice();
+}
+
+
+bool compareInterval(Player p1, Player p2)
+{
+	return (p1.property.getAllProperty() > p2.property.getAllProperty());
+}
+
+void Game::checkWhoWin()
+{
+	if (Game::round > Game::howManyRound)
+	{
+		vector<Player> checkList = Game::players;
+
+		sort(checkList.begin(), checkList.end(), compareInterval);
+
+		Game::endOfGame(checkList[0]);
+	}
+	else
+	{
+		vector<Player> checkList;
+		for (int i = 0; i < Game::players.size(); i++)
+		{
+			if (Game::players[i].alive)
+				checkList.push_back(Game::players[i]);
+		}
+
+		if (checkList.size() == 1)
+			Game::endOfGame(checkList[0]);
+	}
+}
+
+void Game::endOfGame(Player winner)
+{
+	system("cls");
+	cout << "P" << winner.Id+1 << " WIN" << endl;
+}
+
+void Game::resetCompanyPrice()
+{
+	for(int i = 0; i < 0; i++)
+}
+
 void Game::menu()
 {
 }
@@ -791,4 +844,13 @@ void Game::displayMap()
 	{
 		cout << Game::locals[i].name << " ｜ ";
 	}
+}
+
+int Property::getAllProperty()
+{
+	int property = Property::money + Property::bankMoney;
+	for (int i = 0; i < Property::localIds.size(); i++)
+		property += (Game::locals[Property::localIds[i]].priceOfLevel[0] / 2);
+
+	return property;
 }

@@ -13,5 +13,6 @@ Company::~Company()
 
 void Company::updateStockPrice()
 {
-	//TODO (HsunYu):
+	srand(time(NULL));
+	Company::stockPrice += (rand() % Company::stockPrice - (Company::stockPrice / 2));
 }

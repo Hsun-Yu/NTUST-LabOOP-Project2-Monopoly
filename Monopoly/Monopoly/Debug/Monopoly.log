@@ -6,6 +6,8 @@ c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly
 c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(319): warning C4018: '<': signed/unsigned mismatch
 c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(332): warning C4018: '<': signed/unsigned mismatch
 c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(375): warning C4018: '<': signed/unsigned mismatch
-c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(422): warning C4018: '<': signed/unsigned mismatch
-c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(541): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(425): warning C4018: '<': signed/unsigned mismatch
+c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(544): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(724): warning C4018: '<': signed/unsigned mismatch
+c:\users\leoxz\documents\github\ntust_laboop_project2_monopoly\monopoly\monopoly\game.cpp(836): warning C4018: '<': signed/unsigned mismatch
   Monopoly.vcxproj -> C:\Users\leoxz\Documents\GitHub\NTUST_LabOOP_Project2_Monopoly\Monopoly\Debug\Monopoly.exe

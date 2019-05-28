@@ -13,4 +13,6 @@ public:
 	string name;
 	Property property;
 	int position;
+	
+	bool alive;
 };

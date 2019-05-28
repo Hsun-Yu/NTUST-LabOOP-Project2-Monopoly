@@ -1,4 +1,5 @@
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ public:
 	void updateStockPrice();
 	int Id;
 	string name;
-	string description;
 	int stockPrice;
+
 };
 
