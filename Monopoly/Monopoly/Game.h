@@ -55,6 +55,9 @@ public:
 	void moveCursor(int x, int y);
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
+	void menuUp();
+	void menuDown();
+	void showMenuOption(vector<string>);
 	void displayTemplate();
 	void displayMap();
 	void optionUp();
@@ -69,6 +72,7 @@ public:
 	void showRound();
 	void processFile(string filename);
 	void resetCompanyStock();
+	void showPlayerProperty();
 
 	
 	void checkAlive();

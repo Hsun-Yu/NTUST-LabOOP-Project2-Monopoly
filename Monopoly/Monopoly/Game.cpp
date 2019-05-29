@@ -365,19 +365,33 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 
 void Game::InGame()
 {
-	vector<string>diceBoard;
-	diceBoard = {
+	vector<string>Board;
+	Board = {
+" __________ " ,
+"|          |" ,
+"| 玩家資訊 |" ,
+"|__________|",
+	"",
+	"  請按 Tab  ",
+	"",
+	" __________ " ,
+"|          |" ,
+"|   選單   |" ,
+"|__________|",
+	"",
+	"  請按 Esc  ",
+	"",
 " __________ " ,
 "|          |" ,
 "|  擲骰子  |" ,
 "|__________|",
 	"",
-	" 請按 Enter  " };
-	for (int i = 0; i < diceBoard.size(); i++)
+	" 請按 Enter  "};
+	for (int i = 0; i < Board.size(); i++)
 	{
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(104, 25 + i);
-		cout << diceBoard[i] << endl;
+		Game::setCursorXY(104, 8 + i);
+		cout << Board[i] << endl;
 	}
 	int tmpRound = 1;
 	while (1)
@@ -390,7 +404,7 @@ void Game::InGame()
 
 		while (1)
 		{
-			Game::setCursorXY(109, 27);
+			Game::setCursorXY(109, 24);
 			char c = _getch();
 			if (c == 13) //Enter
 			{
@@ -405,6 +419,14 @@ void Game::InGame()
 				}
 				tmpRound++;
 				break;
+			}
+			else if (c == 27) //esc
+			{
+				Game::menu();
+			}
+			else if (c == 9) //tab
+			{
+				Game::showPlayerProperty();
 			}
 			else
 				continue;
@@ -576,7 +598,7 @@ void Game::showDice()
 	Game::setTextStyle(WHITE, BLACK);
 	while (getline(file, str))
 	{
-		Game::setCursorXY(105, 19 + i);
+		Game::setCursorXY(105, 29 + i);
 		cout << str << endl;
 		i++;
 	}
@@ -723,6 +745,125 @@ void Game::resetCompanyStock()
 		Game::companys[i].updateStockPrice();
 }
 
+void Game::menu()
+{
+	Game::setTextStyle(CYAN, BLACK);
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|    繼續遊戲    |",
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"|    儲存遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|     金手指     |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"|    離開遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < 13; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(59, 17);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 17) //繼續遊戲
+			{
+				Game::displayTemplate();
+				Game::showDice();
+				Game::InGame();
+			}
+			else if (Game::cursorXY.Y == 20) //儲存遊戲
+			{
+
+			}
+			else if (Game::cursorXY.Y == 23) //金手指
+			{
+
+			}
+			else
+			{
+				exit(1);
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				Game::menuUp();
+				Game::showMenuOption(option);
+				break;
+			case 80://下
+				Game::menuDown();
+				Game::showMenuOption(option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::menuUp()
+{
+	if (Game::cursorXY.Y == 17)
+	{
+	}
+	else
+	{
+		Game::cursorXY.Y -= 3;
+	}
+}
+
+void Game::menuDown()
+{
+	if (Game::cursorXY.Y == 26)
+	{
+	}
+	else
+	{
+		Game::cursorXY.Y += 3;
+	}
+}
+
+void Game::showMenuOption(vector<string> option)
+{
+	int y = Game::cursorXY.Y;
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 0; i < 13; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setTextStyle(GOLD, BLACK);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, y - 2 + i);
+		cout << option[y - 17 + i] << endl;
+	}
+	Game::setCursorXY(59, y);
+}
+
+void Game::showPlayerProperty()
+{
+}
+
 
 bool compareInterval(Player p1, Player p2)
 {
@@ -761,10 +902,6 @@ void Game::endOfGame(Player winner)
 {
 	system("cls");
 	cout << "P" << winner.Id+1 << " WIN" << endl;
-}
-
-void Game::menu()
-{
 }
 
 void Game::displayTemplate()
