@@ -40,6 +40,7 @@ public:
 	void enterScreen();
 	void startGame();
 	void selectPlayer();
+	void selectCharacter();
 	void showHowManyPlayer(int);
 	void selectRound();
 	void loadGame();
@@ -73,6 +74,14 @@ public:
 	void processFile(string filename);
 	void resetCompanyStock();
 	void showPlayerProperty();
+	void buyLocal();
+	void getFee();
+	void upgrate();
+	void buyTool();
+	void choiceLeft();
+	void choiceRight();
+	void showChoice(vector<string>, vector<string>, vector<string>);
+	void allShowOnTheMap();
 
 	
 	void checkAlive();

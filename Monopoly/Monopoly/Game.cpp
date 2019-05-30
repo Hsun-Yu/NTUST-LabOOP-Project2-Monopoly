@@ -180,6 +180,10 @@ void Game::selectPlayer()
 	}
 }
 
+void Game::selectCharacter()
+{
+}
+
 void Game::showHowManyPlayer(int howManyPlayer)
 {
 	Game::setCursorXY(54, 20);
@@ -396,10 +400,7 @@ void Game::InGame()
 	int tmpRound = 1;
 	while (1)
 	{
-		Game::markPlayerAndLocalPosition(Game::players);
-		Game::showPlayerState();
-		Game::showRound();
-		Game::displayMap();
+		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
 
 		while (1)
@@ -614,15 +615,27 @@ void Game::moveCharacter()
 	else
 		Game::players[playerState].position = moveToWhere - 28;
 
+	Game::allShowOnTheMap();
 	int localId = Game::players[playerState].position;
 
 	//get fee or upgrade
-	if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
-		Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
+	if (Game::locals[localId].level == 0 && Game::locals[localId].localType == 1)
+	{
+		Game::buyLocal();
+	}
 	else
 	{
-		if(Game::locals[localId].level < 4)
-			Game::locals[localId].level++;
+		if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
+		{
+			Game::getFee();
+			Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
+		}
+		else
+		{
+			Game::upgrate();
+			if (Game::locals[localId].level < 5)
+				Game::locals[localId].level++;
+		}
 	}
 
 	//Do something if has tool
@@ -993,6 +1006,164 @@ void Game::showPlayerProperty()
 		}
 	}
 }
+
+void Game::buyLocal()
+{
+	vector<string>Board;
+	Board = {
+" _________________ " ,
+"|                 |" ,
+"|    你走到了     |" ,
+"|                 |" ,
+"| ＜     　   ＞  |" ,
+"|                 |" ,
+"|    要購買嗎     |" ,
+"|                 |" ,
+"|＿＿＿＿＿＿＿＿_|" ,
+	"|        |        |",
+	"|   是   |   否   |" ,
+	"|＿＿＿＿|＿＿＿＿|"
+	};
+
+	vector<string> Yes;
+	Yes = {
+	"|＿＿＿＿",
+	"|        |",
+	"|   是   |",
+	"|＿＿＿＿|"
+	};
+	vector<string> No;
+	No = {
+"＿＿＿＿_|",
+ "|        |",
+ "|   否   |" ,
+"|＿＿＿＿|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
+	for (int i = 0; i < No.size(); i++)
+	{
+		Game::setCursorXY(59, 24 + i);
+		cout << No[i];
+	}
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < Yes.size(); i++)
+	{
+		Game::setCursorXY(50, 24 + i);
+		cout << Yes[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	Game::setCursorXY(54, 26);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			Game::changeplayerState();
+			if (Game::cursorXY.X == 54)
+			{
+			}
+			else
+			{
+				Game::displayTemplate();
+				Game::showDice();
+				Game::InGame();
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75://左
+				Game::choiceLeft();
+				Game::showChoice(Board,Yes,No);
+				break;
+			case 77://右
+				Game::choiceRight();
+				Game::showChoice(Board,Yes,No);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::getFee()
+{
+}
+
+void Game::upgrate()
+{
+}
+
+void Game::buyTool()
+{
+}
+
+void Game::choiceLeft()
+{
+	if (Game::cursorXY.X == 54)
+	{
+	}
+	else
+	{
+		Game::cursorXY.X -= 9;
+	}
+}
+
+void Game::choiceRight()
+{
+	if (Game::cursorXY.X == 63)
+	{
+	}
+	else
+	{
+		Game::cursorXY.X += 9;
+	}
+}
+
+void Game::showChoice(vector<string> Board, vector<string> Yes, vector<string> No)
+{
+	Game::setTextStyle(WHITE, BLACK);
+	int x = Game::cursorXY.X;
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
+	Game::setTextStyle(GOLD, BLACK);
+	if (x == 54)
+	{
+		for (int i = 0; i < Yes.size(); i++)
+		{
+			Game::setCursorXY(50, 24 + i);
+			cout << Yes[i];
+		}
+		Game::setCursorXY(x, 26);
+	}
+	else
+	{
+		for (int i = 0; i < No.size(); i++)
+		{
+			Game::setCursorXY(59, 24 + i);
+			cout << No[i];
+		}
+		Game::setCursorXY(x, 26);
+	}
+}
+
+void Game::allShowOnTheMap()
+{
+	Game::markPlayerAndLocalPosition(Game::players);
+	Game::showPlayerState();
+	Game::showRound();
+	Game::displayMap();
+}
+
 
 
 bool compareInterval(Player p1, Player p2)
