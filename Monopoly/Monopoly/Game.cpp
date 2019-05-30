@@ -726,13 +726,30 @@ void Game::processFile(string filename)
 		file >> p.property.money;
 		getline(file, str);
 		istringstream iss(str);
-		int localId;
-		while (iss >> localId)
+		int id;
+
+		int type = -1;
+		while (iss >> id)
 		{
-			p.property.localIds.push_back(localId);
-			int localPriceType;
-			iss >> localPriceType;
-			Game::locals[localId].level = localPriceType;
+			if (id < 0)
+			{
+				type = id;
+				continue;
+			}
+
+			if (type == -1)//local
+			{
+				p.property.localIds.push_back(id);
+				int localPriceType;
+				iss >> localPriceType;
+				Game::locals[id].level = localPriceType;
+			}
+			else if (type == -2)//compony
+				p.property.componyIds.push_back(id);
+			else if (type == -3)//tool
+				p.property.toolIds.push_back(id);
+			else if (type == -4)//bank money
+				p.property.bankMoney = id;
 		}
 		Game::players.push_back(p);
 	}
@@ -920,6 +937,44 @@ void Game::showPlayerProperty()
 	cout << Game::players[Game::playerState].property.money;
 	Game::setCursorXY(62, 18);
 	cout << Game::players[Game::playerState].property.bankMoney;
+	Game::setCursorXY(62, 20);
+	//貸款
+	Game::setCursorXY(62, 22);
+	cout << Game::players[Game::playerState].property.getAllProperty();
+
+	Game::setCursorXY(48, 27);
+	cout << count(
+		Game::players[Game::playerState].property.toolIds.begin(),
+		Game::players[Game::playerState].property.toolIds.end(),
+		1);
+
+	Game::setCursorXY(68, 27);
+	cout << count(
+		Game::players[Game::playerState].property.toolIds.begin(),
+		Game::players[Game::playerState].property.toolIds.end(),
+		2);
+
+	Game::setCursorXY(54, 29);
+	cout << count(
+		Game::players[Game::playerState].property.toolIds.begin(),
+		Game::players[Game::playerState].property.toolIds.end(),
+		3);
+
+	Game::setCursorXY(76, 29);
+	cout << count(
+		Game::players[Game::playerState].property.toolIds.begin(),
+		Game::players[Game::playerState].property.toolIds.end(),
+		4);
+
+	for (int i = 0, x = 46; i < 4; i++)
+	{
+		Game::setCursorXY(46 + i * 11, 33);
+		cout << count(
+			Game::players[Game::playerState].property.componyIds.begin(),
+			Game::players[Game::playerState].property.componyIds.end(),
+			i + 1);
+	}
+
 
 	Game::setCursorXY(77, 14);
 

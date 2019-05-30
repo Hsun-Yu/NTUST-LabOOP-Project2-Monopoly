@@ -15,6 +15,8 @@ public:
 	//int ---componyId
 	vector<int> componyIds;
 
+	vector<int> toolIds;
+
 	int bankMoney;
 
 	bool isMyLocal(int localId);
