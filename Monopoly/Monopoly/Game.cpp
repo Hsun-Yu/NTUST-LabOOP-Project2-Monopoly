@@ -757,7 +757,7 @@ void Game::menu()
 	"|    儲存遊戲    |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |" ,
-	"|     金手指     |" ,
+	"|    回主選單    |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
 	"|    離開遊戲    |" ,
@@ -791,9 +791,9 @@ void Game::menu()
 			{
 
 			}
-			else if (Game::cursorXY.Y == 23) //金手指
+			else if (Game::cursorXY.Y == 23) //回主選單
 			{
-
+				Game::enterScreen();
 			}
 			else
 			{
@@ -862,6 +862,81 @@ void Game::showMenuOption(vector<string> option)
 
 void Game::showPlayerProperty()
 {
+	Game::setTextStyle(GOLD, BLACK);
+	vector<string>board;
+	board = {
+		" ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　Player       　　 　   　　   　    Esc 關閉視窗｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　　         現金　     $　                       ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　　         存款　     $　                       ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　　         貸款　     $　                       ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　　       總資產　     $　                       ｜",
+		"｜＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　道具　　　　 　   　　　                        ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　    路障 x　　　 　   　 炸彈 x                 ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　    黑洞傳送器 x　　     過路費加倍券 x　       ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　股票　　　　 　   　　　                        ｜",
+		"｜　　　　　 　   　　　                            ｜",
+		"｜　    A股 x　   B股 x       C股 x       D股 x     ｜",
+		"｜＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿｜"
+	};
+	for (int i = 0; i < board.size(); i++)
+	{
+		Game::setCursorXY(32, 12 + i);
+		cout << board[i] << endl;
+	}
+	Game::setCursorXY(45, 14);
+	if (Game::playerState == 0)
+	{
+		Game::setTextStyle(RED, BLACK);
+		cout << "１Ｐ";
+	}
+	else if (Game::playerState == 1)
+
+	{
+		Game::setTextStyle(GREEN, BLACK);
+		cout << "２Ｐ";
+	}
+	else if (Game::playerState == 2)
+	{
+		Game::setTextStyle(BLUE, BLACK);
+		cout << "３Ｐ";
+	}
+	else
+	{
+		Game::setTextStyle(KHIKI, BLACK);
+		cout << "４Ｐ";
+	}
+	Game::setCursorXY(62, 16);
+	cout << Game::players[Game::playerState].property.money;
+	Game::setCursorXY(62, 18);
+	cout << Game::players[Game::playerState].property.bankMoney;
+
+	Game::setCursorXY(77, 14);
+
+	while (1)
+	{
+		char c = _getch();
+		if (c == 27) //Esc
+		{
+			Game::displayTemplate();
+			Game::showDice();
+			Game::InGame();
+		}
+		else
+		{
+			continue;
+		}
+	}
 }
 
 
