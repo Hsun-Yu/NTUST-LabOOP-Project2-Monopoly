@@ -114,8 +114,6 @@ void Game::startGame()
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
 	Game::selectPlayer();
-	Game::playerState = 0;
-	Game::InGame();
 }
 
 void Game::selectPlayer()
@@ -222,6 +220,7 @@ void Game::selectRound()
 		char c = _getch();
 		if (c == 13) //Enter
 		{
+			Game::playerState = 0;
 			Game::round = 1;
 			Game::tmpRound = 1;
 			Game::displayTemplate();
@@ -635,11 +634,18 @@ void Game::moveCharacter()
 		"|      確 定      |" ,
 		"|＿＿＿＿＿＿＿＿_|" ,
 			};
-			for (int i = 0; i < Board.size(); i++)
+			for (int i = 0; i < 8; i++)
 			{
 				Game::setCursorXY(50, 16 + i);
 				cout << Board[i];
 			}
+			Game::setTextStyle(GOLD, BLACK);
+			for (int i = 8; i < Board.size(); i++)
+			{
+				Game::setCursorXY(50, 16 + i);
+				cout << Board[i];
+			}
+			Game::setTextStyle(WHITE, BLACK);
 			if (Game::locals[localId].name.size() < 8)
 			{
 				Game::setCursorXY(57, 20);
@@ -652,7 +658,7 @@ void Game::moveCharacter()
 			}
 			while (1)
 			{
-				Game::setCursorXY(58, 22);
+				Game::setCursorXY(59, 26);
 				char c = _getch();
 				if (c == 13) //Enter
 				{
@@ -874,7 +880,33 @@ void Game::menu()
 			}
 			else if (Game::cursorXY.Y == 20) //儲存遊戲
 			{
-
+				vector<string> Board;
+				Board = {
+		" _________________ " ,
+		"|                 |" ,
+		"| 請輸入 存檔名稱 |" ,
+		"|                 |" ,
+		"|  \"           \"  |" ,
+		"|   -----------   |" ,
+		"|                 |" ,
+		"|＿＿＿＿＿＿＿＿_|" ,
+		"|                 |" ,
+		"|      確 定      |" ,
+		"|＿＿＿＿＿＿＿＿_|" ,
+				};
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 0; i < 7; i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 7; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::saveGame();
 			}
 			else if (Game::cursorXY.Y == 23) //回主選單
 			{
@@ -1036,7 +1068,7 @@ void Game::showPlayerProperty()
 
 	for (int i = 0, x = 46; i < 4; i++)
 	{
-		Game::setCursorXY(46 + i * 11, 33);
+		Game::setCursorXY(47 + i * 11, 33);
 		cout << count(
 			Game::players[Game::playerState].property.componyIds.begin(),
 			Game::players[Game::playerState].property.componyIds.end(),
@@ -1240,6 +1272,37 @@ void Game::allShowOnTheMap()
 	Game::displayMap();
 }
 
+void Game::saveGame()
+{
+	string name = "Basemap\\";
+	string inputFileName;
+	Game::setTextStyle(WHITE, BLACK);
+	Game::setCursorXY(55, 20);
+	cin >> inputFileName;
+	name += inputFileName;
+	name += ".txt";
+
+	ifstream file("Basemap\\initial.txt", ios::binary);
+	ofstream savefile(name, ios::binary);
+	savefile << Game::mapName << " ";
+	savefile << Game::howManyRound << " ";
+	savefile << Game::howManyPlayer << "\r\n";
+	string buffer;
+	int i = 0;
+	while (getline(file,buffer))
+	{
+		if (i != 0)
+		{
+			savefile << buffer << "\r\n";
+		}
+		i++;
+	}
+	file.close();
+	
+	savefile  <<  "playerstate " << Game::playerState;
+	savefile.close();
+}
+
 
 
 bool compareInterval(Player p1, Player p2)
@@ -1373,7 +1436,7 @@ int Property::getAllProperty()
 {
 	int property = Property::money + Property::bankMoney;
 	for (int i = 0; i < Property::localIds.size(); i++)
-		property += (Game::locals[Property::localIds[i]].priceOfLevel[0] / 2);
+		property += (Game::locals[Property::localIds[i]].priceOfLevel[0]);
 
 	return property;
 }
