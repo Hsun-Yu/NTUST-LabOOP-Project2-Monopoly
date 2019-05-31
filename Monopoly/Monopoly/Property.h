@@ -20,6 +20,7 @@ public:
 	int bankMoney;
 
 	bool isMyLocal(int localId);
+	int getHowManyTool(int toolId);
 	int getAllProperty();
 };
 
