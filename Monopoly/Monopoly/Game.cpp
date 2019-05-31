@@ -8,6 +8,7 @@ vector<Player> Game::players;
 vector<Chance> Game::chances;
 vector<Fortune> Game::fortunes;
 vector<Company> Game::companys;
+vector<Tool> Game::tools;
 
 Game::Game()
 {
@@ -676,16 +677,15 @@ void Game::moveCharacter()
 	{
 		if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
 		{
-			Game::changeplayerState();
 			Game::getFee();
-			Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
+			Game::changeplayerState();
 		}
 		else
 		{
-			Game::changeplayerState();
 			Game::upgrate();
 			if (Game::locals[localId].level < 5)
 				Game::locals[localId].level++;
+			Game::changeplayerState();
 		}
 	}
 
@@ -1043,28 +1043,16 @@ void Game::showPlayerProperty()
 	cout << Game::players[Game::playerState].property.getAllProperty();
 
 	Game::setCursorXY(48, 27);
-	cout << count(
-		Game::players[Game::playerState].property.toolIds.begin(),
-		Game::players[Game::playerState].property.toolIds.end(),
-		1);
+	cout << Game::players[Game::playerState].property.getHowManyTool(1);
 
 	Game::setCursorXY(68, 27);
-	cout << count(
-		Game::players[Game::playerState].property.toolIds.begin(),
-		Game::players[Game::playerState].property.toolIds.end(),
-		2);
+	cout << Game::players[Game::playerState].property.getHowManyTool(2);
 
 	Game::setCursorXY(54, 29);
-	cout << count(
-		Game::players[Game::playerState].property.toolIds.begin(),
-		Game::players[Game::playerState].property.toolIds.end(),
-		3);
+	cout << Game::players[Game::playerState].property.getHowManyTool(3);
 
 	Game::setCursorXY(76, 29);
-	cout << count(
-		Game::players[Game::playerState].property.toolIds.begin(),
-		Game::players[Game::playerState].property.toolIds.end(),
-		4);
+	cout << Game::players[Game::playerState].property.getHowManyTool(4);
 
 	for (int i = 0, x = 46; i < 4; i++)
 	{
@@ -1195,14 +1183,30 @@ void Game::buyLocal()
 
 void Game::getFee()
 {
+	if (Game::locals[Game::players[playerState].position].getNowPriceOfLevel() > Game::players[playerState].property.money)
+	{
+		//TODO (Layout):詢問是否要賣回地產或是提款
+
+	}
+	else
+		Game::players[playerState].property.money -= Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
 }
 
 void Game::upgrate()
 {
 }
 
-void Game::buyTool()
+void Game::buyTool(int toolId)
 {
+	if (Game::tools[toolId].price > Game::players[Game::playerState].property.money)
+	{
+		//TODO (Layout):沒有錢了
+	}
+	else
+	{
+		Game::players[Game::playerState].property.money -= Game::tools[toolId].price;
+		Game::players[Game::playerState].property.toolIds.push_back(toolId);
+	}
 }
 
 void Game::choiceLeft()

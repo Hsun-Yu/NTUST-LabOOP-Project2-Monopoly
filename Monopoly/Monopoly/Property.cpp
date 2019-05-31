@@ -22,3 +22,8 @@ bool Property::isMyLocal(int localId)
 }
 
 
+int Property::getHowManyTool(int toolId)
+{
+	return count(Property::toolIds.begin(), Property::toolIds.end(), toolId);
+}
+

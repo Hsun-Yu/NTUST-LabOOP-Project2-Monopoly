@@ -78,7 +78,7 @@ public:
 	void buyLocal();
 	void getFee();
 	void upgrate();
-	void buyTool();
+	void buyTool(int toolId);
 	void choiceLeft();
 	void choiceRight();
 	void showChoice(vector<string>, vector<string>);
@@ -93,6 +93,7 @@ public:
 	static vector<Player> players;
 	static vector<Local> locals;
 	static vector<Company> companys;
+	static vector<Tool> tools;
 	 
 	static vector<Chance> chances;
 	static vector<Fortune> fortunes;
