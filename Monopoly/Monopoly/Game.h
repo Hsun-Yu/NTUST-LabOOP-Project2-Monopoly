@@ -83,6 +83,7 @@ public:
 	void choiceRight();
 	void showChoice(vector<string>, vector<string>);
 	void allShowOnTheMap();
+	void saveGame();
 
 	
 	void checkAlive();
