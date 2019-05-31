@@ -68,6 +68,7 @@ public:
 	void showDice();
 	void moveCharacter();
 	void changeplayerState();
+	void changeRound();
 	void deleteBeforePlace();
 	void showPlayerState();
 	void showRound();
@@ -80,7 +81,7 @@ public:
 	void buyTool();
 	void choiceLeft();
 	void choiceRight();
-	void showChoice(vector<string>, vector<string>, vector<string>);
+	void showChoice(vector<string>, vector<string>);
 	void allShowOnTheMap();
 
 	
@@ -95,7 +96,6 @@ public:
 	static vector<Chance> chances;
 	static vector<Fortune> fortunes;
 
-
 private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
@@ -104,6 +104,7 @@ private:
 
 	string mapName;
 	int round;
+	int tmpRound;
 	int howManyRound;
 
 	int playerState;

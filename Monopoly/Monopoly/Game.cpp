@@ -222,6 +222,7 @@ void Game::selectRound()
 		if (c == 13) //Enter
 		{
 			Game::round = 1;
+			Game::tmpRound = 1;
 			Game::displayTemplate();
 			Game::displayMap();
 			Game::InGame();
@@ -397,7 +398,6 @@ void Game::InGame()
 		Game::setCursorXY(104, 8 + i);
 		cout << Board[i] << endl;
 	}
-	int tmpRound = 1;
 	while (1)
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
@@ -411,14 +411,6 @@ void Game::InGame()
 			{
 				Game::rollDice();
 				Game::moveCharacter();
-				Game::changeplayerState();
-				if (tmpRound % Game::howManyPlayer == 0)
-				{
-					//new round
-					Game::round++;
-					Game::resetCompanyStock();
-				}
-				tmpRound++;
 				break;
 			}
 			else if (c == 27) //esc
@@ -616,6 +608,7 @@ void Game::moveCharacter()
 		Game::players[playerState].position = moveToWhere - 28;
 
 	Game::allShowOnTheMap();
+	Game::changeRound();
 	int localId = Game::players[playerState].position;
 
 	//get fee or upgrade
@@ -627,11 +620,13 @@ void Game::moveCharacter()
 	{
 		if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
 		{
+			Game::changeplayerState();
 			Game::getFee();
 			Game::players[playerState].property.money -= Game::locals[localId].getNowPriceOfLevel();
 		}
 		else
 		{
+			Game::changeplayerState();
 			Game::upgrate();
 			if (Game::locals[localId].level < 5)
 				Game::locals[localId].level++;
@@ -648,6 +643,16 @@ void Game::changeplayerState()
 		Game::playerState += 1;
 	else
 		Game::playerState = 0;
+}
+
+void Game::changeRound()
+{
+	if (Game::tmpRound % Game::howManyPlayer == 0)
+	{
+		//new round
+		Game::round++;
+	}
+	Game::tmpRound++;
 }
 
 void Game::deleteBeforePlace()
@@ -989,10 +994,16 @@ void Game::buyLocal()
 		Game::setCursorXY(50, 16 + i);
 		cout << Board[i];
 	}
-	for (int i = 0; i < No.size(); i++)
+	int localId = Game::players[playerState].position;
+	if (Game::locals[localId].name.size() < 8)
 	{
-		Game::setCursorXY(59, 24 + i);
-		cout << No[i];
+		Game::setCursorXY(57, 20);
+		cout << Game::locals[localId].name;
+	}
+	else
+	{
+		Game::setCursorXY(56, 20);
+		cout << Game::locals[localId].name;
 	}
 	Game::setTextStyle(GOLD, BLACK);
 	for (int i = 0; i < Yes.size(); i++)
@@ -1008,10 +1019,10 @@ void Game::buyLocal()
 		if (c == 13) //Enter
 		{
 			Game::changeplayerState();
-			if (Game::cursorXY.X == 54)
+			if (Game::cursorXY.X == 54) //Yes
 			{
 			}
-			else
+			else//No
 			{
 				Game::displayTemplate();
 				Game::showDice();
@@ -1024,11 +1035,11 @@ void Game::buyLocal()
 			{
 			case 75://左
 				Game::choiceLeft();
-				Game::showChoice(Board,Yes,No);
+				Game::showChoice(Yes,No);
 				break;
 			case 77://右
 				Game::choiceRight();
-				Game::showChoice(Board,Yes,No);
+				Game::showChoice(Yes,No);
 				break;
 			default:
 				break;
@@ -1071,27 +1082,18 @@ void Game::choiceRight()
 	}
 }
 
-void Game::showChoice(vector<string> Board, vector<string> Yes, vector<string> No)
+void Game::showChoice( vector<string> Yes, vector<string> No)
 {
-	Game::setTextStyle(WHITE, BLACK);
 	int x = Game::cursorXY.X;
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setCursorXY(50, 16 + i);
-		cout << Board[i];
-	}
-	Game::setTextStyle(GOLD, BLACK);
 	if (x == 54)
 	{
+		Game::setTextStyle(GOLD, BLACK);
 		for (int i = 0; i < Yes.size(); i++)
 		{
 			Game::setCursorXY(50, 24 + i);
 			cout << Yes[i];
 		}
-		Game::setCursorXY(x, 26);
-	}
-	else
-	{
+		Game::setTextStyle(WHITE, BLACK);
 		for (int i = 0; i < No.size(); i++)
 		{
 			Game::setCursorXY(59, 24 + i);
@@ -1099,6 +1101,22 @@ void Game::showChoice(vector<string> Board, vector<string> Yes, vector<string> N
 		}
 		Game::setCursorXY(x, 26);
 	}
+	else
+	{
+		Game::setTextStyle(GOLD, BLACK);
+		for (int i = 0; i < No.size(); i++)
+		{
+			Game::setCursorXY(59, 24 + i);
+			cout << No[i];
+		}
+		Game::setTextStyle(WHITE, BLACK);
+		for (int i = 0; i < Yes.size(); i++)
+		{
+			Game::setCursorXY(50, 24 + i);
+			cout << Yes[i];
+		}
+	}
+	Game::setCursorXY(x, 26);
 }
 
 void Game::allShowOnTheMap()
