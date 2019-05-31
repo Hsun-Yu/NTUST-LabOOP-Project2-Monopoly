@@ -69,7 +69,7 @@
 - -1=local
 - -2=stock
 - -3=tool
-- -4=bamk money
+- -4=bank money
   
 
 
