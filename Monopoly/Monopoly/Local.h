@@ -3,9 +3,6 @@
 #include "Tool.h"
 
 using namespace std;
-
-
-using namespace std;
 #pragma once
 class Local
 {
@@ -20,6 +17,10 @@ public:
 
 	int getNowPriceOfLevel();
 
-	Tool tool;
+	void setToDefaultTool();
+
+	Tool defaultTool = Tool();
+
+	Tool * tool = new Tool();
 };
 

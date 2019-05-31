@@ -11,4 +11,3 @@ public:
 	string name;
 	virtual void method(Player & player){}
 };
-

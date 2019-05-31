@@ -3,9 +3,7 @@
 
 
 Local::Local()
-{
-
-}
+{}
 
 Local::~Local()
 {
@@ -18,5 +16,11 @@ int Local::getNowPriceOfLevel()
 		return Local::priceOfLevel[Local::level];
 	else
 		return 0;
+}
+
+void Local::setToDefaultTool()
+{
+	free(Local::tool);
+	Local::tool = new Tool();
 }
 

@@ -12,6 +12,11 @@ vector<Tool> Game::tools;
 
 Game::Game()
 {
+	tools.push_back(RoadblockTool());
+	tools.push_back(BombTool());
+	tools.push_back(RoadblockTool());
+	tools.push_back(DoubleFeeTool());
+
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
@@ -20,7 +25,6 @@ Game::Game()
 Game::~Game()
 {
 }
-
 
 void Game::setTextStyle(int color, int backgroundColor)
 {
@@ -422,7 +426,7 @@ void Game::InGame()
 			else if (c == 9) //tab
 			{
 				Game::showPlayerProperty();
-			}
+			}//TODO the store menu
 			else
 				continue;
 		}
@@ -613,6 +617,10 @@ void Game::moveCharacter()
 	Game::changeRound();
 	int localId = Game::players[playerState].position;
 
+	//Do something if has tool
+	Game::locals[localId].tool->method(Game::players[playerState]);
+	Game::locals[localId].setToDefaultTool();
+
 	//get fee or upgrade
 	if (Game::locals[localId].level == 0 && Game::locals[localId].localType == 1)
 	{
@@ -688,9 +696,6 @@ void Game::moveCharacter()
 			Game::changeplayerState();
 		}
 	}
-
-	//Do something if has tool
-	Game::locals[localId].tool.method(Game::players[playerState]);
 }
 
 void Game::changeplayerState()
@@ -699,6 +704,9 @@ void Game::changeplayerState()
 		Game::playerState += 1;
 	else
 		Game::playerState = 0;
+
+	if (Game::players[Game::playerState].stop > 0)
+		Game::changeplayerState();
 }
 
 void Game::changeRound()
@@ -706,7 +714,11 @@ void Game::changeRound()
 	if (Game::tmpRound % Game::howManyPlayer == 0)
 	{
 		//new round
+		for(int i = 0; i < Game::players.size(); i++)
+			Game::players[i].finishARound();
 		Game::round++;
+		Game::displayTemplate();
+		Game::displayMap();
 	}
 	Game::tmpRound++;
 }
@@ -828,6 +840,10 @@ void Game::processFile(string filename)
 		Game::players.push_back(p);
 	}
 	file.close();
+
+
+	//TODO :testing
+	Game::locals[2].tool = new RoadblockTool();
 }
 
 void Game::resetCompanyStock()
@@ -1186,11 +1202,17 @@ void Game::getFee()
 {
 	if (Game::locals[Game::players[playerState].position].getNowPriceOfLevel() > Game::players[playerState].property.money)
 	{
-		//TODO (Layout):詢問是否要賣回地產或是提款
-
+		return;
 	}
 	else
+	{
 		Game::players[playerState].property.money -= Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
+		for (int i = 0; i < Game::players.size(); i++)
+		{
+			if (Game::players[i].property.isMyLocal(Game::players[playerState].position))
+				Game::players[i].property.money += Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
+		}
+	}
 }
 
 void Game::upgrate()
@@ -1308,8 +1330,6 @@ void Game::saveGame()
 	savefile.close();
 }
 
-
-
 bool compareInterval(Player p1, Player p2)
 {
 	return (p1.property.getAllProperty() > p2.property.getAllProperty());
@@ -1383,7 +1403,7 @@ void Game::displayMap()
 		}
 		else if (i + 1 == 2)
 		{
-			cout << "２Ｐ";
+			cout << "２Ｐ"; 
 			Game::setTextStyle(GREEN, GREEN);
 			Game::setCursorXY(20 + i * 20, 2);
 			cout << color;
@@ -1397,7 +1417,7 @@ void Game::displayMap()
 		}
 		else
 		{
-			cout << "４Ｐ";
+			cout << "４Ｐ ";
 			Game::setTextStyle(KHIKI, KHIKI);
 			Game::setCursorXY(20 + i * 20, 2);
 			cout << color;
@@ -1408,6 +1428,8 @@ void Game::displayMap()
 	{
 		Game::setCursorXY(23 + i * 20, 3);
 		cout << "＄" << Game::players[i].property.money;
+		if (Game::players[i].stop > 0)
+			cout << " Stop*" << Game::players[i].stop;
 	}
 
 	for (int i = 0; i < 8; i++)
@@ -1437,6 +1459,13 @@ void Game::displayMap()
 	}
 }
 
+
+
+
+
+
+/*======================================================================================================*/
+/*===========================================Other Class function=======================================*/
 int Property::getAllProperty()
 {
 	int property = Property::money + Property::bankMoney;
@@ -1444,4 +1473,15 @@ int Property::getAllProperty()
 		property += (Game::locals[Property::localIds[i]].priceOfLevel[0]);
 
 	return property;
+}
+
+void DoubleFeeTool::method(Player& player)
+{
+	player.property.money -= Game::locals[player.position].getNowPriceOfLevel();
+
+	for (int i = 0; i < Game::players.size(); i++)
+	{
+		if(Game::players[i].property.isMyLocal(player.position))
+			Game::players[i].property.money += Game::locals[player.position].getNowPriceOfLevel();
+	}
 }
