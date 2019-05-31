@@ -1117,6 +1117,7 @@ void Game::buyLocal()
 			{
 				Game::players[playerState].property.localIds.push_back(localId);
 				Game::players[playerState].property.money -= locals[localId].getNowPriceOfLevel();
+				Game::locals[localId].level++;
 				Game::changeplayerState();
 				Game::displayTemplate();
 				Game::showDice();
