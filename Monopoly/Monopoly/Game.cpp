@@ -907,7 +907,7 @@ void Game::menu()
 		"|                 |" ,
 		"|＿＿＿＿＿＿＿＿_|" ,
 		"|                 |" ,
-		"|      確 定      |" ,
+		"|  輸入完按Enter  |" ,
 		"|＿＿＿＿＿＿＿＿_|" ,
 				};
 				Game::setTextStyle(WHITE, BLACK);
@@ -1326,8 +1326,46 @@ void Game::saveGame()
 	}
 	file.close();
 	
-	savefile  <<  "playerstate " << Game::playerState;
+	savefile << "playerstate " << Game::playerState << "\r\n";
+
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		savefile << i << " " << Game::players[i].position << " " << Game::players[i].property.money << " -1 ";
+		for (int j = 0; j < Game::players[i].property.localIds.size(); j++)
+		{
+			savefile << Game::players[i].property.localIds[j] << " " << Game::locals[players[i].property.localIds[j]].level << " ";
+		}
+		savefile << "-2 ";
+		for (int k = 0 ; k < Game::players[i].property.componyIds.size() ; k++)
+		{
+			savefile << Game::players[i].property.componyIds[k] << " ";
+		}
+		savefile << "-3 ";
+		for (int l = 0; l < Game::players[i].property.toolIds.size() ; l++)
+		{
+			savefile << Game::players[i].property.toolIds[l] << " ";
+		}
+		savefile << "-4 " << Game::players[i].property.bankMoney << "\r\n";
+	}
 	savefile.close();
+
+	vector<string> Board;
+	Game::setTextStyle(GOLD, BLACK);
+	Board = {
+	"|＿＿＿＿＿＿＿＿_|" ,
+		"|                 |" ,
+		"|     儲存成功    |" ,
+		"|＿＿＿＿＿＿＿＿_|" ,
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 26 + i);
+		cout << Board[i];
+	}
+	Sleep(3000);
+	Game::displayTemplate();
+	Game::showDice();
+	Game::InGame();
 }
 
 bool compareInterval(Player p1, Player p2)
