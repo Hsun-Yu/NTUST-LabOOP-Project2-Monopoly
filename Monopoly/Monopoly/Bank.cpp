@@ -6,10 +6,7 @@ void deposit(Property & p, unsigned int howmuch)
 	{
 		p.money -= howmuch;
 		p.bankMoney += howmuch;
-		return true;
 	}
-	else	//deposite error
-		return false;
 }
 
 void withdrawal(Property & p, unsigned int howmuch)
