@@ -391,6 +391,7 @@ void Game::InGame()
 			{
 				Game::rollDice();
 				Game::moveCharacter();
+				Game::allShowOnTheMap();
 
 				vector<string>Board;
 				Board = {
@@ -666,6 +667,19 @@ void Game::moveCharacter()
 		}
 
 		localId = Game::players[playerState].position;
+
+		//Get fee or buy local
+		if (!Game::players[playerState].property.isMyLocal(localId))
+		{
+			Game::getFee();
+		}
+		else
+		{
+			Game::upgrate();
+			if (Game::locals[localId].level < 5)
+				Game::locals[localId].level++;
+		}
+
 		if (Game::locals[localId].level == 0)
 		{
 			if (Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
@@ -726,19 +740,6 @@ void Game::moveCharacter()
 						continue;
 				}
 			}
-		}
-
-		//Get fee or buy local
-		if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
-		{
-			Game::getFee();
-
-		}
-		else
-		{
-			Game::upgrate();
-			if (Game::locals[localId].level < 5)
-				Game::locals[localId].level++;
 		}
 
 		//TODO:
@@ -1221,7 +1222,6 @@ void Game::buyLocal()
 				Game::players[playerState].property.localIds.push_back(localId);
 				Game::players[playerState].property.money -= locals[localId].getNowPriceOfLevel();
 				Game::locals[localId].level++;
-				Game::changeplayerState();
 				Game::allShowOnTheMap();
 				//Game::displayTemplate();
 				//Game::showDice();
