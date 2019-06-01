@@ -1973,36 +1973,46 @@ void Game::bankMenu()
 			if (Game::cursorXY.Y == 17) //賣地
 			{
 				//TODO:顯示要選什麼地要賣 localId放選擇的
-				int localId = 0;
 
-				Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
-				for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
+				if (Game::players[Game::playerState].property.localIds.size() != 0)
 				{
-					if (Game::players[Game::playerState].property.localIds[i] == localId)
+					int localId = 0;
+
+					Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
+					for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
 					{
-						Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
-						break;
+						if (Game::players[Game::playerState].property.localIds[i] == localId)
+						{
+							Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
+							break;
+						}
 					}
 				}
 			}
 			else if (Game::cursorXY.Y == 20) //提款
 			{
 				//TODO:詢問要提多少 howmush放選擇的
-				int howmush = 0;
-				withdrawal(Game::players[Game::playerState].property, howmush);
+				if (Game::players[Game::playerState].property.bankMoney > 0)
+				{
+					int howmush = 0;
+					withdrawal(Game::players[Game::playerState].property, howmush);
+				}
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
 			{
 				//TODO:詢問要賣哪個股票 stockId放選擇的
-				int stockId = 0;
-				
-				Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
-				for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
+				if (Game::players[Game::playerState].property.componyIds.size() != 0)
 				{
-					if (Game::players[Game::playerState].property.componyIds[i] == stockId)
+					int stockId = 0;
+
+					Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
+					for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
 					{
-						Game::players[Game::playerState].property.componyIds.erase(Game::players[Game::playerState].property.componyIds.begin() + i);
-						break;
+						if (Game::players[Game::playerState].property.componyIds[i] == stockId)
+						{
+							Game::players[Game::playerState].property.componyIds.erase(Game::players[Game::playerState].property.componyIds.begin() + i);
+							break;
+						}
 					}
 				}
 			}
