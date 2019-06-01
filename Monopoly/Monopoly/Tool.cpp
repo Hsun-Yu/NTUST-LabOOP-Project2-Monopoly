@@ -45,7 +45,19 @@ void ToBlackHoleTool::method(Player& player)
 	player.position = 21;
 }
 
-DoubleFeeTool::DoubleFeeTool():Tool(4, "過路費加倍卷", 2000)
+DoubleFeeTool::DoubleFeeTool():Tool(5, "過路費加倍卷", 2000)
 {
 }
 
+ChooseWhereToGoTool::ChooseWhereToGoTool():Tool(4, "遙控骰子", 2000)
+{
+}
+
+void ChooseWhereToGoTool::method(Player& player)
+{
+	int choosNum = 0;
+	system("cls");
+	cout << "選擇走幾步(輸入數字):" << endl;
+	cin >> choosNum;
+	player.position += choosNum;
+}

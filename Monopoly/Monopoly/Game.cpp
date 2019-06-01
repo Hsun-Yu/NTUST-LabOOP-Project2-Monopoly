@@ -15,7 +15,7 @@ Game::Game()
 	tools.push_back(new RoadblockTool());
 	tools.push_back(new BombTool());
 	tools.push_back(new RoadblockTool());
-	tools.push_back(new DoubleFeeTool());
+	tools.push_back(new ChooseWhereToGoTool());
 
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -664,6 +664,9 @@ void Game::moveCharacter()
 			//Do something if has tool
 			Game::locals[localId].tool->method(Game::players[playerState]);
 			Game::locals[localId].setToDefaultTool();
+
+			if (localId != Game::players[playerState].position)
+				Game::allShowOnTheMap();
 		}
 
 		localId = Game::players[playerState].position;
@@ -717,11 +720,7 @@ void Game::moveCharacter()
 					char c = _getch();
 					if (c == 13) //Enter
 					{
-						//Game::changeplayerState();
 						Game::allShowOnTheMap();
-						//Game::displayTemplate();
-						//Game::showDice();
-						//Game::InGame();
 						return;
 					}
 					else
@@ -772,6 +771,26 @@ void Game::moveCharacter()
 				Game::upgrate();
 			}
 		}
+	}
+	else if (Game::locals[localId].localType == -1) //命運
+	{
+		
+	}
+	else if (Game::locals[localId].localType == -2) //機會	
+	{
+		//TODO 可能不用東西?
+	}
+	else if (Game::locals[localId].localType == -3) //白洞
+	{
+		
+	}
+	else if (Game::locals[localId].localType == -4) //太空站
+	{
+		
+	}
+	else if (Game::locals[localId].localType == -5) //黑洞
+	{
+		
 	}
 }
 

@@ -1,5 +1,5 @@
 #include <string>
-
+#include <iostream>
 #include "Player.h"
 
 using namespace std;
@@ -42,6 +42,13 @@ class DoubleFeeTool : public Tool
 {
 public:
 	DoubleFeeTool();
+	virtual void method(Player& player);
+};
+
+class ChooseWhereToGoTool : public Tool
+{
+public:
+	ChooseWhereToGoTool();
 	virtual void method(Player& player);
 };
 
