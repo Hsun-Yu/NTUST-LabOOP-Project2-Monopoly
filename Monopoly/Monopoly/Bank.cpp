@@ -1,6 +1,6 @@
 #include "Bank.h"
 
-bool deposit(Property & p, unsigned int howmuch)
+void deposit(Property & p, unsigned int howmuch)
 {
 	if (p.money - howmuch >= 0) //deposite success
 	{
@@ -12,13 +12,20 @@ bool deposit(Property & p, unsigned int howmuch)
 		return false;
 }
 
-bool withdrawal(Property & p, unsigned int howmuch)
+void withdrawal(Property & p, unsigned int howmuch)
 {
 	if (p.bankMoney - howmuch >= 0)
 	{
 		p.bankMoney -= howmuch;
 		p.money += howmuch;
 	}
-	else
-		return false;
+}
+
+void loanMoney(Property& p, unsigned int howmuch) 
+{
+	if (p.getAllProperty() >= howmuch)
+	{
+		p.loan += howmuch;
+		p.loanCount = 3;
+	}
 }

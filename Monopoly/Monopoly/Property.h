@@ -17,8 +17,11 @@ public:
 
 	vector<int> toolIds;
 
-	int bankMoney;
 
+	int loan = 0;
+	int loanCount = 0;
+
+	int bankMoney;
 	bool isMyLocal(int localId);
 	int getHowManyTool(int toolId);
 	int getAllProperty();

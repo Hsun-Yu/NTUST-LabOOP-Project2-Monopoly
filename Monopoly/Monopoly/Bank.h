@@ -5,6 +5,7 @@
 using namespace std;
 
 #pragma once
-bool deposit(Property & p, unsigned int howmuch);
-bool withdrawal(Property & p, unsigned int howmuch);
+void deposit(Property & p, unsigned int howmuch);
+void withdrawal(Property & p, unsigned int howmuch);
+void loanMoney(Property& p, unsigned int howmuch);
 
