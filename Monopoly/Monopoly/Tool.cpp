@@ -1,5 +1,5 @@
 #include "Tool.h"
-
+#include "Game.h"
 
 
 Tool::Tool()
@@ -60,4 +60,15 @@ void ChooseWhereToGoTool::method(Player& player)
 	cout << "選擇走幾步(輸入數字):" << endl;
 	cin >> choosNum;
 	player.position += choosNum;
+}
+
+void DoubleFeeTool::method(Player& player)
+{
+	player.property.money -= Game::locals[player.position].getNowPriceOfLevel();
+
+	for (int i = 0; i < Game::players.size(); i++)
+	{
+		if (Game::players[i].property.isMyLocal(player.position))
+			Game::players[i].property.money += Game::locals[player.position].getNowPriceOfLevel();
+	}
 }
