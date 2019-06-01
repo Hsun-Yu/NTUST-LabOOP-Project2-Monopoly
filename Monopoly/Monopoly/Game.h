@@ -89,7 +89,8 @@ public:
 	void sellLocal();
 	void sellCompanyStock();
 	void blackHole();
-
+	void showTool();
+	void processMarkToolPosition(int );
 	
 	void checkAlive();
 	void checkWhoWin();
