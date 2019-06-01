@@ -22,7 +22,7 @@ public:
 class GetMoneyChance : public Chance
 {
 public:
-	GetMoneyChance() :Chance(2, "執行任務成功，得到20000元！！") {}
+	GetMoneyChance() :Chance(2, "執行任務成功，得到10000元！！") {}
 	virtual void method(Player& player);
 };
 

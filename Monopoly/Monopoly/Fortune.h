@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 #include "Player.h"
@@ -22,10 +23,10 @@ public:
 	virtual void method(Player& player);
 };
 
-class DoraemonFortune : public Fortune
+class BackToEarthFortune : public Fortune
 {
 public:
-	DoraemonFortune() :Fortune(2, "突發狀況！！遭受外星人飛船攻擊，趕快回地球") {}
+	BackToEarthFortune() :Fortune(2, "突發狀況！！遭受外星人飛船攻擊，趕快回地球") {}
 	virtual void method(Player& player);
 };
 

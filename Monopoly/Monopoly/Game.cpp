@@ -25,7 +25,7 @@ Game::Game()
 	Game::tools.push_back(new ChooseWhereToGoTool());
 
 	Game::fortunes.push_back(new SolarWindFortune());
-	Game::fortunes.push_back(new DoraemonFortune());
+	Game::fortunes.push_back(new BackToEarthFortune());
 	Game::fortunes.push_back(new TimeTunnelFortune());
 	Game::fortunes.push_back(new ChangePropertyFortune());
 	
