@@ -833,27 +833,28 @@ void Game::moveCharacter()
 					cout << nowLevel << "→" << nowLevel + 1;
 				}
 				Game::upgrate();
+				Sleep(5000);
 			}
 		}
 	}
 	else if (Game::locals[localId].localType == -1) //命運
 	{
-	vector<string> Board;
-	Game::setTextStyle(WHITE, BLACK);
-	Board = {
-		" _________________ " ,
-	"|                 |" ,
-	"|    你走到了     |" ,
-	"|                 |" ,
-	"|  ＜  命運  ＞   |" ,
-	"|＿＿＿＿＿＿＿＿_|"
-	};
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setCursorXY(50, 16 + i);
-		cout << Board[i];
-	}
-	Sleep(1000);
+		vector<string> Board;
+		Game::setTextStyle(WHITE, BLACK);
+		Board = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你走到了     |" ,
+		"|                 |" ,
+		"|  ＜  命運  ＞   |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
+		Sleep(1000);
 		srand(time(NULL));
 		int r = rand() % Game::fortunes.size();
 		vector<string> FortuneBoard;
@@ -883,21 +884,21 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -2) //機會	
 	{
-	vector<string> Board;
-	Game::setTextStyle(WHITE, BLACK);
-	Board = {
-		" _________________ " ,
-	"|                 |" ,
-	"|    你走到了     |" ,
-	"|                 |" ,
-	"|  ＜  機會  ＞   |" ,
-	"|＿＿＿＿＿＿＿＿_|"
-	};
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setCursorXY(50, 16 + i);
-		cout << Board[i];
-	}
+		vector<string> Board;
+		Game::setTextStyle(WHITE, BLACK);
+		Board = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你走到了     |" ,
+		"|                 |" ,
+		"|  ＜  機會  ＞   |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
 		srand(time(NULL));
 		int r = rand() % Game::chances.size();
 		vector<string> ChanceBoard;
@@ -1972,21 +1973,79 @@ void Game::bankMenu()
 		{
 			if (Game::cursorXY.Y == 17) //賣地
 			{
-				//TODO:顯示要選什麼地要賣 localId放選擇的
-
 				if (Game::players[Game::playerState].property.localIds.size() != 0)
 				{
-					int localId = 0;
-
-					Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
-					for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
+					Game::allShowOnTheMap();
+					vector<string> Board;
+					Game::setTextStyle(WHITE, BLACK);
+					Board = {
+						" _________________ " ,
+					"|                 |" ,
+					"|    選擇要賣啥    |" ,
+					"|                 |" ,
+					"|  ＜      ＞   |" ,
+					"|＿＿＿＿＿＿＿＿_|"
+					};
+					for (int i = 0; i < Board.size(); i++)
 					{
-						if (Game::players[Game::playerState].property.localIds[i] == localId)
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+
+
+					int select = 0;
+					while (1)
+					{
+						char c = _getch();
+						if (c == 13) //Enter
 						{
-							Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
+							
+						}
+						else if (c == 27) //esc
+						{
+							select = -1;
 							break;
 						}
+						else
+						{
+							switch (c)
+							{
+							case 75: //左
+								Game::setCursorXY(54, 20);
+								if(select - 1 >= 0)
+									cout << Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
+								break;
+							case 77: //右
+								Game::setCursorXY(54, 20);
+								if (select + 1 < Game::players[Game::playerState].property.localIds.size())
+									cout << Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
+								break;
+							default:
+								break;
+							}
+						}
 					}
+
+					if (select >= 0)
+					{
+						int localId = 0;
+
+						Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
+						for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
+						{
+							if (Game::players[Game::playerState].property.localIds[i] == localId)
+							{
+								Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
+								break;
+							}
+						}
+					}
+					else
+					{
+						Game::bankMenu();
+						return;
+					}
+
 				}
 			}
 			else if (Game::cursorXY.Y == 20) //提款
@@ -2033,6 +2092,10 @@ void Game::bankMenu()
 			case 80://下
 				Game::menuDown();
 				Game::showMenuOption(option);
+				break;
+			case 27://Esc
+				Game::allShowOnTheMap();
+				return;
 				break;
 			default:
 				break;
