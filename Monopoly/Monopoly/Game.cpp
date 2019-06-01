@@ -2000,14 +2000,16 @@ void Game::bankMenu()
 						cout << Board[i];
 					}
 
-
 					int select = 0;
+					Game::setCursorXY(54, 20);
+					cout << Game::locals[Game::players[Game::playerState].property.localIds[select]].name;
+						
 					while (1)
 					{
 						char c = _getch();
 						if (c == 13) //Enter
 						{
-							
+							break;
 						}
 						else if (c == 27) //esc
 						{
@@ -2020,13 +2022,21 @@ void Game::bankMenu()
 							{
 							case 75: //左
 								Game::setCursorXY(54, 20);
-								if(select - 1 >= 0)
-									cout << Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
+								if (select - 1 >= 0)
+								{
+									string s = Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
+									cout << setprecision(3);
+									cout << s;
+								}
 								break;
 							case 77: //右
 								Game::setCursorXY(54, 20);
 								if (select + 1 < Game::players[Game::playerState].property.localIds.size())
-									cout << Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
+								{
+									string s = Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
+									cout << setprecision(3);
+									cout << s;
+								}
 								break;
 							default:
 								break;
@@ -2036,7 +2046,7 @@ void Game::bankMenu()
 
 					if (select >= 0)
 					{
-						int localId = 0;
+						int localId = Game::players[Game::playerState].property.localIds[select];
 
 						Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
 						for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
@@ -2044,7 +2054,8 @@ void Game::bankMenu()
 							if (Game::players[Game::playerState].property.localIds[i] == localId)
 							{
 								Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
-								break;
+								allShowOnTheMap();
+								return;
 							}
 						}
 					}
