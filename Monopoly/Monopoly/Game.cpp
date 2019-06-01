@@ -1111,11 +1111,6 @@ void Game::processFile(string filename)
 				p.property.toolIds.push_back(id);
 			else if (type == -4)//bank money
 				p.property.bankMoney = id;
-			else if (type == -5)//load
-			{
-				p.property.loan = id;
-				iss >> p.property.loanCount;
-			}
 		}
 		Game::players.push_back(p);
 	}
@@ -1819,13 +1814,13 @@ void Game::saveGame()
 	{
 		if (i != 0)
 		{
-			savefile << buffer;
+			savefile << buffer << "\r\n";
 		}
 		i++;
 	}
 	file.close();
 	
-	savefile << "\r\n" << "playerstate " << Game::playerState << "\r\n";
+	savefile << "playerstate " << Game::playerState << "\r\n";
 
 	for (int i = 0; i < Game::howManyPlayer; i++)
 	{
@@ -1844,8 +1839,7 @@ void Game::saveGame()
 		{
 			savefile << Game::players[i].property.toolIds[l] << " ";
 		}
-		savefile << "-4 " << Game::players[i].property.bankMoney << " ";
-		savefile << "-5 " << Game::players[i].property.loan << " " << Game::players[i].property.loanCount << "\r\n";
+		savefile << "-4 " << Game::players[i].property.bankMoney << "\r\n";
 	}
 	savefile.close();
 
