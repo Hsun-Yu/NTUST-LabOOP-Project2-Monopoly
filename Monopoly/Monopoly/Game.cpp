@@ -378,34 +378,6 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 
 void Game::InGame()
 {
-	vector<string>Board;
-	Board = {
-" __________ " ,
-"|          |" ,
-"| 玩家資訊 |" ,
-"|__________|",
-	"",
-	"  請按 Tab  ",
-	"",
-	" __________ " ,
-"|          |" ,
-"|   選單   |" ,
-"|__________|",
-	"",
-	"  請按 Esc  ",
-	"",
-" __________ " ,
-"|          |" ,
-"|  擲骰子  |" ,
-"|__________|",
-	"",
-	" 請按 Enter  "};
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(104, 8 + i);
-		cout << Board[i] << endl;
-	}
 	while (1)
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
@@ -615,7 +587,7 @@ void Game::moveCharacter()
 	else
 		Game::players[playerState].position = moveToWhere - 28;
 
-	Game::allShowOnTheMap();
+	//Game::allShowOnTheMap();
 	Game::changeRound();
 	int localId = Game::players[playerState].position;
 
@@ -676,8 +648,9 @@ void Game::moveCharacter()
 					Game::changeplayerState();
 					Game::allShowOnTheMap();
 					//Game::displayTemplate();
-					Game::showDice();
-					Game::InGame();
+					//Game::showDice();
+					//Game::InGame();
+					return;
 				}
 				else
 					continue;
@@ -720,7 +693,7 @@ void Game::changeRound()
 		for(int i = 0; i < Game::players.size(); i++)
 			Game::players[i].finishARound();
 		Game::round++;
-		Game::allShowOnTheMap();
+		//Game::allShowOnTheMap();
 		//Game::displayTemplate();
 		//Game::displayMap();
 	}
@@ -896,7 +869,7 @@ void Game::menu()
 			{
 				//Game::displayTemplate();
 				Game::allShowOnTheMap();
-				Game::showDice();
+				//Game::showDice();
 				Game::InGame();
 			}
 			else if (Game::cursorXY.Y == 20) //儲存遊戲
@@ -1094,8 +1067,9 @@ void Game::showPlayerProperty()
 		{
 			//Game::displayTemplate();
 			Game::allShowOnTheMap();
-			Game::showDice();
-			Game::InGame();
+			//Game::showDice();
+			//Game::InGame();
+			return;
 		}
 		else
 		{
@@ -1175,16 +1149,18 @@ void Game::buyLocal()
 				Game::changeplayerState();
 				Game::allShowOnTheMap();
 				//Game::displayTemplate();
-				Game::showDice();
-				Game::InGame();
+				//Game::showDice();
+				//Game::InGame();
+				return;
 			}
 			else//No
 			{
 				Game::changeplayerState();
 				Game::allShowOnTheMap();
 				//Game::displayTemplate();
-				Game::showDice();
-				Game::InGame();
+				//Game::showDice();
+				//Game::InGame();
+				return;
 			}
 		}
 		else
@@ -1306,6 +1282,35 @@ void Game::allShowOnTheMap()
 	Game::showPlayerState();
 	Game::showRound();
 	Game::displayMap();
+	Game::showDice();
+	vector<string>Board;
+	Board = {
+" __________ " ,
+"|          |" ,
+"| 玩家資訊 |" ,
+"|__________|",
+	"",
+	"  請按 Tab  ",
+	"",
+	" __________ " ,
+"|          |" ,
+"|   選單   |" ,
+"|__________|",
+	"",
+	"  請按 Esc  ",
+	"",
+" __________ " ,
+"|          |" ,
+"|  擲骰子  |" ,
+"|__________|",
+	"",
+	" 請按 Enter  " };
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(104, 8 + i);
+		cout << Board[i] << endl;
+	}
 }
 
 void Game::saveGame()
@@ -1374,7 +1379,7 @@ void Game::saveGame()
 	Sleep(3000);
 	//Game::displayTemplate();
 	Game::allShowOnTheMap();
-	Game::showDice();
+	//Game::showDice();
 	Game::InGame();
 }
 
