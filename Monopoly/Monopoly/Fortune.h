@@ -18,14 +18,14 @@ public:
 class SolarWindFortune : public Fortune
 {
 public:
-	SolarWindFortune() :Fortune(1, "遇到太陽風暴倒退3格") {}
+	SolarWindFortune() :Fortune(1, "危險！！遇到太陽風暴，先撤退 3 格吧") {}
 	virtual void method(Player& player);
 };
 
 class DoraemonFortune : public Fortune
 {
 public:
-	DoraemonFortune() :Fortune(2, "遇到多拉A夢，借用任意門到你想去的位置") {}
+	DoraemonFortune() :Fortune(2, "遇到多啦A夢，借用任意門到你想去的位置") {}
 	//TODO : 詢問想去的位置
 	virtual void method(Player& player);
 };
@@ -33,13 +33,13 @@ public:
 class TimeTunnelFortune : public Fortune
 {
 public:
-	TimeTunnelFortune() :Fortune(3, "阿阿阿!!!!掉進了時空隧道，將被傳送至隨機位置") {}
+	TimeTunnelFortune() :Fortune(3, "啊啊啊！！掉進了時空隧道，被傳送至隨機位置") {}
 	virtual void method(Player& player);
 };
 
 class ChangePropertyFortune : public Fortune
 {
 public:
-	ChangePropertyFortune() :Fortune(4, "哈哈哈!!你拿錯錢包了，跟隨機玩家交換錢包"){}
+	ChangePropertyFortune() :Fortune(4, "哈哈哈！！拿錯錢包了，與一位玩家交換錢包"){}
 	virtual void method(Player& player);
 };

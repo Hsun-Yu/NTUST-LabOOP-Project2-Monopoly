@@ -669,14 +669,6 @@ void Game::moveCharacter()
 {
 	Game::deleteBeforePlace();
 	Game::players[playerState].goPosition(diceNumber);
-
-	//int moveToWhere = Game::players[playerState].position + diceNumber;
-	//if(moveToWhere <= 27)
-	//	Game::players[playerState].position = moveToWhere;
-	//else
-	//	Game::players[playerState].position = moveToWhere - 28;
-	
-	//Game::allShowOnTheMap();
 	Game::changeRound();
 	int localId = Game::players[playerState].position;
 	Game::allShowOnTheMap();
@@ -768,6 +760,7 @@ void Game::moveCharacter()
 				"|                 |" ,
 				"|＿＿＿＿＿＿＿＿_|"
 				};
+				Game::setTextStyle(WHITE, BLACK);
 				for (int i = 0; i < FeeBoard.size(); i++)
 				{
 					Game::setCursorXY(50, 16 + i);
@@ -786,7 +779,7 @@ void Game::moveCharacter()
 				Game::setTextStyle(GOLD, BLACK);
 				Game::setCursorXY(56, 24);
 				cout << "＄" << Game::locals[localId].getNowPriceOfLevel();
-				Sleep(5000);
+				Sleep(3000);
 				Game::getFee();
 			}
 			else
@@ -797,8 +790,39 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -1) //命運
 	{
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" _________________ " ,
+	"|                 |" ,
+	"|    你走到了     |" ,
+	"|                 |" ,
+	"|  ＜  命運  ＞   |" ,
+	"|＿＿＿＿＿＿＿＿_|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
 		srand(time(NULL));
 		int r = rand() % Game::fortunes.size();
+		vector<string> FortuneBoard;
+		FortuneBoard = {
+		" ___________________________________________" ,
+	"|                                          |" ,
+	"|                                          |" ,
+	"|                                          |" ,
+	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+		};
+		for (int i = 0; i < FortuneBoard.size(); i++)
+		{
+			Game::setCursorXY(38, 22 + i);
+			cout << FortuneBoard[i];
+		}
+		Sleep(1000);
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(40, 24);
 		cout << Game::fortunes[r]->name;
 		Sleep(5000);
 		Game::fortunes[r]->method(Game::players[Game::playerState]);
@@ -810,8 +834,39 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -2) //機會	
 	{
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" _________________ " ,
+	"|                 |" ,
+	"|    你走到了     |" ,
+	"|                 |" ,
+	"|  ＜  機會  ＞   |" ,
+	"|＿＿＿＿＿＿＿＿_|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
 		srand(time(NULL));
 		int r = rand() % Game::chances.size();
+		vector<string> ChanceBoard;
+		ChanceBoard = {
+		" ___________________________________________" ,
+	"|                                          |" ,
+	"|                                          |" ,
+	"|                                          |" ,
+	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+		};
+		for (int i = 0; i < ChanceBoard.size(); i++)
+		{
+			Game::setCursorXY(38, 22 + i);
+			cout << ChanceBoard[i];
+		}
+		Sleep(1000);
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(40, 24);
 		cout << Game::chances[r]->name;
 		Sleep(5000);
 		Game::chances[r]->method(Game::players[Game::playerState]);
@@ -1774,7 +1829,7 @@ void Game::displayMap()
 		Game::setCursorXY(23 + i * 20, 3);
 		cout << "＄" << Game::players[i].property.money;
 		if (Game::players[i].stop > 0)
-			cout << " Stop*" << Game::players[i].stop;
+			cout << " Stop☕*" << Game::players[i].stop;
 	}
 
 	for (int i = 0; i < 8; i++)

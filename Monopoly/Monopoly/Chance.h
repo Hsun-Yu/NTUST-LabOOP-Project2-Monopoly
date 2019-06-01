@@ -15,21 +15,21 @@ public:
 class GetStockChance : public Chance
 {
 public:
-	GetStockChance():Chance(1, "遇見好心外星人，送你一張股票!!"){}
+	GetStockChance():Chance(1, "遇見好心外星人，送你隨機一張股票！！"){}
 	virtual void method(Player& player);
 };
 
 class GetMoneyChance : public Chance
 {
 public:
-	GetMoneyChance() :Chance(1, "運氣優良得到20000元!!") {}
+	GetMoneyChance() :Chance(2, "執行任務成功，得到20000元！！") {}
 	virtual void method(Player& player);
 };
 
 class StopChance : public Chance
 {
 public:
-	StopChance() :Chance(1, "飛船壞掉了暫停一回和!!") {}
+	StopChance() :Chance(3, "飛船壞掉了，暫停一回合！！") {}
 	virtual void method(Player& player);
 };
 

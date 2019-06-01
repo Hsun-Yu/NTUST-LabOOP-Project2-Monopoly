@@ -34,6 +34,5 @@ void DoraemonFortune::method(Player& player)
 void TimeTunnelFortune::method(Player& player)
 {
 	player.position = rand() % 28;
-	cout << "你與到了位置" << player.position << endl;
-
+	cout << "你被傳送到了位置" << player.position << endl;
 }

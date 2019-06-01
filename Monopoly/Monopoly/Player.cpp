@@ -29,7 +29,7 @@ void Player::goPosition(int number)
 	if (Player::position > 27)
 	{
 		Player::position %= 28;
-		Player::property.money += 5000;
+		Player::property.money += 2000;
 	}
 }
 
