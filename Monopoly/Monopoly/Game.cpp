@@ -175,6 +175,10 @@ void Game::selectPlayer()
 				_tmp.name = "  ";
 				_tmp.property.money = 10000;
 				_tmp.position = 0;
+				_tmp.property.toolIds.push_back(1);
+				_tmp.property.toolIds.push_back(2);
+				_tmp.property.toolIds.push_back(3);
+				_tmp.property.toolIds.push_back(4);
 				tmp.push_back(_tmp);
 			}
 			Game::players = tmp;
@@ -250,8 +254,6 @@ void Game::selectRound()
 			Game::round = 1;
 			Game::tmpRound = 1;
 			Game::allShowOnTheMap();
-			//Game::displayTemplate();
-			//Game::displayMap();
 			Game::InGame();
 		}
 		else if (c == 27) //esc
@@ -1653,6 +1655,8 @@ void Game::useTool()
 
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[0];
 				}
+				Game::showTool();
+				return;
 			}
 			else if (Game::cursorXY.Y == 20) //炸彈
 			{
@@ -1670,6 +1674,8 @@ void Game::useTool()
 
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[1];
 				}
+				Game::showTool();
+				return;
 			}
 			else if (Game::cursorXY.Y == 23) //黑洞傳送器
 			{
@@ -1687,6 +1693,8 @@ void Game::useTool()
 
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[2];
 				}
+				Game::showTool();
+				return;
 			}
 			else //遙控骰子
 			{
@@ -1701,9 +1709,8 @@ void Game::useTool()
 							break;
 						}
 					}
-
-					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[3];
 				}
+				return;
 			}
 		}
 		else
@@ -1812,6 +1819,7 @@ void Game::allShowOnTheMap()
 {
 	Game::displayTemplate();
 	Game::markPlayerAndLocalPosition(Game::players);
+	Game::showTool();
 	Game::showPlayerState();
 	Game::showRound();
 	Game::displayMap();
@@ -2031,6 +2039,50 @@ void Game::blackHole()
 	Sleep(3000);
 	Game::players[Game::playerState].position = 7;
 	Game::allShowOnTheMap();
+}
+
+void Game::showTool()
+{
+	Game::setTextStyle(CYAN, BLACK);
+	for (int i = 0; i < 28; i++)
+	{
+		processMarkToolPosition(i);
+		if (Game::locals[i].tool->id == 1) //路障
+		{
+			cout << "⚐";
+		}
+		else if (Game::locals[i].tool->id == 2) //炸彈
+		{
+			cout << "☢";
+		}
+		else if (Game::locals[i].tool->id == 3) //黑洞傳送器
+		{
+			cout << "✹";
+		}
+		else
+		{
+		}
+	}
+}
+
+void Game::processMarkToolPosition(int localId)
+{
+	if (localId >= 0 && localId <= 7)
+	{
+		Game::setCursorXY(26, 10 + 4 * localId);
+	}
+	else if (localId >= 8 && localId <= 14)
+	{
+		Game::setCursorXY(36 + 10 * (localId - 8), 38);
+	}
+	else if (localId >= 15 && localId <= 21)
+	{
+		Game::setCursorXY(96, 34 - 4 * (localId - 15));
+	}
+	else
+	{
+		Game::setCursorXY(86 - 10 * (localId - 22), 10);
+	}
 }
 
 bool compareInterval(Player p1, Player p2)
