@@ -96,10 +96,10 @@ public:
 	static vector<Player> players;
 	static vector<Local> locals;
 	static vector<Company> companys;
-	static vector<Tool> tools;
+	static vector<Tool*> tools;
 	 
-	static vector<Chance> chances;
-	static vector<Fortune> fortunes;
+	static vector<Chance*> chances;
+	static vector<Fortune*> fortunes;
 
 private:
 	static HANDLE outputHandle;
