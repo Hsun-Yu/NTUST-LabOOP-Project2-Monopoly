@@ -5,17 +5,17 @@ COORD Game::cursorXY;
 
 vector<Local> Game::locals;
 vector<Player> Game::players;
-vector<Chance> Game::chances;
-vector<Fortune> Game::fortunes;
+vector<Chance*> Game::chances;
+vector<Fortune*> Game::fortunes;
 vector<Company> Game::companys;
-vector<Tool> Game::tools;
+vector<Tool*> Game::tools;
 
 Game::Game()
 {
-	tools.push_back(RoadblockTool());
-	tools.push_back(BombTool());
-	tools.push_back(RoadblockTool());
-	tools.push_back(DoubleFeeTool());
+	tools.push_back(new RoadblockTool());
+	tools.push_back(new BombTool());
+	tools.push_back(new RoadblockTool());
+	tools.push_back(new DoubleFeeTool());
 
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -391,6 +391,67 @@ void Game::InGame()
 			{
 				Game::rollDice();
 				Game::moveCharacter();
+
+				vector<string>Board;
+				Board = {
+			" __________ " ,
+			"|          |" ,
+			"|   銀行   |" ,
+			"|__________|",
+				"",
+				"請按 Backspace",
+				"",
+			" __________ " ,
+			"|          |" ,
+			"| 玩家資訊 |" ,
+			"|__________|",
+				"",
+				"  請按 Tab  ",
+				"",
+				" __________ " ,
+			"|          |" ,
+			"|   選單   |" ,
+			"|__________|",
+				"",
+				"  請按 Esc  ",
+				"",
+			" __________ " ,
+			"|          |" ,
+			"|  換人    |" ,
+			"|__________|",
+				"",
+				" 請按 Enter  " };
+				for (int i = 0; i < Board.size(); i++)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(104, 1 + i);
+					cout << Board[i] << endl;
+				}
+
+				while (1)
+				{
+					Game::setCursorXY(109, 24);
+					char c = _getch();
+					if (c == 13) //Enter
+					{
+						Game::changeplayerState();
+						break;
+					}
+					else if (c == 27) //esc
+					{
+						Game::menu();
+					}
+					else if (c == 9) //tab
+					{
+						Game::showPlayerProperty();
+					}
+					else if (c == 8) //backspace
+					{
+						Game::bankMenu();
+					}
+					else
+						continue;
+				}
 				break;
 			}
 			else if (c == 27) //esc
@@ -863,7 +924,7 @@ void Game::processFile(string filename)
 
 
 	//TODO :testing
-	Game::locals[2].tool = new RoadblockTool();
+	//Game::locals[2].tool = new RoadblockTool();
 }
 
 void Game::resetCompanyStock()
@@ -986,7 +1047,7 @@ void Game::menuUp()
 
 void Game::menuDown()
 {
-	if (Game::cursorXY.Y == 26)
+	if (Game::cursorXY.Y == 29)
 	{
 	}
 	else
@@ -1248,13 +1309,13 @@ void Game::upgrate()
 
 void Game::buyTool(int toolId)
 {
-	if (Game::tools[toolId].price > Game::players[Game::playerState].property.money)
+	if (Game::tools[toolId]->price > Game::players[Game::playerState].property.money)
 	{
 		//TODO (Layout):沒有錢了
 	}
 	else
 	{
-		Game::players[Game::playerState].property.money -= Game::tools[toolId].price;
+		Game::players[Game::playerState].property.money -= Game::tools[toolId]->price;
 		Game::players[Game::playerState].property.toolIds.push_back(toolId);
 	}
 }
@@ -1448,18 +1509,21 @@ void Game::bankMenu()
 	"|                |" ,
 	"|     賣股票     |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|     放道具     |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
 	"|    繼續遊戲    |" ,
 	"|＿＿＿＿＿＿＿＿|" };
 
 	Game::setTextStyle(GOLD, BLACK);
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i];
 	}
 	Game::setTextStyle(WHITE, BLACK);
-	for (int i = 4; i < 13; i++)
+	for (int i = 4; i < 16; i++)
 	{
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i] << endl;
@@ -1472,15 +1536,55 @@ void Game::bankMenu()
 		{
 			if (Game::cursorXY.Y == 17) //賣地
 			{
-				//TODO:
+				//TODO:顯示要選什麼地要賣 localId放選擇的
+				int localId = 0;
+
+				Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
+				for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
+				{
+					if (Game::players[Game::playerState].property.localIds[i] == localId)
+					{
+						Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
+						break;
+					}
+				}
 			}
 			else if (Game::cursorXY.Y == 20) //提款
 			{
-				//TODO:
+				//TODO:詢問要提多少 howmush放選擇的
+				int howmush = 0;
+				withdrawal(Game::players[Game::playerState].property, howmush);
 			}
-			else if (Game::cursorXY.Y == 23) //賣股票
+			else if (Game::cursorXY.Y == 23) //放道具
 			{
-				//TODO:
+				//TODO:詢問要放什麼道具 toolId放選擇的
+				int toolId = 0;
+
+				Game::locals[Game::players[Game::playerState].position].tool = Game::tools[toolId];
+
+				for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+				{
+					if (Game::players[Game::playerState].property.toolIds[i] == toolId)
+					{
+						Game::players[Game::playerState].property.toolIds.erase(Game::players[Game::playerState].property.toolIds.begin() + i);
+						break;
+					}
+				}
+			}
+			else if (Game::cursorXY.Y == 26) //賣股票
+			{
+				//TODO:詢問要賣哪個股票 stockId放選擇的
+				int stockId = 0;
+				
+				Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
+				for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
+				{
+					if (Game::players[Game::playerState].property.componyIds[i] == stockId)
+					{
+						Game::players[Game::playerState].property.componyIds.erase(Game::players[Game::playerState].property.componyIds.begin() + i);
+						break;
+					}
+				}
 			}
 			else //繼續遊戲
 			{
