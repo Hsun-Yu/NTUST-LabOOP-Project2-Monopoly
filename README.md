@@ -66,10 +66,11 @@
 - 3 27 30000 -1 22 1 23 1 24 1 25 1 26 1 27 1 -2 01 -3 01 -4 0
 
 - playerstate formate
-- -1=local
+- -1=[id level]local
 - -2=stock
 - -3=tool
 - -4=bank money
+- -5=[loan loanCount]loan
   
 
 
