@@ -2141,7 +2141,7 @@ void Game::showTool()
 		}
 		else if (Game::locals[i].tool->id == 3) //黑洞傳送器
 		{
-			cout << "✹";
+			cout << "♨";
 		}
 		else
 		{
