@@ -17,7 +17,6 @@ public:
 
 	vector<int> toolIds;
 
-
 	int loan = 0;
 	int loanCount = 0;
 

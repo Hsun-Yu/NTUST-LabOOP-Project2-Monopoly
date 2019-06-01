@@ -403,7 +403,8 @@ void Game::InGame()
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
-		if(Game::locals[Game::players[Game::playerState].position].localType == 1)
+		if(Game::locals[Game::players[Game::playerState].position].localType == 1 && 
+			Game::locals[Game::players[Game::playerState].position].tool->id != 0)
 			Game::useToolYesOrNo();
 		while (1)
 		{
@@ -1638,18 +1639,71 @@ void Game::useTool()
 		{
 			if (Game::cursorXY.Y == 17) //路障
 			{
+				if (Game::players[Game::playerState].property.getHowManyTool(1) != 0)
+				{
+					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+					{
+						if (Game::players[Game::playerState].property.toolIds[i] == 1)
+						{
+							Game::players[Game::playerState].property.toolIds.erase(
+								Game::players[Game::playerState].property.toolIds.begin() + i);
+							break;
+						}
+					}
 
+					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[0];
+				}
 			}
 			else if (Game::cursorXY.Y == 20) //炸彈
 			{
+				if (Game::players[Game::playerState].property.getHowManyTool(2) != 0)
+				{
+					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+					{
+						if (Game::players[Game::playerState].property.toolIds[i] == 2)
+						{
+							Game::players[Game::playerState].property.toolIds.erase(
+								Game::players[Game::playerState].property.toolIds.begin() + i);
+							break;
+						}
+					}
+
+					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[1];
+				}
 			}
 			else if (Game::cursorXY.Y == 23) //黑洞傳送器
 			{
+				if (Game::players[Game::playerState].property.getHowManyTool(3) != 0)
+				{
+					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+					{
+						if (Game::players[Game::playerState].property.toolIds[i] == 3)
+						{
+							Game::players[Game::playerState].property.toolIds.erase(
+								Game::players[Game::playerState].property.toolIds.begin() + i);
+							break;
+						}
+					}
 
+					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[2];
+				}
 			}
 			else //遙控骰子
 			{
+				if (Game::players[Game::playerState].property.getHowManyTool(4) != 0)
+				{
+					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+					{
+						if (Game::players[Game::playerState].property.toolIds[i] == 4)
+						{
+							Game::players[Game::playerState].property.toolIds.erase(
+								Game::players[Game::playerState].property.toolIds.begin() + i);
+							break;
+						}
+					}
 
+					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[3];
+				}
 			}
 		}
 		else
@@ -1683,13 +1737,14 @@ void Game::useTool()
 
 void Game::buyTool(int toolId)
 {
-	if (Game::tools[toolId]->price > Game::players[Game::playerState].property.money)
+	if (Game::tools[toolId - 1]->price > Game::players[Game::playerState].property.money)
 	{
 		//TODO (Layout):沒有錢了
+		cout << "你的錢不購，哈哈哈";
 	}
 	else
 	{
-		Game::players[Game::playerState].property.money -= Game::tools[toolId]->price;
+		Game::players[Game::playerState].property.money -= Game::tools[toolId - 1]->price;
 		Game::players[Game::playerState].property.toolIds.push_back(toolId);
 	}
 }
