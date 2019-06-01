@@ -21,7 +21,7 @@ Game::Game()
 
 	Game::tools.push_back(new RoadblockTool());
 	Game::tools.push_back(new BombTool());
-	Game::tools.push_back(new RoadblockTool());
+	Game::tools.push_back(new ToBlackHoleTool());
 	Game::tools.push_back(new ChooseWhereToGoTool());
 
 	Game::fortunes.push_back(new SolarWindFortune());
