@@ -1,7 +1,7 @@
 # NTUST_LabOOP_Project2_Monopoly
 
  ## Distribution
-- [ ]	基本規則(30%)
+- [X]	基本規則(30%)
   見下方(Baserule)
 - [X]	基本地圖(10%)
   顯示地圖(需要完成讀檔功能)
