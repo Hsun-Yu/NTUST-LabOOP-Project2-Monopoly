@@ -1443,18 +1443,19 @@ void Game::bankMenu()
 		{
 			if (Game::cursorXY.Y == 17) //賣地
 			{
-
+				//TODO:
 			}
 			else if (Game::cursorXY.Y == 20) //提款
 			{
+				//TODO:
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
 			{
-
+				//TODO:
 			}
 			else //繼續遊戲
 			{
-				exit(1);
+				//TODO:
 			}
 		}
 		else
