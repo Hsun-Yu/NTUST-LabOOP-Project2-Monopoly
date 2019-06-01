@@ -49,6 +49,7 @@ class ChooseWhereToGoTool : public Tool
 {
 public:
 	ChooseWhereToGoTool();
+	//TODO :詢問想去的位置
 	virtual void method(Player& player);
 };
 

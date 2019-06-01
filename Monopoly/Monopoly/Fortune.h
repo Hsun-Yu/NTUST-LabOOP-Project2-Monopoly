@@ -26,6 +26,7 @@ class DoraemonFortune : public Fortune
 {
 public:
 	DoraemonFortune() :Fortune(2, "遇到多拉A夢，借用任意門到你想去的位置") {}
+	//TODO : 詢問想去的位置
 	virtual void method(Player& player);
 };
 

@@ -28,6 +28,15 @@ Game::Game()
 	Game::fortunes.push_back(new DoraemonFortune());
 	Game::fortunes.push_back(new TimeTunnelFortune());
 	Game::fortunes.push_back(new ChangePropertyFortune());
+	
+	Game::companys.push_back(CompanyA());
+	Game::companys.push_back(CompanyB());
+	Game::companys.push_back(CompanyC());
+	Game::companys.push_back(CompanyD());
+
+	Game::chances.push_back(new GetStockChance());
+	Game::chances.push_back(new GetMoneyChance());
+	Game::chances.push_back(new StopChance());
 
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -796,11 +805,21 @@ void Game::moveCharacter()
 
 		Game::allShowOnTheMap();
 		Game::diceNumber = 0;
-		Game::moveCharacter();
+		if(localId != Game::players[Game::playerState].position)
+			Game::moveCharacter();
 	}
 	else if (Game::locals[localId].localType == -2) //機會	
 	{
+		srand(time(NULL));
+		int r = rand() % Game::chances.size();
+		cout << Game::chances[r]->name;
+		Sleep(5000);
+		Game::chances[r]->method(Game::players[Game::playerState]);
 
+		Game::allShowOnTheMap();
+		Game::diceNumber = 0;
+		if (localId != Game::players[Game::playerState].position)
+			Game::moveCharacter();
 	}
 	else if (Game::locals[localId].localType == -3) //白洞
 	{
@@ -1824,4 +1843,12 @@ void ChangePropertyFortune::method(Player& player)
 	Game::players[whoId].property = p;
 
 	cout << "你與P" << whoId << "交換了錢包" << endl;
+	Sleep(5000);
+}
+
+void GetStockChance::method(Player& player)
+{
+	srand(time(NULL));
+	int companysId = rand() % Game::companys.size();
+	player.property.componyIds.push_back(companysId);
 }
