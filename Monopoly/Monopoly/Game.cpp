@@ -391,6 +391,67 @@ void Game::InGame()
 			{
 				Game::rollDice();
 				Game::moveCharacter();
+
+				vector<string>Board;
+				Board = {
+			" __________ " ,
+			"|          |" ,
+			"|   銀行   |" ,
+			"|__________|",
+				"",
+				"請按 Backspace",
+				"",
+			" __________ " ,
+			"|          |" ,
+			"| 玩家資訊 |" ,
+			"|__________|",
+				"",
+				"  請按 Tab  ",
+				"",
+				" __________ " ,
+			"|          |" ,
+			"|   選單   |" ,
+			"|__________|",
+				"",
+				"  請按 Esc  ",
+				"",
+			" __________ " ,
+			"|          |" ,
+			"|  換人    |" ,
+			"|__________|",
+				"",
+				" 請按 Enter  " };
+				for (int i = 0; i < Board.size(); i++)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(104, 1 + i);
+					cout << Board[i] << endl;
+				}
+
+				while (1)
+				{
+					Game::setCursorXY(109, 24);
+					char c = _getch();
+					if (c == 13) //Enter
+					{
+						Game::changeplayerState();
+						break;
+					}
+					else if (c == 27) //esc
+					{
+						Game::menu();
+					}
+					else if (c == 9) //tab
+					{
+						Game::showPlayerProperty();
+					}
+					else if (c == 8) //backspace
+					{
+						Game::bankMenu();
+					}
+					else
+						continue;
+				}
 				break;
 			}
 			else if (c == 27) //esc
@@ -834,7 +895,7 @@ void Game::processFile(string filename)
 
 
 	//TODO :testing
-	Game::locals[2].tool = new RoadblockTool();
+	//Game::locals[2].tool = new RoadblockTool();
 }
 
 void Game::resetCompanyStock()
