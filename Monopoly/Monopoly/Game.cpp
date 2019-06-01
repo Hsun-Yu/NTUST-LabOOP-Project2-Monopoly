@@ -403,8 +403,12 @@ void Game::InGame()
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
+
+		int toolCount = 0;
+		for (int i = 1; i <= Game::tools.size(); i++)
+			toolCount += Game::players[Game::playerState].property.getHowManyTool(i);
 		if(Game::locals[Game::players[Game::playerState].position].localType == 1 && 
-			Game::locals[Game::players[Game::playerState].position].tool->id != 0)
+			Game::locals[Game::players[Game::playerState].position].tool->id != 0 && toolCount != 0)
 			Game::useToolYesOrNo();
 		while (1)
 		{
@@ -669,6 +673,12 @@ void Game::showDice()
 
 void Game::moveCharacter()
 {
+	if (Game::players[playerState].inBlack && diceNumber < 5)
+	{
+
+		return;
+	}
+
 	Game::deleteBeforePlace();
 	Game::players[playerState].goPosition(diceNumber);
 	Game::changeRound();
@@ -935,41 +945,41 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
-	vector<string> Board;
-	Game::setTextStyle(WHITE, BLACK);
-	Board = {
-		" _________________ " ,
-	"|                 |" ,
-	"|    你走到了     |" ,
-	"|                 |" ,
-	"|  ＜  黑洞  ＞   |" ,
-	"|＿＿＿＿＿＿＿＿_|"
-	};
-	vector<string> BlackHoleBoard;
-	BlackHoleBoard = {
-	" ____________________________________________" ,
-"|                                            |" ,
-"|                                            |" ,
-"|                                            |" ,
-"|                                            |" ,
-"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
-	};
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setCursorXY(50, 16 + i);
-		cout << Board[i];
-	}
-	for (int i = 0; i < BlackHoleBoard.size(); i++)
-	{
-		Game::setCursorXY(38, 22 + i);
-		cout << BlackHoleBoard[i];
-	}
-	Game::setTextStyle(GOLD, BLACK);
-	Game::setCursorXY(60, 24);
-	cout << "被神秘的力量吸到白洞";
-	Game::setCursorXY(60, 25);
-	cout << "下一回合需要骰到五、六點才能出來",
-	Game::blackHole();
+		vector<string> Board;
+		Game::setTextStyle(WHITE, BLACK);
+		Board = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你走到了     |" ,
+		"|                 |" ,
+		"|  ＜  黑洞  ＞   |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
+		vector<string> BlackHoleBoard;
+		BlackHoleBoard = {
+		" ____________________________________________" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+		};
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
+		for (int i = 0; i < BlackHoleBoard.size(); i++)
+		{
+			Game::setCursorXY(38, 22 + i);
+			cout << BlackHoleBoard[i];
+		}
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(60, 24);
+		cout << "被神秘的力量吸到白洞";
+		Game::setCursorXY(60, 25);
+		cout << "下一回合需要骰到五、六點才能出來",
+		Game::blackHole();
 	}
 }
 
@@ -2030,6 +2040,7 @@ void Game::blackHole()
 {
 	Sleep(3000);
 	Game::players[Game::playerState].position = 7;
+	Game::players[Game::playerState].inBlack = true;
 	Game::allShowOnTheMap();
 }
 
@@ -2162,40 +2173,3 @@ void Game::displayMap()
 	}
 }
 
-
-
-
-
-
-/*======================================================================================================*/
-/*===========================================Other Class function=======================================*/
-int Property::getAllProperty()
-{
-	int property = Property::money + Property::bankMoney;
-	for (int i = 0; i < Property::localIds.size(); i++)
-		property += (Game::locals[Property::localIds[i]].priceOfLevel[0]);
-
-	return property;
-}
-
-void ChangePropertyFortune::method(Player& player)
-{
-	srand(time(NULL));
-	int whoId = rand() % Game::players.size();
-	while(whoId == player.Id)
-		whoId = rand() % Game::players.size();
-	Property p = player.property;
-	player.property = Game::players[whoId].property;
-	Game::players[whoId].property = p;
-
-	Game::setCursorXY(52, 25);
-	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
-	Sleep(5000);
-}
-
-void GetStockChance::method(Player& player)
-{
-	srand(time(NULL));
-	int companysId = rand() % Game::companys.size();
-	player.property.componyIds.push_back(companysId);
-}

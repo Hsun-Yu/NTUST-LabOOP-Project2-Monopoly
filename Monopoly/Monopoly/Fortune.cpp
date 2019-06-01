@@ -32,3 +32,18 @@ void TimeTunnelFortune::method(Player& player)
 	player.position = rand() % 28;
 	cout << "你被傳送到了位置" << player.position << endl;
 }
+
+void ChangePropertyFortune::method(Player& player)
+{
+	srand(time(NULL));
+	int whoId = rand() % Game::players.size();
+	while (whoId == player.Id)
+		whoId = rand() % Game::players.size();
+	Property p = player.property;
+	player.property = Game::players[whoId].property;
+	Game::players[whoId].property = p;
+
+	Game::setCursorXY(52, 25);
+	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
+	Sleep(5000);
+}
