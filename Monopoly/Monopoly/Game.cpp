@@ -668,18 +668,6 @@ void Game::moveCharacter()
 
 		localId = Game::players[playerState].position;
 
-		//Get fee or buy local
-		if (!Game::players[playerState].property.isMyLocal(localId))
-		{
-			Game::getFee();
-		}
-		else
-		{
-			Game::upgrate();
-			if (Game::locals[localId].level < 5)
-				Game::locals[localId].level++;
-		}
-
 		if (Game::locals[localId].level == 0)
 		{
 			if (Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
@@ -741,7 +729,6 @@ void Game::moveCharacter()
 				}
 			}
 		}
-
 		else //Get fee or upgrate
 		{
 			if (!Game::players[playerState].property.isMyLocal(localId)) //Get fee
@@ -783,8 +770,6 @@ void Game::moveCharacter()
 			else
 			{
 				Game::upgrate();
-				if (Game::locals[localId].level < 5)
-					Game::locals[localId].level++;
 			}
 		}
 	}
@@ -1316,6 +1301,8 @@ void Game::getFee()
 
 void Game::upgrate()
 {
+	if (Game::locals[Game::players[Game::playerState].position].level < 5)
+		Game::locals[Game::players[Game::playerState].position].level++;
 }
 
 void Game::buyTool(int toolId)
