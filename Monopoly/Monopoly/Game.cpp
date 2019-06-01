@@ -12,10 +12,22 @@ vector<Tool*> Game::tools;
 
 Game::Game()
 {
-	tools.push_back(new RoadblockTool());
-	tools.push_back(new BombTool());
-	tools.push_back(new RoadblockTool());
-	tools.push_back(new ChooseWhereToGoTool());
+	Game::players.clear();
+	Game::chances.clear();
+	Game::fortunes.clear();
+	Game::companys.clear();
+	Game::tools.clear();
+	Game::locals.clear();
+
+	Game::tools.push_back(new RoadblockTool());
+	Game::tools.push_back(new BombTool());
+	Game::tools.push_back(new RoadblockTool());
+	Game::tools.push_back(new ChooseWhereToGoTool());
+
+	Game::fortunes.push_back(new SolarWindFortune());
+	Game::fortunes.push_back(new DoraemonFortune());
+	Game::fortunes.push_back(new TimeTunnelFortune());
+	Game::fortunes.push_back(new ChangePropertyFortune());
 
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -647,15 +659,18 @@ void Game::showDice()
 void Game::moveCharacter()
 {
 	Game::deleteBeforePlace();
-	int moveToWhere = Game::players[playerState].position + diceNumber;
-	if(moveToWhere <= 27)
-		Game::players[playerState].position = moveToWhere;
-	else
-		Game::players[playerState].position = moveToWhere - 28;
+	Game::players[playerState].goPosition(diceNumber);
 
+	//int moveToWhere = Game::players[playerState].position + diceNumber;
+	//if(moveToWhere <= 27)
+	//	Game::players[playerState].position = moveToWhere;
+	//else
+	//	Game::players[playerState].position = moveToWhere - 28;
+	
 	//Game::allShowOnTheMap();
 	Game::changeRound();
 	int localId = Game::players[playerState].position;
+	Game::allShowOnTheMap();
 
 	if (Game::locals[localId].localType == 1)
 	{
@@ -720,7 +735,6 @@ void Game::moveCharacter()
 					char c = _getch();
 					if (c == 13) //Enter
 					{
-						Game::allShowOnTheMap();
 						return;
 					}
 					else
@@ -774,15 +788,23 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -1) //命運
 	{
-		
+		srand(time(NULL));
+		int r = rand() % Game::fortunes.size();
+		cout << Game::fortunes[r]->name;
+		Sleep(5000);
+		Game::fortunes[r]->method(Game::players[Game::playerState]);
+
+		Game::allShowOnTheMap();
+		Game::diceNumber = 0;
+		Game::moveCharacter();
 	}
 	else if (Game::locals[localId].localType == -2) //機會	
 	{
-		//TODO 可能不用東西?
+
 	}
 	else if (Game::locals[localId].localType == -3) //白洞
 	{
-		
+		//TODO 可能不用東西?
 	}
 	else if (Game::locals[localId].localType == -4) //太空站
 	{
@@ -1788,4 +1810,18 @@ void DoubleFeeTool::method(Player& player)
 		if(Game::players[i].property.isMyLocal(player.position))
 			Game::players[i].property.money += Game::locals[player.position].getNowPriceOfLevel();
 	}
+}
+
+
+void ChangePropertyFortune::method(Player& player)
+{
+	srand(time(NULL));
+	int whoId = rand() % Game::players.size();
+	while(whoId == player.Id)
+		whoId = rand() % Game::players.size();
+	Property p = player.property;
+	player.property = Game::players[whoId].property;
+	Game::players[whoId].property = p;
+
+	cout << "你與P" << whoId << "交換了錢包" << endl;
 }

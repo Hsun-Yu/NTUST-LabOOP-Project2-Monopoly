@@ -23,3 +23,13 @@ void Player::checkAlive()
 		alive = false;
 }
 
+void Player::goPosition(int number)
+{
+	Player::position += number;
+	if (Player::position > 27)
+	{
+		Player::position %= 28;
+		Player::property.money += 5000;
+	}
+}
+

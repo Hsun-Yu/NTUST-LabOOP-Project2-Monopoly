@@ -18,4 +18,5 @@ public:
 
 	void finishARound();
 	void checkAlive();
+	void goPosition(int number);
 };
