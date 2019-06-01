@@ -2068,9 +2068,56 @@ void Game::bankMenu()
 			else if (Game::cursorXY.Y == 23) //賣股票
 			{
 				//TODO:詢問要賣哪個股票 stockId放選擇的
-				if (Game::players[Game::playerState].property.componyIds.size() != 0)
+				Game::players[Game::playerState].property.componyIds.push_back(1); //For test
+
+				if (Game::players[Game::playerState].property.componyIds.size() != 0 || 1==1)
 				{
-					int stockId = 0;
+					int stockId = Game::players[Game::playerState].property.componyIds[0];
+
+					vector<string> selectCompanyBoard;
+					selectCompanyBoard = {
+						" ________________ " ,
+						"|                |" ,
+						"|    選擇公司    |" ,
+						"|________________|" ,
+						"|                |" ,
+						"| ＜    １    ＞ |" ,
+						"|________________|" };
+
+					for (int i = 0; i < selectCompanyBoard.size(); i++)
+					{
+						Game::setTextStyle(CYAN, BLACK);
+						Game::setCursorXY(51, 21 + i);
+						cout << selectCompanyBoard[i] << endl;
+					}
+					Game::setCursorXY(56, 26);
+					cout << Company::getNameById(Game::companys, stockId);
+
+					while (1)
+					{
+						Game::setCursorXY(56, 26);
+						char c = _getch();
+						if (c == 13)
+						{
+							break;
+						}
+						else
+						{
+							switch (c)
+							{
+							case 75: 
+								//TODO: 我明天做 切換公司
+
+								break;
+							case 77:
+
+								break;
+							default:
+								break;
+							}
+						}
+					}
+
 
 					Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
 					for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)

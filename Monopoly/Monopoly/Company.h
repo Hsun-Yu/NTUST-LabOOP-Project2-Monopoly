@@ -15,7 +15,7 @@ public:
 	int Id;
 	string name;
 	int stockPrice;
-
+	static string getNameById(const vector<Company>&, int);
 };
 
 class CompanyA : public Company
