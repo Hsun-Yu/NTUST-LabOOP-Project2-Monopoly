@@ -595,87 +595,97 @@ void Game::moveCharacter()
 	Game::changeRound();
 	int localId = Game::players[playerState].position;
 
-	//Do something if has tool
-	Game::locals[localId].tool->method(Game::players[playerState]);
-	Game::locals[localId].setToDefaultTool();
-
-	//get fee or upgrade
-	if (Game::locals[localId].level == 0 && Game::locals[localId].localType == 1)
+	if (Game::locals[localId].localType == 1)
 	{
-		if(Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
-			Game::buyLocal();
-		else
+		if (Game::locals[localId].tool->id != 0)
 		{
-			vector<string>Board;
-			Board = {
-		" _________________ " ,
-		"|                 |" ,
-		"|    你走到了     |" ,
-		"|                 |" ,
-		"| ＜     　   ＞  |" ,
-		"|                 |" ,
-		"|你沒有錢 可以購買|" ,
-		"|                 |" ,
-		"|＿＿＿＿＿＿＿＿_|" ,
-		"|                 |" ,
-		"|      確 定      |" ,
-		"|＿＿＿＿＿＿＿＿_|" ,
-			};
-			for (int i = 0; i < 8; i++)
-			{
-				Game::setCursorXY(50, 16 + i);
-				cout << Board[i];
-			}
-			Game::setTextStyle(GOLD, BLACK);
-			for (int i = 8; i < Board.size(); i++)
-			{
-				Game::setCursorXY(50, 16 + i);
-				cout << Board[i];
-			}
-			Game::setTextStyle(WHITE, BLACK);
-			if (Game::locals[localId].name.size() < 8)
-			{
-				Game::setCursorXY(57, 20);
-				cout << Game::locals[localId].name;
-			}
+			//Do something if has tool
+			Game::locals[localId].tool->method(Game::players[playerState]);
+			Game::locals[localId].setToDefaultTool();
+		}
+
+		localId = Game::players[playerState].position;
+		if (Game::locals[localId].level == 0)
+		{
+			if (Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
+				Game::buyLocal();
 			else
 			{
-				Game::setCursorXY(56, 20);
-				cout << Game::locals[localId].name;
-			}
-			while (1)
-			{
-				Game::setCursorXY(59, 26);
-				char c = _getch();
-				if (c == 13) //Enter
+				vector<string>Board;
+				Board = {
+			" _________________ " ,
+			"|                 |" ,
+			"|    你走到了     |" ,
+			"|                 |" ,
+			"| ＜     　   ＞  |" ,
+			"|                 |" ,
+			"|你沒有錢 可以購買|" ,
+			"|                 |" ,
+			"|＿＿＿＿＿＿＿＿_|" ,
+			"|                 |" ,
+			"|      確 定      |" ,
+			"|＿＿＿＿＿＿＿＿_|" ,
+				};
+				for (int i = 0; i < 8; i++)
 				{
-					Game::changeplayerState();
-					Game::allShowOnTheMap();
-					//Game::displayTemplate();
-					//Game::showDice();
-					//Game::InGame();
-					return;
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 8; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setTextStyle(WHITE, BLACK);
+				if (Game::locals[localId].name.size() < 8)
+				{
+					Game::setCursorXY(57, 20);
+					cout << Game::locals[localId].name;
 				}
 				else
-					continue;
+				{
+					Game::setCursorXY(56, 20);
+					cout << Game::locals[localId].name;
+				}
+				while (1)
+				{
+					Game::setCursorXY(59, 26);
+					char c = _getch();
+					if (c == 13) //Enter
+					{
+						//Game::changeplayerState();
+						Game::allShowOnTheMap();
+						//Game::displayTemplate();
+						//Game::showDice();
+						//Game::InGame();
+						return;
+					}
+					else
+						continue;
+				}
 			}
 		}
-	}
-	else
-	{
+
+		//Get fee or buy local
 		if (!Game::players[playerState].property.isMyLocal(localId) && Game::locals[localId].level != 0)
 		{
 			Game::getFee();
-			Game::changeplayerState();
+
 		}
 		else
 		{
 			Game::upgrate();
 			if (Game::locals[localId].level < 5)
 				Game::locals[localId].level++;
-			Game::changeplayerState();
 		}
+
+		//TODO:
+		//Game::changeplayerState();
 	}
+
+
+	
 }
 
 void Game::changeplayerState()
