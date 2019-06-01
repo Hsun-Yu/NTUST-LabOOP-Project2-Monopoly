@@ -78,6 +78,8 @@ public:
 	void buyLocal();
 	void getFee();
 	void upgrate();
+	void useToolYesOrNo();
+	void useTool();
 	void buyTool(int toolId);
 	void choiceLeft();
 	void choiceRight();

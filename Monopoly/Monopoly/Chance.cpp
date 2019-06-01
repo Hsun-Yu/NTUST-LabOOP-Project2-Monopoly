@@ -7,12 +7,12 @@ Chance::~Chance()
 
 void GetMoneyChance::method(Player& player)
 {
-	player.property.money += 20000;
+	player.property.money += 10000;
 }
 
 void StopChance::method(Player& player)
 {
-	player.stop += 2;
+	player.stop += 1;
 }
 
 void GetStockChance::method(Player& player)

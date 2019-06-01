@@ -25,7 +25,7 @@ Game::Game()
 	Game::tools.push_back(new ChooseWhereToGoTool());
 
 	Game::fortunes.push_back(new SolarWindFortune());
-	Game::fortunes.push_back(new DoraemonFortune());
+	Game::fortunes.push_back(new BackToEarthFortune());
 	Game::fortunes.push_back(new TimeTunnelFortune());
 	Game::fortunes.push_back(new ChangePropertyFortune());
 	
@@ -403,7 +403,7 @@ void Game::InGame()
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
-
+		Game::useToolYesOrNo();
 		while (1)
 		{
 			Game::setCursorXY(109, 24);
@@ -1447,6 +1447,101 @@ void Game::upgrate()
 		Game::locals[Game::players[Game::playerState].position].level++;
 }
 
+void Game::useToolYesOrNo()
+{
+	vector<string> Board;
+	Board = {
+" _________________ " ,
+"|                 |" ,
+"|    現在位置     |" ,
+"|                 |" ,
+"| ＜     　   ＞  |" ,
+"|                 |" ,
+"|                 |" ,
+"|  要使用道具嗎   |" ,
+"|＿＿＿＿＿＿＿＿_|" ,
+	"|        |        |",
+	"|   是   |   否   |" ,
+	"|＿＿＿＿|＿＿＿＿|"
+	};
+	vector<string> Yes;
+	Yes = {
+	"|＿＿＿＿",
+	"|        |",
+	"|   是   |",
+	"|＿＿＿＿|"
+	};
+	vector<string> No;
+	No = {
+"＿＿＿＿_|",
+ "|        |",
+ "|   否   |" ,
+"|＿＿＿＿|"
+	};
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
+	int localId = Game::players[playerState].position;
+	if (Game::locals[localId].name.size() < 8)
+	{
+		Game::setCursorXY(57, 20);
+		cout << Game::locals[localId].name;
+	}
+	else
+	{
+		Game::setCursorXY(56, 20);
+		cout << Game::locals[localId].name;
+	}
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < Yes.size(); i++)
+	{
+		Game::setCursorXY(50, 24 + i);
+		cout << Yes[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	Game::setCursorXY(54, 26);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.X == 54) //Yes
+			{
+				Game::useTool();
+			}
+			else//No
+			{
+				Game::allShowOnTheMap();
+				return;
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75://左
+				Game::choiceLeft();
+				Game::showChoice(Yes, No);
+				break;
+			case 77://右
+				Game::choiceRight();
+				Game::showChoice(Yes, No);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::useTool()
+{
+	//TODO:
+}
+
 void Game::buyTool(int toolId)
 {
 	if (Game::tools[toolId]->price > Game::players[Game::playerState].property.money)
@@ -1854,7 +1949,7 @@ void Game::displayMap()
 		Game::setCursorXY(23 + i * 20, 3);
 		cout << "＄" << Game::players[i].property.money;
 		if (Game::players[i].stop > 0)
-			cout << " Stop☕*" << Game::players[i].stop;
+			cout << " Stop *" << Game::players[i].stop;
 	}
 
 	for (int i = 0; i < 8; i++)

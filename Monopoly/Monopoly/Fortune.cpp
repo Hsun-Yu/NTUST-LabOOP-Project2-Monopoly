@@ -21,7 +21,7 @@ void SolarWindFortune::method(Player& player)
 	player.position -= 3;
 }
 
-void DoraemonFortune::method(Player& player)
+void BackToEarthFortune::method(Player& player)
 {
 	player.position = 0;
 }
