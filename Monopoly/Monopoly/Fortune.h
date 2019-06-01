@@ -25,8 +25,7 @@ public:
 class DoraemonFortune : public Fortune
 {
 public:
-	DoraemonFortune() :Fortune(2, "遇到多啦A夢，借用任意門到你想去的位置") {}
-	//TODO : 詢問想去的位置
+	DoraemonFortune() :Fortune(2, "突發狀況！！遭受外星人飛船攻擊，趕快回地球") {}
 	virtual void method(Player& player);
 };
 

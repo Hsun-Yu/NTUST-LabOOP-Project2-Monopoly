@@ -24,11 +24,7 @@ void SolarWindFortune::method(Player& player)
 
 void DoraemonFortune::method(Player& player)
 {
-	int position;
-	system("cls");
-	cout << "請輸入你想去哪" << endl;
-	cin >> position;
-	player.position = position;
+	player.position = 0;
 }
 
 void TimeTunnelFortune::method(Player& player)

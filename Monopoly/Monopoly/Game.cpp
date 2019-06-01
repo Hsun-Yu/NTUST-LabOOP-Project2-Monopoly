@@ -805,15 +805,16 @@ void Game::moveCharacter()
 		Game::setCursorXY(50, 16 + i);
 		cout << Board[i];
 	}
+	Sleep(1000);
 		srand(time(NULL));
 		int r = rand() % Game::fortunes.size();
 		vector<string> FortuneBoard;
 		FortuneBoard = {
-		" ___________________________________________" ,
-	"|                                          |" ,
-	"|                                          |" ,
-	"|                                          |" ,
-	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+		" ____________________________________________" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
 		};
 		for (int i = 0; i < FortuneBoard.size(); i++)
 		{
@@ -853,11 +854,11 @@ void Game::moveCharacter()
 		int r = rand() % Game::chances.size();
 		vector<string> ChanceBoard;
 		ChanceBoard = {
-		" ___________________________________________" ,
-	"|                                          |" ,
-	"|                                          |" ,
-	"|                                          |" ,
-	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+		" ____________________________________________" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|                                            |" ,
+	"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
 		};
 		for (int i = 0; i < ChanceBoard.size(); i++)
 		{
@@ -876,17 +877,41 @@ void Game::moveCharacter()
 		if (localId != Game::players[Game::playerState].position)
 			Game::moveCharacter();
 	}
-	else if (Game::locals[localId].localType == -3) //白洞
-	{
-		//TODO 可能不用東西?
-	}
 	else if (Game::locals[localId].localType == -4) //太空站
 	{
-		
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" _________________ " ,
+	"|                 |" ,
+	"|    你走到了     |" ,
+	"|                 |" ,
+	"|  ＜ 太空站 ＞   |" ,
+	"|＿＿＿＿＿＿＿＿_|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
-		
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" _________________ " ,
+	"|                 |" ,
+	"|    你走到了     |" ,
+	"|                 |" ,
+	"|  ＜  黑洞  ＞   |" ,
+	"|＿＿＿＿＿＿＿＿_|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(50, 16 + i);
+		cout << Board[i];
+	}
 	}
 }
 
