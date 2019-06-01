@@ -228,8 +228,9 @@ void Game::selectRound()
 			Game::playerState = 0;
 			Game::round = 1;
 			Game::tmpRound = 1;
-			Game::displayTemplate();
-			Game::displayMap();
+			Game::allShowOnTheMap();
+			//Game::displayTemplate();
+			//Game::displayMap();
 			Game::InGame();
 		}
 		else if (c == 27) //esc
@@ -310,8 +311,9 @@ void Game::loadGame()
 			Game::processFile(allFileName[index]);
 			Game::round = 1;
 			Game::tmpRound = 1;
-			Game::displayTemplate();
-			Game::displayMap();
+			Game::allShowOnTheMap();
+			/*Game::displayTemplate();
+			Game::displayMap();*/
 			Game::InGame();
 		}
 		else if (c == 27) //esc
@@ -672,7 +674,8 @@ void Game::moveCharacter()
 				if (c == 13) //Enter
 				{
 					Game::changeplayerState();
-					Game::displayTemplate();
+					Game::allShowOnTheMap();
+					//Game::displayTemplate();
 					Game::showDice();
 					Game::InGame();
 				}
@@ -717,8 +720,9 @@ void Game::changeRound()
 		for(int i = 0; i < Game::players.size(); i++)
 			Game::players[i].finishARound();
 		Game::round++;
-		Game::displayTemplate();
-		Game::displayMap();
+		Game::allShowOnTheMap();
+		//Game::displayTemplate();
+		//Game::displayMap();
 	}
 	Game::tmpRound++;
 }
@@ -890,7 +894,8 @@ void Game::menu()
 		{
 			if (Game::cursorXY.Y == 17) //繼續遊戲
 			{
-				Game::displayTemplate();
+				//Game::displayTemplate();
+				Game::allShowOnTheMap();
 				Game::showDice();
 				Game::InGame();
 			}
@@ -1087,7 +1092,8 @@ void Game::showPlayerProperty()
 		char c = _getch();
 		if (c == 27) //Esc
 		{
-			Game::displayTemplate();
+			//Game::displayTemplate();
+			Game::allShowOnTheMap();
 			Game::showDice();
 			Game::InGame();
 		}
@@ -1167,14 +1173,16 @@ void Game::buyLocal()
 				Game::players[playerState].property.money -= locals[localId].getNowPriceOfLevel();
 				Game::locals[localId].level++;
 				Game::changeplayerState();
-				Game::displayTemplate();
+				Game::allShowOnTheMap();
+				//Game::displayTemplate();
 				Game::showDice();
 				Game::InGame();
 			}
 			else//No
 			{
 				Game::changeplayerState();
-				Game::displayTemplate();
+				Game::allShowOnTheMap();
+				//Game::displayTemplate();
 				Game::showDice();
 				Game::InGame();
 			}
@@ -1293,6 +1301,7 @@ void Game::showChoice( vector<string> Yes, vector<string> No)
 
 void Game::allShowOnTheMap()
 {
+	Game::displayTemplate();
 	Game::markPlayerAndLocalPosition(Game::players);
 	Game::showPlayerState();
 	Game::showRound();
@@ -1363,7 +1372,8 @@ void Game::saveGame()
 		cout << Board[i];
 	}
 	Sleep(3000);
-	Game::displayTemplate();
+	//Game::displayTemplate();
+	Game::allShowOnTheMap();
 	Game::showDice();
 	Game::InGame();
 }
