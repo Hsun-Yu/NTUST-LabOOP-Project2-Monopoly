@@ -403,7 +403,8 @@ void Game::InGame()
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
-		Game::useToolYesOrNo();
+		if(Game::locals[Game::players[Game::playerState].position].localType == 1)
+			Game::useToolYesOrNo();
 		while (1)
 		{
 			Game::setCursorXY(109, 24);
@@ -784,6 +785,42 @@ void Game::moveCharacter()
 			}
 			else
 			{
+				vector<string> UpgradeBoard;
+				UpgradeBoard = {
+				" _________________ " ,
+				"|                 |" ,
+				"|你走到了 自己的地|" ,
+				"|                 |" ,
+				"| ＜     　   ＞  |" ,
+				"|                 |" ,
+				"|  房產等級提升 ！|" ,
+				"|                 |" ,
+				"|                 |" ,
+				"|＿＿＿＿＿＿＿＿_|"
+				};
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 0; i < UpgradeBoard.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << UpgradeBoard[i];
+				}
+				if (Game::locals[localId].name.size() < 8)
+				{
+					Game::setCursorXY(57, 20);
+					cout << Game::locals[localId].name;
+				}
+				else
+				{
+					Game::setCursorXY(56, 20);
+					cout << Game::locals[localId].name;
+				}
+				int nowLevel = Game::locals[Game::players[Game::playerState].position].level;
+				if (nowLevel < 5)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(60, 23);
+					cout << nowLevel << "→" << nowLevel + 1;
+				}
 				Game::upgrate();
 			}
 		}
@@ -907,11 +944,31 @@ void Game::moveCharacter()
 	"|  ＜  黑洞  ＞   |" ,
 	"|＿＿＿＿＿＿＿＿_|"
 	};
+	vector<string> BlackHoleBoard;
+	BlackHoleBoard = {
+	" ____________________________________________" ,
+"|                                            |" ,
+"|                                            |" ,
+"|                                            |" ,
+"|                                            |" ,
+"|＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿|"
+	};
 	for (int i = 0; i < Board.size(); i++)
 	{
 		Game::setCursorXY(50, 16 + i);
 		cout << Board[i];
 	}
+	for (int i = 0; i < BlackHoleBoard.size(); i++)
+	{
+		Game::setCursorXY(38, 22 + i);
+		cout << BlackHoleBoard[i];
+	}
+	Game::setTextStyle(GOLD, BLACK);
+	Game::setCursorXY(60, 24);
+	cout << "被神秘的力量吸到白洞";
+	Game::setCursorXY(60, 25);
+	cout << "下一回合需要骰到五、六點才能出來",
+	Game::blackHole();
 	}
 }
 
@@ -1234,7 +1291,7 @@ void Game::showPlayerProperty()
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　    路障 x　　　 　   　 炸彈 x                 ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　    黑洞傳送器 x　　     過路費加倍券 x　       ｜",
+		"｜　    黑洞傳送器 x　　     遙控骰子 x　           ｜",
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　股票　　　　 　   　　　                        ｜",
 		"｜　　　　　 　   　　　                            ｜",
@@ -1280,13 +1337,13 @@ void Game::showPlayerProperty()
 	Game::setCursorXY(48, 27);
 	cout << Game::players[Game::playerState].property.getHowManyTool(1);
 
-	Game::setCursorXY(68, 27);
+	Game::setCursorXY(69, 27);
 	cout << Game::players[Game::playerState].property.getHowManyTool(2);
 
 	Game::setCursorXY(54, 29);
 	cout << Game::players[Game::playerState].property.getHowManyTool(3);
 
-	Game::setCursorXY(76, 29);
+	Game::setCursorXY(73, 29);
 	cout << Game::players[Game::playerState].property.getHowManyTool(4);
 
 	for (int i = 0, x = 46; i < 4; i++)
@@ -1459,7 +1516,7 @@ void Game::useToolYesOrNo()
 "|                 |" ,
 "|                 |" ,
 "|  要使用道具嗎   |" ,
-"|＿＿＿＿＿＿＿＿_|" ,
+"|＿＿＿＿＿＿＿＿|" ,
 	"|        |        |",
 	"|   是   |   否   |" ,
 	"|＿＿＿＿|＿＿＿＿|"
@@ -1539,7 +1596,84 @@ void Game::useToolYesOrNo()
 
 void Game::useTool()
 {
-	//TODO:
+	int toolId = 0;
+	Game::allShowOnTheMap();
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|      路障      |",
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"|      炸彈      |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|   黑洞傳送器   |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"|    遙控骰子    |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < 13; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(59, 17);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 17) //路障
+			{
+
+			}
+			else if (Game::cursorXY.Y == 20) //炸彈
+			{
+			}
+			else if (Game::cursorXY.Y == 23) //黑洞傳送器
+			{
+
+			}
+			else //遙控骰子
+			{
+
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				Game::menuUp();
+				Game::showMenuOption(option);
+				break;
+			case 80://下
+				Game::menuDown();
+				Game::showMenuOption(option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	Game::locals[Game::players[Game::playerState].position].tool = Game::tools[toolId];
+
+	for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+	{
+		if (Game::players[Game::playerState].property.toolIds[i] == toolId)
+		{
+			Game::players[Game::playerState].property.toolIds.erase(Game::players[Game::playerState].property.toolIds.begin() + i);
+			break;
+		}
+	}
 }
 
 void Game::buyTool(int toolId)
@@ -1786,23 +1920,7 @@ void Game::bankMenu()
 				int howmush = 0;
 				withdrawal(Game::players[Game::playerState].property, howmush);
 			}
-			else if (Game::cursorXY.Y == 23) //放道具
-			{
-				//TODO:詢問要放什麼道具 toolId放選擇的
-				int toolId = 0;
-
-				Game::locals[Game::players[Game::playerState].position].tool = Game::tools[toolId];
-
-				for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
-				{
-					if (Game::players[Game::playerState].property.toolIds[i] == toolId)
-					{
-						Game::players[Game::playerState].property.toolIds.erase(Game::players[Game::playerState].property.toolIds.begin() + i);
-						break;
-					}
-				}
-			}
-			else if (Game::cursorXY.Y == 26) //賣股票
+			else if (Game::cursorXY.Y == 23) //賣股票
 			{
 				//TODO:詢問要賣哪個股票 stockId放選擇的
 				int stockId = 0;
@@ -1819,7 +1937,8 @@ void Game::bankMenu()
 			}
 			else //繼續遊戲
 			{
-				//TODO:
+				Game::allShowOnTheMap();
+				Game::InGame();
 			}
 		}
 		else
@@ -1844,6 +1963,13 @@ void Game::bankMenu()
 void Game::sellLocal()
 {
 	
+}
+
+void Game::blackHole()
+{
+	Sleep(3000);
+	Game::players[Game::playerState].position = 7;
+	Game::allShowOnTheMap();
 }
 
 bool compareInterval(Player p1, Player p2)
@@ -2001,7 +2127,7 @@ void ChangePropertyFortune::method(Player& player)
 	player.property = Game::players[whoId].property;
 	Game::players[whoId].property = p;
 
-	Game::setCursorXY(45, 25);
+	Game::setCursorXY(52, 25);
 	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
 	Sleep(5000);
 }

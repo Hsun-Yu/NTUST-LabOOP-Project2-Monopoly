@@ -88,6 +88,7 @@ public:
 	void bankMenu();
 	void sellLocal();
 	void sellCompanyStock();
+	void blackHole();
 
 	
 	void checkAlive();
