@@ -38,13 +38,6 @@ public:
 	virtual void method(Player& player);
 };
 
-class DoubleFeeTool : public Tool
-{
-public:
-	DoubleFeeTool();
-	virtual void method(Player& player);
-};
-
 class ChooseWhereToGoTool : public Tool
 {
 public:

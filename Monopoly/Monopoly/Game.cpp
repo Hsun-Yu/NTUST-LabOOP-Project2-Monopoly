@@ -439,7 +439,7 @@ void Game::InGame()
 				"",
 			" __________ " ,
 			"|          |" ,
-			"|  換人    |" ,
+			"|   換人   |" ,
 			"|__________|",
 				"",
 				" 請按 Enter  " };
@@ -1496,13 +1496,13 @@ void Game::useToolYesOrNo()
 		cout << Game::locals[localId].name;
 	}
 	Game::setTextStyle(GOLD, BLACK);
-	for (int i = 0; i < Yes.size(); i++)
+	for (int i = 0; i < No.size(); i++)
 	{
-		Game::setCursorXY(50, 24 + i);
-		cout << Yes[i];
+		Game::setCursorXY(59, 24 + i);
+		cout << No[i];
 	}
 	Game::setTextStyle(WHITE, BLACK);
-	Game::setCursorXY(54, 26);
+	Game::setCursorXY(63, 26);
 	while (1)
 	{
 		char c = _getch();
@@ -1732,7 +1732,6 @@ void Game::saveGame()
 void Game::bankMenu()
 {
 	vector<string>Board;
-	Game::setTextStyle(CYAN, BLACK);
 	vector<string> option;
 	option = { " ＿＿＿＿＿＿＿＿ " ,
 	"|                |" ,
@@ -1744,21 +1743,18 @@ void Game::bankMenu()
 	"|                |" ,
 	"|     賣股票     |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
-	"|                |" ,
-	"|     放道具     |" ,
-	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
 	"|    繼續遊戲    |" ,
 	"|＿＿＿＿＿＿＿＿|" };
 
 	Game::setTextStyle(GOLD, BLACK);
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i];
 	}
 	Game::setTextStyle(WHITE, BLACK);
-	for (int i = 4; i < 16; i++)
+	for (int i = 4; i < option.size(); i++)
 	{
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i] << endl;
@@ -1995,18 +1991,6 @@ int Property::getAllProperty()
 	return property;
 }
 
-void DoubleFeeTool::method(Player& player)
-{
-	player.property.money -= Game::locals[player.position].getNowPriceOfLevel();
-
-	for (int i = 0; i < Game::players.size(); i++)
-	{
-		if(Game::players[i].property.isMyLocal(player.position))
-			Game::players[i].property.money += Game::locals[player.position].getNowPriceOfLevel();
-	}
-}
-
-
 void ChangePropertyFortune::method(Player& player)
 {
 	srand(time(NULL));
@@ -2017,6 +2001,7 @@ void ChangePropertyFortune::method(Player& player)
 	player.property = Game::players[whoId].property;
 	Game::players[whoId].property = p;
 
+	Game::setCursorXY(45, 25);
 	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
 	Sleep(5000);
 }

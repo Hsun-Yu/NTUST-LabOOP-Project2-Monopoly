@@ -44,11 +44,6 @@ void ToBlackHoleTool::method(Player& player)
 {
 	player.position = 21;
 }
-
-DoubleFeeTool::DoubleFeeTool():Tool(5, "過路費加倍卷", 2000)
-{
-}
-
 ChooseWhereToGoTool::ChooseWhereToGoTool():Tool(4, "遙控骰子", 2000)
 {
 }

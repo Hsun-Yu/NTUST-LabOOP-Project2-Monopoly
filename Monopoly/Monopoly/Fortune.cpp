@@ -1,5 +1,5 @@
 #include "Fortune.h"
-
+#include "Game.h"
 
 
 Fortune::Fortune()

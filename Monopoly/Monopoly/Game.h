@@ -52,7 +52,6 @@ public:
 	void processMarkLocalPosition(int);
 	void processMarkPlayerPosition(int, int);
 	void settingGame();
-	void setCursorXY(int x, int y);
 	void moveCursor(int x, int y);
 	void setTextStyle(int color, int backgroundColor);
 	void menu();
@@ -103,6 +102,7 @@ public:
 	static vector<Chance*> chances;
 	static vector<Fortune*> fortunes;
 
+	static void setCursorXY(int x, int y);
 private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
