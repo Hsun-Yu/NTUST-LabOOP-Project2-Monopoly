@@ -2069,11 +2069,65 @@ void Game::bankMenu()
 			}
 			else if (Game::cursorXY.Y == 20) //提款
 			{
-				//TODO:詢問要提多少 howmush放選擇的
 				if (Game::players[Game::playerState].property.bankMoney > 0)
 				{
+					allShowOnTheMap();
+					vector<string> Board;
+					Board = {
+					" _________________ " ,
+					"|                 |" ,
+					"| 請輸入 提多少錢 |" ,
+					"|                 |" ,
+					"|  \"           \"  |" ,
+					"|   -----------   |" ,
+					"|                 |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					"|                 |" ,
+					"|  輸入完按Enter  |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(WHITE, BLACK);
+					for (int i = 0; i < 7; i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Game::setTextStyle(GOLD, BLACK);
+					for (int i = 7; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Game::setCursorXY(55, 20);
 					int howmush = 0;
-					withdrawal(Game::players[Game::playerState].property, howmush);
+					cin >> howmush;
+
+					if (howmush <= Game::players[Game::playerState].property.bankMoney)
+					{
+						withdrawal(Game::players[Game::playerState].property, howmush);
+						Game::allShowOnTheMap();
+						return;
+					}
+					else
+					{
+						allShowOnTheMap();
+						vector<string> Board;
+						Board = {
+						" _________________ " ,
+						"|                 |" ,
+						"| 你沒有這麼多錢！ |" ,
+						"|＿＿＿＿＿＿＿＿_|" ,
+						};
+						Game::setTextStyle(WHITE, BLACK);
+						for (int i = 0; i < Board.size(); i++)
+						{
+							Game::setCursorXY(50, 16 + i);
+							cout << Board[i];
+						}
+						Sleep(5000);
+						Game::bankMenu();
+						return;
+					}
 				}
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
