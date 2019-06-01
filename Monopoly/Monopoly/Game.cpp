@@ -1063,7 +1063,7 @@ void Game::menuUp()
 
 void Game::menuDown()
 {
-	if (Game::cursorXY.Y == 29)
+	if (Game::cursorXY.Y == 26)
 	{
 	}
 	else
@@ -1200,6 +1200,7 @@ void Game::showPlayerProperty()
 
 void Game::buyLocal()
 {
+	Game::markPlayerAndLocalPosition(Game::players);
 	vector<string>Board;
 	Board = {
 " _________________ " ,
@@ -1230,6 +1231,7 @@ void Game::buyLocal()
  "|   否   |" ,
 "|＿＿＿＿|"
 	};
+	Game::setTextStyle(WHITE, BLACK);
 	for (int i = 0; i < Board.size(); i++)
 	{
 		Game::setCursorXY(50, 16 + i);
