@@ -831,7 +831,7 @@ void Game::moveCharacter()
 				if (nowLevel < 5)
 				{
 					Game::setTextStyle(GOLD, BLACK);
-					Game::setCursorXY(60, 23);
+					Game::setCursorXY(56, 23);
 					cout << nowLevel << "→" << nowLevel + 1;
 				}
 				Game::upgrate();
@@ -1981,18 +1981,20 @@ void Game::bankMenu()
 		{
 			if (Game::cursorXY.Y == 17) //賣地
 			{
+				vector<string> howManyPlayerBoard;
 				if (Game::players[Game::playerState].property.localIds.size() != 0)
 				{
 					Game::allShowOnTheMap();
 					vector<string> Board;
 					Game::setTextStyle(WHITE, BLACK);
 					Board = {
-						" _________________ " ,
-					"|                 |" ,
-					"|    選擇要賣啥    |" ,
-					"|                 |" ,
-					"|  ＜      ＞   |" ,
-					"|＿＿＿＿＿＿＿＿_|"
+						" ________________ " ,
+						"|                |" ,
+						"| 選擇要賣的土地 |" ,
+						"|________________|" ,
+						"|                |" ,
+						"|  ＜  　　　＞  |" ,
+						"|________________|"
 					};
 					for (int i = 0; i < Board.size(); i++)
 					{
@@ -2000,14 +2002,17 @@ void Game::bankMenu()
 						cout << Board[i];
 					}
 
-
 					int select = 0;
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(56, 21);
+					cout << Game::locals[Game::players[Game::playerState].property.localIds[select]].name;
+						
 					while (1)
 					{
 						char c = _getch();
 						if (c == 13) //Enter
 						{
-							
+							break;
 						}
 						else if (c == 27) //esc
 						{
@@ -2019,14 +2024,37 @@ void Game::bankMenu()
 							switch (c)
 							{
 							case 75: //左
-								Game::setCursorXY(54, 20);
-								if(select - 1 >= 0)
-									cout << Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
+								
+								if (select - 1 >= 0)
+								{
+									Game::setTextStyle(WHITE, BLACK);
+									for (int i = 0; i < Board.size(); i++)
+									{
+										Game::setCursorXY(50, 16 + i);
+										cout << Board[i];
+									}
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
+									string s = Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
+									cout << setprecision(3);
+									cout << s;
+								}
 								break;
 							case 77: //右
-								Game::setCursorXY(54, 20);
 								if (select + 1 < Game::players[Game::playerState].property.localIds.size())
-									cout << Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
+								{
+									Game::setTextStyle(WHITE, BLACK);
+									for (int i = 0; i < Board.size(); i++)
+									{
+										Game::setCursorXY(50, 16 + i);
+										cout << Board[i];
+									}
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
+									string s = Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
+									cout << setprecision(3);
+									cout << s;
+								}
 								break;
 							default:
 								break;
@@ -2036,7 +2064,7 @@ void Game::bankMenu()
 
 					if (select >= 0)
 					{
-						int localId = 0;
+						int localId = Game::players[Game::playerState].property.localIds[select];
 
 						Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
 						for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
@@ -2044,7 +2072,8 @@ void Game::bankMenu()
 							if (Game::players[Game::playerState].property.localIds[i] == localId)
 							{
 								Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
-								break;
+								allShowOnTheMap();
+								return;
 							}
 						}
 					}
@@ -2058,11 +2087,65 @@ void Game::bankMenu()
 			}
 			else if (Game::cursorXY.Y == 20) //提款
 			{
-				//TODO:詢問要提多少 howmush放選擇的
 				if (Game::players[Game::playerState].property.bankMoney > 0)
 				{
+					allShowOnTheMap();
+					vector<string> Board;
+					Board = {
+					" _________________ " ,
+					"|                 |" ,
+					"| 請輸入 提多少錢 |" ,
+					"|                 |" ,
+					"|  \"           \"  |" ,
+					"|   -----------   |" ,
+					"|                 |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					"|                 |" ,
+					"|  輸入完按Enter  |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(WHITE, BLACK);
+					for (int i = 0; i < 7; i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Game::setTextStyle(GOLD, BLACK);
+					for (int i = 7; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Game::setCursorXY(55, 20);
 					int howmush = 0;
-					withdrawal(Game::players[Game::playerState].property, howmush);
+					cin >> howmush;
+
+					if (howmush <= Game::players[Game::playerState].property.bankMoney)
+					{
+						withdrawal(Game::players[Game::playerState].property, howmush);
+						Game::allShowOnTheMap();
+						return;
+					}
+					else
+					{
+						allShowOnTheMap();
+						vector<string> Board;
+						Board = {
+						" _________________ " ,
+						"|                 |" ,
+						"| 你沒有這麼多錢！ |" ,
+						"|＿＿＿＿＿＿＿＿_|" ,
+						};
+						Game::setTextStyle(WHITE, BLACK);
+						for (int i = 0; i < Board.size(); i++)
+						{
+							Game::setCursorXY(50, 16 + i);
+							cout << Board[i];
+						}
+						Sleep(5000);
+						Game::bankMenu();
+						return;
+					}
 				}
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
@@ -2188,7 +2271,7 @@ void Game::showTool()
 		}
 		else if (Game::locals[i].tool->id == 3) //黑洞傳送器
 		{
-			cout << "✹";
+			cout << "♨";
 		}
 		else
 		{
