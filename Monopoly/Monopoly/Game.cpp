@@ -831,7 +831,7 @@ void Game::moveCharacter()
 				if (nowLevel < 5)
 				{
 					Game::setTextStyle(GOLD, BLACK);
-					Game::setCursorXY(60, 23);
+					Game::setCursorXY(56, 23);
 					cout << nowLevel << "→" << nowLevel + 1;
 				}
 				Game::upgrate();
@@ -1981,18 +1981,20 @@ void Game::bankMenu()
 		{
 			if (Game::cursorXY.Y == 17) //賣地
 			{
+				vector<string> howManyPlayerBoard;
 				if (Game::players[Game::playerState].property.localIds.size() != 0)
 				{
 					Game::allShowOnTheMap();
 					vector<string> Board;
 					Game::setTextStyle(WHITE, BLACK);
 					Board = {
-						" _________________ " ,
-					"|                 |" ,
-					"|    選擇要賣啥    |" ,
-					"|                 |" ,
-					"|  ＜      ＞   |" ,
-					"|＿＿＿＿＿＿＿＿_|"
+						" ________________ " ,
+						"|                |" ,
+						"| 選擇要賣的土地 |" ,
+						"|________________|" ,
+						"|                |" ,
+						"|  ＜  　　　＞  |" ,
+						"|________________|"
 					};
 					for (int i = 0; i < Board.size(); i++)
 					{
@@ -2001,7 +2003,8 @@ void Game::bankMenu()
 					}
 
 					int select = 0;
-					Game::setCursorXY(54, 20);
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(56, 21);
 					cout << Game::locals[Game::players[Game::playerState].property.localIds[select]].name;
 						
 					while (1)
@@ -2021,18 +2024,33 @@ void Game::bankMenu()
 							switch (c)
 							{
 							case 75: //左
-								Game::setCursorXY(54, 20);
+								
 								if (select - 1 >= 0)
 								{
+									Game::setTextStyle(WHITE, BLACK);
+									for (int i = 0; i < Board.size(); i++)
+									{
+										Game::setCursorXY(50, 16 + i);
+										cout << Board[i];
+									}
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
 									string s = Game::locals[Game::players[Game::playerState].property.localIds[--select]].name;
 									cout << setprecision(3);
 									cout << s;
 								}
 								break;
 							case 77: //右
-								Game::setCursorXY(54, 20);
 								if (select + 1 < Game::players[Game::playerState].property.localIds.size())
 								{
+									Game::setTextStyle(WHITE, BLACK);
+									for (int i = 0; i < Board.size(); i++)
+									{
+										Game::setCursorXY(50, 16 + i);
+										cout << Board[i];
+									}
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
 									string s = Game::locals[Game::players[Game::playerState].property.localIds[++select]].name;
 									cout << setprecision(3);
 									cout << s;
