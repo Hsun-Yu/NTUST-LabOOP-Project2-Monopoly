@@ -84,6 +84,9 @@ public:
 	void showChoice(vector<string>, vector<string>);
 	void allShowOnTheMap();
 	void saveGame();
+	void bankMenu();
+	void sellLocal();
+	void sellCompanyStock();
 
 	
 	void checkAlive();

@@ -400,7 +400,11 @@ void Game::InGame()
 			else if (c == 9) //tab
 			{
 				Game::showPlayerProperty();
-			}//TODO the store menu
+			}
+			else if (c == 8) //backspace
+			{
+				Game::bankMenu();
+			}
 			else
 				continue;
 		}
@@ -440,7 +444,7 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 		else if (i == 3)
 			Game::setTextStyle(KHIKI, BLACK);
 		Game::processMarkPlayerPosition(i, players[i].position);
-		cout << "✈";
+		cout << "✈"; 
 	}
 }
 
@@ -1287,6 +1291,13 @@ void Game::allShowOnTheMap()
 	Board = {
 " __________ " ,
 "|          |" ,
+"|   銀行   |" ,
+"|__________|",
+	"",
+	"請按 Backspace",
+	"",
+" __________ " ,
+"|          |" ,
 "| 玩家資訊 |" ,
 "|__________|",
 	"",
@@ -1308,7 +1319,7 @@ void Game::allShowOnTheMap()
 	for (int i = 0; i < Board.size(); i++)
 	{
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(104, 8 + i);
+		Game::setCursorXY(104, 1 + i);
 		cout << Board[i] << endl;
 	}
 }
@@ -1381,6 +1392,83 @@ void Game::saveGame()
 	Game::allShowOnTheMap();
 	//Game::showDice();
 	Game::InGame();
+}
+
+void Game::bankMenu()
+{
+	vector<string>Board;
+	Game::setTextStyle(CYAN, BLACK);
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|      賣地      |",
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"|    存款提款    |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|     賣股票     |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"|    繼續遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < 13; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(59, 17);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 17) //賣地
+			{
+
+			}
+			else if (Game::cursorXY.Y == 20) //提款
+			{
+			}
+			else if (Game::cursorXY.Y == 23) //賣股票
+			{
+
+			}
+			else //繼續遊戲
+			{
+				exit(1);
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				Game::menuUp();
+				Game::showMenuOption(option);
+				break;
+			case 80://下
+				Game::menuDown();
+				Game::showMenuOption(option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::sellLocal()
+{
+	
 }
 
 bool compareInterval(Player p1, Player p2)
