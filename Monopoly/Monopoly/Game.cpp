@@ -1922,7 +1922,7 @@ void ChangePropertyFortune::method(Player& player)
 	player.property = Game::players[whoId].property;
 	Game::players[whoId].property = p;
 
-	cout << "你與P" << whoId << "交換了錢包" << endl;
+	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
 	Sleep(5000);
 }
 
