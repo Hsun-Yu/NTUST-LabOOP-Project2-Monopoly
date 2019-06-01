@@ -15,7 +15,7 @@ public:
 	int position;
 	int stop = 0;
 	bool alive = true;
-
+	bool inBlack = false;
 	void finishARound();
 	void checkAlive();
 	void goPosition(int number);
