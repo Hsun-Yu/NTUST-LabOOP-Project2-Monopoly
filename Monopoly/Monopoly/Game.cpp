@@ -2464,7 +2464,7 @@ void Game::spaceStation()
 			else
 			{
 				Game::allShowOnTheMap();
-				Game::InGame();
+				return;
 			}
 		}
 		else
