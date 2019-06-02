@@ -44,7 +44,7 @@ void Player::finishARound()
 
 void Player::checkAlive()
 {
-	if (Player::property.getAllProperty() < 0)
+	if (Player::property.money < 0)
 		alive = false;
 }
 

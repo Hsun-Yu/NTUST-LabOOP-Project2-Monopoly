@@ -93,7 +93,6 @@ public:
 	void processMarkToolPosition(int );
 	void spaceStation();
 	
-	void checkAlive();
 	void checkWhoWin();
 	void endOfGame(Player winnner);
 

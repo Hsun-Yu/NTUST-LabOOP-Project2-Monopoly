@@ -1061,10 +1061,7 @@ void Game::moveCharacter()
 
 void Game::changeplayerState()
 {
-	if (Game::players[Game::playerState].property.money < 0)
-		Game::players[Game::playerState].alive = false;
-
-
+	Game::players[Game::playerState].checkAlive();
 	if (Game::playerState < Game::howManyPlayer - 1)
 		Game::playerState += 1;
 	else
@@ -2427,6 +2424,7 @@ void Game::processMarkToolPosition(int localId)
 void Game::spaceStation()
 {
 	Sleep(5000);
+
 	vector<string> option;
 	option = { " ＿＿＿＿＿＿＿＿ " ,
 	"|                |" ,
@@ -2454,18 +2452,137 @@ void Game::spaceStation()
 		cout << option[i] << endl;
 	}
 	Game::setCursorXY(59, 17);
+
 	while (1)
 	{
+		
+
 		char c = _getch();
 		if (c == 13) //Enter
 		{
 			if (Game::cursorXY.Y == 17) //存款
 			{
-				//TODO:
+				allShowOnTheMap();
+				vector<string> Board;
+				Board = {
+				" _________________ " ,
+				"|                 |" ,
+				"| 請輸入 存多少錢 |" ,
+				"|                 |" ,
+				"|  \"           \"  |" ,
+				"|   -----------   |" ,
+				"|                 |" ,
+				"|＿＿＿＿＿＿＿＿_|" ,
+				"|                 |" ,
+				"|  輸入完按Enter  |" ,
+				"|＿＿＿＿＿＿＿＿_|" ,
+				};
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 0; i < 7; i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 7; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setCursorXY(55, 20);
+				int howmuch = 0;
+				cin >> howmuch;
+
+				if (howmuch <= Game::players[Game::playerState].property.money)
+				{
+					deposit(Game::players[Game::playerState].property, howmuch);
+					Game::allShowOnTheMap();
+				}
+				else
+				{
+					allShowOnTheMap();
+					vector<string> Board;
+					Board = {
+					" _________________ " ,
+					"|                 |" ,
+					"| 你沒有這麼多錢！ |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(WHITE, BLACK);
+					for (int i = 0; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Sleep(5000);
+					Game::allShowOnTheMap();
+				}
+
+				Game::spaceStation();
+				return;
 			}
 			else if (Game::cursorXY.Y == 20) //借款
 			{
-				//TODO:
+				allShowOnTheMap();
+				vector<string> Board;
+				Board = {
+				" _________________ " ,
+				"|                 |" ,
+				"| 請輸入 貸多少錢 |" ,
+				"|                 |" ,
+				"|  \"           \"  |" ,
+				"|   -----------   |" ,
+				"|   上限:            |" ,
+				"|＿＿＿＿＿＿＿＿_|" ,
+				"|                 |" ,
+				"|  輸入完按Enter  |" ,
+				"|＿＿＿＿＿＿＿＿_|" ,
+				};
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 0; i < 7; i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 7; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setCursorXY(59, 22);
+				cout << Game::players[Game::playerState].property.getAllProperty();
+				Game::setCursorXY(55, 20);
+				int howmuch = 0;
+				cin >> howmuch;
+
+				if (howmuch <= Game::players[Game::playerState].property.getAllProperty())
+				{
+					loanMoney(Game::players[Game::playerState].property, howmuch);
+					Game::allShowOnTheMap();
+				}
+				else
+				{
+					allShowOnTheMap();
+					vector<string> Board;
+					Board = {
+					" _________________ " ,
+					"|                 |" ,
+					"| 你沒有這麼多錢！ |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(WHITE, BLACK);
+					for (int i = 0; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+					Sleep(5000);
+					allShowOnTheMap();
+				}
+
+				Game::spaceStation();
+				return;
 			}
 			else if (Game::cursorXY.Y == 23) //買股票
 			{
@@ -2499,12 +2616,6 @@ void Game::spaceStation()
 bool compareInterval(Player p1, Player p2)
 {
 	return (p1.property.getAllProperty() > p2.property.getAllProperty());
-}
-
-void Game::checkAlive()
-{
-	for (int i = 0; i < players.size(); i++)
-		players[i].checkAlive();
 }
 
 void Game::checkWhoWin()
