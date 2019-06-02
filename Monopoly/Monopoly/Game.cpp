@@ -1018,6 +1018,7 @@ void Game::moveCharacter()
 			cout << Board[i];
 		}
 		Game::spaceStation();
+		Sleep(5000);
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
@@ -2423,8 +2424,6 @@ void Game::processMarkToolPosition(int localId)
 
 void Game::spaceStation()
 {
-	Sleep(5000);
-
 	vector<string> option;
 	option = { " ＿＿＿＿＿＿＿＿ " ,
 	"|                |" ,
