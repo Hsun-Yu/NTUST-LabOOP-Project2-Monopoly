@@ -2255,12 +2255,17 @@ void Game::bankMenu()
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
 			{
-				//TODO:詢問要賣哪個股票 stockId放選擇的
-				Game::players[Game::playerState].property.componyIds.push_back(1); //For test
+				//TODO: 賣股票測試.
+				Game::players[Game::playerState].property.componyIds.push_back(2); 
+				Game::players[Game::playerState].property.componyIds.push_back(3); 
+				Game::players[Game::playerState].property.componyIds.push_back(4); 
 
-				if (Game::players[Game::playerState].property.componyIds.size() != 0 || 1==1)
+				int company_total = Game::players[Game::playerState].property.componyIds.size();
+
+				if (company_total != 0)
 				{
-					int stockId = Game::players[Game::playerState].property.componyIds[0];
+					int company_n = 0;
+					int stockId = Game::players[Game::playerState].property.componyIds[company_n];
 
 					vector<string> selectCompanyBoard;
 					selectCompanyBoard = {
@@ -2278,6 +2283,7 @@ void Game::bankMenu()
 						Game::setCursorXY(51, 21 + i);
 						cout << selectCompanyBoard[i] << endl;
 					}
+
 					Game::setCursorXY(56, 26);
 					cout << Company::getNameById(Game::companys, stockId);
 
@@ -2294,18 +2300,22 @@ void Game::bankMenu()
 							switch (c)
 							{
 							case 75: 
-								//TODO: 我明天做 切換公司
-
+								company_n = company_n <= 0 ? 0 : company_n - 1;
+								
 								break;
 							case 77:
+								company_n = company_n >= (company_total - 1) ? (company_total - 1) : company_n + 1;
 
 								break;
 							default:
 								break;
 							}
 						}
-					}
 
+						Game::setCursorXY(56, 26);
+						stockId = Game::players[Game::playerState].property.componyIds[company_n];
+						cout << Company::getNameById(Game::companys, stockId);
+					}
 
 					Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
 					for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
