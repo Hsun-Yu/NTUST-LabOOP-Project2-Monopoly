@@ -17,13 +17,13 @@ void Company::updateStockPrice()
 	Company::stockPrice += (rand() % Company::stockPrice - (Company::stockPrice / 2));
 }
 
-string Company::getNameById(const vector<Company>& comps, int id)
+Company Company::getCompanyById(const vector<Company>& comps, int id)
 {
 	for (int i = 0; i < comps.size(); i++)
 	{
 		if (comps[i].Id == id)
 		{
-			return comps[i].name;
+			return comps[i];
 		}
 	}
 }

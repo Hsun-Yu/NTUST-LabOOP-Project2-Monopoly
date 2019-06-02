@@ -2285,7 +2285,7 @@ void Game::bankMenu()
 					}
 
 					Game::setCursorXY(56, 26);
-					cout << Company::getNameById(Game::companys, stockId);
+					cout << Company::getCompanyById(Game::companys, stockId).name;
 
 					while (1)
 					{
@@ -2314,7 +2314,7 @@ void Game::bankMenu()
 
 						Game::setCursorXY(56, 26);
 						stockId = Game::players[Game::playerState].property.componyIds[company_n];
-						cout << Company::getNameById(Game::companys, stockId);
+						cout << Company::getCompanyById(Game::companys, stockId).name;
 					}
 
 					Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
