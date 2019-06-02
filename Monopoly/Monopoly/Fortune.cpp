@@ -30,7 +30,7 @@ void BackToEarthFortune::method(Player& player)
 void TimeTunnelFortune::method(Player& player)
 {
 	player.position = rand() % 28;
-	Game::setCursorXY(52, 25);
+	Game::setCursorXY(50, 25);
 	cout << "你被傳送到了 ＜" << Game::locals[player.position].name << "＞" << endl;
 	Sleep(3000);
 }
