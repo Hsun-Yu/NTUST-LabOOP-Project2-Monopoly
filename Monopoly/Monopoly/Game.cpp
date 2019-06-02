@@ -937,21 +937,23 @@ void Game::moveCharacter()
 	}
 	else if (Game::locals[localId].localType == -4) //太空站
 	{
-	vector<string> Board;
-	Game::setTextStyle(WHITE, BLACK);
-	Board = {
-		" _________________ " ,
-	"|                 |" ,
-	"|    你走到了     |" ,
-	"|                 |" ,
-	"|  ＜ 太空站 ＞   |" ,
-	"|＿＿＿＿＿＿＿＿_|"
-	};
-	for (int i = 0; i < Board.size(); i++)
-	{
-		Game::setCursorXY(50, 16 + i);
-		cout << Board[i];
-	}
+		vector<string> Board;
+		Game::setTextStyle(WHITE, BLACK);
+		Board = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你走到了     |" ,
+		"|                 |" ,
+		"|  ＜ 太空站 ＞   |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
+		Sleep(5000);
+
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
