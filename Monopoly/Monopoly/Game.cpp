@@ -684,12 +684,58 @@ void Game::showDice()
 
 void Game::moveCharacter()
 {
-	if (Game::players[playerState].inBlack )
+	if (Game::players[playerState].inBlack)
 	{
 		if (diceNumber < 5)
+		{
+			vector <string> Board;
+			Board = {
+				" _________________ " ,
+			"|                 |" ,
+			"|    你骰到了     |" ,
+			"|                 |" ,
+			"|     ＜  ＞      |" ,
+			"|                 |" ,
+			"|  還是逃不出去   |" ,
+			"|                 |" ,
+			"|＿＿＿＿＿＿＿＿_|"
+			};
+			Game::setTextStyle(WHITE, BLACK);
+			for (int i = 0; i < Board.size(); i++)
+			{
+				Game::setCursorXY(50, 16 + i);
+				cout << Board[i];
+			}
+			Game::setTextStyle(GOLD, BLACK);
+			Game::setCursorXY(60, 20);
+			cout << Game::diceNumber;
 			return;
-		else
-			Game::players[playerState].inBlack = false;
+		}
+	}
+	else
+	{
+		Game::players[playerState].inBlack = false;
+		vector <string> Board;
+		Board = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你骰到了     |" ,
+		"|                 |" ,
+		"|     ＜  ＞      |" ,
+		"|                 |" ,
+		"|   成功逃出 !!   |" ,
+		"|                 |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
+		Game::setTextStyle(WHITE, BLACK);
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(60, 20);
+		cout << Game::diceNumber;
 	}
 
 	Game::deleteBeforePlace();
