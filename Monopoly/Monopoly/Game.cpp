@@ -406,7 +406,7 @@ vector<string> Game::get_all_files_names_within_folder(string folder)
 
 void Game::InGame()
 {
-	while (1)
+	while (Game::isInGame)
 	{
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
@@ -1017,8 +1017,8 @@ void Game::moveCharacter()
 			Game::setCursorXY(50, 16 + i);
 			cout << Board[i];
 		}
-		Game::spaceStation();
 		Sleep(5000);
+		Game::spaceStation();
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
@@ -2053,7 +2053,7 @@ void Game::saveGame()
 	//Game::displayTemplate();
 	Game::allShowOnTheMap();
 	//Game::showDice();
-	Game::InGame();
+	return;
 }
 
 void Game::bankMenu()
@@ -2339,7 +2339,7 @@ void Game::bankMenu()
 			else //繼續遊戲
 			{
 				Game::allShowOnTheMap();
-				Game::InGame();
+				return;
 			}
 		}
 		else
@@ -2454,8 +2454,6 @@ void Game::spaceStation()
 
 	while (1)
 	{
-		
-
 		char c = _getch();
 		if (c == 13) //Enter
 		{
@@ -2623,7 +2621,7 @@ bool compareInterval(Player p1, Player p2)
 
 void Game::checkWhoWin()
 {
-	if (Game::round > Game::howManyRound)
+	if (Game::round >= Game::howManyRound)
 	{
 		vector<Player> checkList = Game::players;
 		sort(checkList.begin(), checkList.end(), compareInterval);
@@ -2728,6 +2726,8 @@ void Game::endOfGame(Player winner)
 			cout << p4[i];
 		}
 	}
+	
+	Game::isInGame = false;
 }
 
 void Game::displayTemplate()
