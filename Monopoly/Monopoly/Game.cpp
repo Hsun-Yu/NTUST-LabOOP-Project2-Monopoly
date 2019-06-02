@@ -1008,7 +1008,7 @@ void Game::moveCharacter()
 		"|                          |" ,
 		"|  ＜ 太空站 ＞   |" ,
 		"|                          |" ,
-		"|  可以存款、借款、買股票   |" ,
+		"|可以存款借款、買股票、道具|" ,
 		"|                          |" ,
 		"|＿＿＿＿＿＿＿＿＿＿＿＿＿_|"
 		};
@@ -2437,7 +2437,7 @@ void Game::spaceStation()
 	"|     買股票     |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
-	"|    離開遊戲    |" ,
+	"|     買道具     |" ,
 	"|＿＿＿＿＿＿＿＿|" };
 	Game::setTextStyle(GOLD, BLACK);
 	for (int i = 0; i < 4; i++)
@@ -2588,11 +2588,15 @@ void Game::spaceStation()
 			{
 				//TODO:
 			}
-			else
+			else  //買道具
 			{
-				Game::allShowOnTheMap();
-				return;
+				//TODO:
 			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::allShowOnTheMap();
+			return;
 		}
 		else
 		{
@@ -2643,7 +2647,88 @@ void Game::checkWhoWin()
 void Game::endOfGame(Player winner)
 {
 	system("cls");
-	cout << "P" << winner.Id+1 << " WIN" << endl;
+	ifstream inputS("Image\\CHIKA.txt");
+	string str;
+	Game::setTextStyle(WHITE, BLACK);
+	int i = 0;
+	while (getline(inputS, str))
+	{
+		Game::setCursorXY(25,5 + i);
+		cout << str << endl;
+		i++;
+	}
+	Game::setCursorXY(85, 22);
+	cout << "恭喜你勝利 咚搭呦 ~";
+	vector<string> p1;
+	p1 = { "    ___      __        _    _        __        _  _   ",
+	"   F _ \",   / J       F L  J J       FJ       F L L]  ",
+	"  J `-' |   LFJ      J J .. L L     J  L     J   \\| L ",
+	"  |  __/F   J  L     | |/  \\| |     |  |     | |\\   | ",
+	"  F |__/    J  L     F   /\\   J     F  J     F L\\\\  J ",
+	" J__|       J__L    J___//\\\\___L   J____L   J__L \\\\__L",
+	" |__L       |__|    |___/  \\___|   |____|   |__L  J__|",
+	"                                                     "};
+	vector<string> p2;
+	p2 = { "    ___         ____       _    _        __          _  _   ",
+	"   F _ \",     / _  `.     F L  J J       FJ         F L L]  ",
+	"  J `-' |    J_/-7 .'    J J .. L L     J  L       J   \\| L ",
+	"  |  __/F    `-:'.'.'    | |/  \\| |     |  |       | |\\   | ",
+	"  F |__/     .' ;_J__    F   /\\   J     F  J       F L\\\\  J ",
+	" J__|       J________L  J___//\\\\___L   J____L     J__L \\\\__L",
+	" |__L       |________|  |___/  \\___|   |____|     |__L  J__|",
+	"                                                           "};
+	vector<string> p3;
+	p3 = { "    ___         ____       _    _        __          _  _   ",
+	"   F _ \",     F___ J      F L  J J       FJ         F L L]  ",
+	"  J `-' |     `-__| L    J J .. L L     J  L       J   \\| L ",
+	"  |  __/F      |__  (    | |/  \\| |     |  |       | |\\   | ",
+	"  F |__/    .-____]  J   F   /\\   J     F  J       F L\\\\  J ",
+	" J__|       J\\______/F  J___//\\\\___L   J____L     J__L \\\\__L",
+	" |__L        J______F   |___/  \\___|   |____|     |__L  J__|",
+	"                                                           " };
+	vector<string> p4;
+	p4 = { "    ___        _  _       _    _        __          _  _   ",
+	"   F _ \",    FJ  L]      F L  J J       FJ         F L L]  ",
+	"  J `-' |   J |__| L    J J .. L L     J  L       J   \\| L ",
+	"  |  __/F   |____  |    | |/  \\| |     |  |       | |\\   | ",
+	"  F |__/    L____J  J   F   /\\   J     F  J       F L\\\\  J ",
+	" J__|            J__L  J___//\\\\___L   J____L     J__L \\\\__L",
+	" |__L            J__|  |___/  \\___|   |____|     |__L  J__|",
+	"                                                          " };
+
+	Game::setTextStyle(KHIKI, BLACK);
+	if (winner.Id + 1 == 1)
+	{
+		for (int i = 0; i < p1.size(); i++)
+		{
+			Game::setCursorXY(28, 23 + i);
+			cout << p1[i];
+		}
+	}
+	else if(winner.Id + 2 == 2)
+	{
+		for (int i = 0; i < p2.size(); i++)
+		{
+			Game::setCursorXY(28, 23 + i);
+			cout << p2[i];
+		}
+	}
+	else if (winner.Id + 3 == 3)
+	{
+		for (int i = 0; i < p3.size(); i++)
+		{
+			Game::setCursorXY(28, 23 + i);
+			cout << p3[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < p4.size(); i++)
+		{
+			Game::setCursorXY(28, 23 + i);
+			cout << p4[i];
+		}
+	}
 }
 
 void Game::displayTemplate()
