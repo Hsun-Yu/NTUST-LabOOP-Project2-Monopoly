@@ -1317,9 +1317,9 @@ void Game::showPlayerProperty()
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　道具　　　　 　   　　　                        ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　    路障 x　　　 　   　 炸彈 x                 ｜",
+		"｜　  ⚐    路障 x　　　     ☢    炸彈 x            ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　    黑洞傳送器 x　　     遙控骰子 x　           ｜",
+		"｜　 ♨    黑洞傳送器 x　　 ㊙    遙控骰子 x　      ｜",
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　股票　　　　 　   　　　                        ｜",
 		"｜　　　　　 　   　　　                            ｜",
@@ -1362,16 +1362,16 @@ void Game::showPlayerProperty()
 	Game::setCursorXY(62, 22);
 	cout << Game::players[Game::playerState].property.getAllProperty();
 
-	Game::setCursorXY(48, 27);
+	Game::setCursorXY(50, 27);
 	cout << Game::players[Game::playerState].property.getHowManyTool(1);
 
-	Game::setCursorXY(69, 27);
+	Game::setCursorXY(73, 27);
 	cout << Game::players[Game::playerState].property.getHowManyTool(2);
 
-	Game::setCursorXY(54, 29);
+	Game::setCursorXY(56, 29);
 	cout << Game::players[Game::playerState].property.getHowManyTool(3);
 
-	Game::setCursorXY(73, 29);
+	Game::setCursorXY(77, 29);
 	cout << Game::players[Game::playerState].property.getHowManyTool(4);
 
 	for (int i = 0, x = 46; i < 4; i++)
