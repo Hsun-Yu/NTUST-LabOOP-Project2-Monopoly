@@ -1008,7 +1008,7 @@ void Game::moveCharacter()
 		"|                          |" ,
 		"|  ＜ 太空站 ＞   |" ,
 		"|                          |" ,
-		"|  可以存款、借款、買股票   |" ,
+		"|可以存款借款、買股票、道具|" ,
 		"|                          |" ,
 		"|＿＿＿＿＿＿＿＿＿＿＿＿＿_|"
 		};
@@ -2439,7 +2439,7 @@ void Game::spaceStation()
 	"|     買股票     |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
-	"|    離開遊戲    |" ,
+	"|     買道具     |" ,
 	"|＿＿＿＿＿＿＿＿|" };
 	Game::setTextStyle(GOLD, BLACK);
 	for (int i = 0; i < 4; i++)
@@ -2471,11 +2471,15 @@ void Game::spaceStation()
 			{
 				//TODO:
 			}
-			else
+			else  //買道具
 			{
-				Game::allShowOnTheMap();
-				return;
+				//TODO:
 			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::allShowOnTheMap();
+			return;
 		}
 		else
 		{
