@@ -109,7 +109,7 @@ public:
 private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
-	bool isInGame;
+	bool isInGame = true;
 	bool useSuperDice = false;
 
 	string mapName;
