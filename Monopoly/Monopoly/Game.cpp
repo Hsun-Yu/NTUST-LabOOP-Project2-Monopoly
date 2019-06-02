@@ -14,7 +14,7 @@ Game::Game()
 {
 	
 
-	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	//PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
 
@@ -693,7 +693,7 @@ void Game::moveCharacter()
 {
 	if (Game::players[playerState].inBlack)
 	{
-		if (diceNumber < 5)
+		if (Game::diceNumber < 5)
 		{
 			vector <string> Board;
 			Board = {
@@ -714,8 +714,9 @@ void Game::moveCharacter()
 				cout << Board[i];
 			}
 			Game::setTextStyle(GOLD, BLACK);
-			Game::setCursorXY(60, 20);
+			Game::setCursorXY(59, 20);
 			cout << Game::diceNumber;
+			Sleep(5000);
 			return;
 		}
 		else
@@ -740,9 +741,10 @@ void Game::moveCharacter()
 				cout << Board[i];
 			}
 			Game::setTextStyle(GOLD, BLACK);
-			Game::setCursorXY(60, 20);
+			Game::setCursorXY(59, 20);
 			cout << Game::diceNumber;
 			Sleep(5000);
+			return;
 		}
 	}
 
