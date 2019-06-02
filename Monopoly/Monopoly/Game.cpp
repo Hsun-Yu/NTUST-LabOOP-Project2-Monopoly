@@ -1003,18 +1003,21 @@ void Game::moveCharacter()
 		Game::setTextStyle(WHITE, BLACK);
 		Board = {
 			" ___________________________ " ,
-		"|                          |" ,
+		"|                           |" ,
 		"|         你走到了          |" ,
-		"|                          |" ,
-		"|  ＜ 太空站 ＞   |" ,
-		"|                          |" ,
-		"|可以存款借款、買股票、道具|" ,
-		"|                          |" ,
+		"|                           |" ,
+		"|       ＜ 太空站 ＞        |" ,
+		"|                           |" ,
+		"|      可以 存款、借款      |" ,
+		"|                           |" ,
+		"|       買股票、買道具      |" ,
+		"|                           |" ,
 		"|＿＿＿＿＿＿＿＿＿＿＿＿＿_|"
 		};
+		Game::setTextStyle(GOLD, BLACK);
 		for (int i = 0; i < Board.size(); i++)
 		{
-			Game::setCursorXY(50, 16 + i);
+			Game::setCursorXY(45, 16 + i);
 			cout << Board[i];
 		}
 		Game::spaceStation();
@@ -1867,15 +1870,91 @@ void Game::useTool()
 
 void Game::buyTool(int toolId)
 {
-	if (Game::tools[toolId - 1]->price > Game::players[Game::playerState].property.money)
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" ________________ " ,
+		"|                |" ,
+		"| 請問你要買幾個 |" ,
+		"|________________|" ,
+		"|                |" ,
+		"|  每個 $        |" ,
+		"|                |" ,
+		"|  ＜  　　　＞  |" ,
+		"|                |" ,
+		"|擁有金錢 $      |" ,
+		"|                |" ,
+		"|                |" ,
+		"|________________|"
+	};
+	for (int i = 0; i < Board.size(); i++)
 	{
-		//TODO (Layout):沒有錢了
-		cout << "你的錢不購，哈哈哈";
+		Game::setCursorXY(51, 15 + i);
+		cout << Board[i];
 	}
-	else
+
+	Game::setCursorXY(62, 20);
+	cout << Game::tools[toolId - 1]->price;
+	Game::setCursorXY(63, 24);
+	cout << Game::players[Game::playerState].property.money;
+
+	int select = 1;
+	Game::setTextStyle(GOLD, BLACK);
+	Game::setCursorXY(59, 22);
+	cout << select;
+
+	while (1)
 	{
-		Game::players[Game::playerState].property.money -= Game::tools[toolId - 1]->price;
-		Game::players[Game::playerState].property.toolIds.push_back(toolId);
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			Game::setTextStyle(GOLD, BLACK);
+			Game::setCursorXY(55, 26);
+			if (Game::tools[toolId - 1]->price * select > Game::players[Game::playerState].property.money)
+			{
+				cout << "你的錢不夠，請重新選擇";
+				Game::whichToolWantBuy();
+			}
+			else
+			{
+				cout << "購買成功 !!";
+				Game::players[Game::playerState].property.money -= Game::tools[toolId - 1]->price * select;
+				for (int i = 0; i < select; i++)
+				{
+					Game::players[Game::playerState].property.toolIds.push_back(toolId);
+				}
+				Game::whichToolWantBuy();
+			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::whichToolWantBuy();
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75: //左
+
+				if (select - 1 > 0)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(59, 22);
+					cout << --select;
+				}
+				break;
+			case 77: //右
+				if (select + 1 <= 3)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(59, 22);
+					cout << ++select;
+				}
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 
@@ -2455,8 +2534,6 @@ void Game::spaceStation()
 
 	while (1)
 	{
-		
-
 		char c = _getch();
 		if (c == 13) //Enter
 		{
@@ -2590,7 +2667,7 @@ void Game::spaceStation()
 			}
 			else  //買道具
 			{
-				//TODO:
+			Game::whichToolWantBuy();
 			}
 		}
 		else if (c == 27) //esc
@@ -2603,12 +2680,86 @@ void Game::spaceStation()
 			switch (c)
 			{
 			case 72://上
-				optionUp();
-				showOption(option);
+				menuUp();
+				showMenuOption(option);
 				break;
 			case 80://下
-				optionDown();
-				showOption(option);
+				menuDown();
+				showMenuOption(option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::whichToolWantBuy()
+{
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|  ⚐  路障       |" ,
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"| ☢  炸彈       |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"| ♨  黑洞傳送器 |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"| ㊙  遙控骰子   |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < option.size(); i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(59, 17);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 17) //路障
+			{
+				Game::buyTool(1);
+			}
+			else if (Game::cursorXY.Y == 20) //炸彈
+			{
+				Game::buyTool(2);
+			}
+			else if (Game::cursorXY.Y == 23) //黑洞傳送器
+			{
+				Game::buyTool(3);
+			}
+			else //遙控骰子
+			{
+				Game::buyTool(4);
+			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::spaceStation();
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				menuUp();
+				showMenuOption(option);
+				break;
+			case 80://下
+				menuDown();
+				showMenuOption(option);
 				break;
 			default:
 				break;

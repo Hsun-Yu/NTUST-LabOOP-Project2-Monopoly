@@ -79,6 +79,7 @@ public:
 	void upgrate();
 	void useToolYesOrNo();
 	void useTool();
+	void whichToolWantBuy();
 	void buyTool(int toolId);
 	void choiceLeft();
 	void choiceRight();
