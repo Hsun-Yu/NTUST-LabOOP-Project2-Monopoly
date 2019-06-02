@@ -1914,11 +1914,13 @@ void Game::buyTool(int toolId)
 			if (Game::tools[toolId - 1]->price * select > Game::players[Game::playerState].property.money)
 			{
 				cout << "你的錢不夠，請重新選擇";
+				Sleep(3000);
 				Game::whichToolWantBuy();
 			}
 			else
 			{
 				cout << "購買成功 !!";
+				Sleep(3000);
 				Game::players[Game::playerState].property.money -= Game::tools[toolId - 1]->price * select;
 				for (int i = 0; i < select; i++)
 				{
