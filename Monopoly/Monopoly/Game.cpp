@@ -728,18 +728,12 @@ void Game::moveCharacter()
 			"|      確 定      |" ,
 			"|＿＿＿＿＿＿＿＿_|" ,
 				};
+				Game::setTextStyle(WHITE, BLACK);
 				for (int i = 0; i < 8; i++)
 				{
 					Game::setCursorXY(50, 16 + i);
 					cout << Board[i];
 				}
-				Game::setTextStyle(GOLD, BLACK);
-				for (int i = 8; i < Board.size(); i++)
-				{
-					Game::setCursorXY(50, 16 + i);
-					cout << Board[i];
-				}
-				Game::setTextStyle(WHITE, BLACK);
 				if (Game::locals[localId].name.size() < 8)
 				{
 					Game::setCursorXY(57, 20);
@@ -749,6 +743,12 @@ void Game::moveCharacter()
 				{
 					Game::setCursorXY(56, 20);
 					cout << Game::locals[localId].name;
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 8; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
 				}
 				while (1)
 				{
@@ -837,8 +837,8 @@ void Game::moveCharacter()
 				if (nowLevel < 5)
 				{
 					Game::setTextStyle(GOLD, BLACK);
-					Game::setCursorXY(56, 23);
-					cout << nowLevel << "→" << nowLevel + 1;
+					Game::setCursorXY(57, 24);
+					cout << nowLevel << " → " << nowLevel + 1;
 				}
 				Game::upgrate();
 				Sleep(5000);
@@ -987,9 +987,9 @@ void Game::moveCharacter()
 			cout << BlackHoleBoard[i];
 		}
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(60, 24);
+		Game::setCursorXY(48, 24);
 		cout << "被神秘的力量吸到白洞";
-		Game::setCursorXY(60, 25);
+		Game::setCursorXY(44, 25);
 		cout << "下一回合需要骰到五、六點才能出來",
 		Game::blackHole();
 	}
@@ -1729,7 +1729,7 @@ void Game::useTool()
 
 					int select = 1;
 					Game::setTextStyle(GOLD, BLACK);
-					Game::setCursorXY(56, 21);
+					Game::setCursorXY(59, 21);
 					cout << select;
 
 					while (1)
@@ -1753,7 +1753,7 @@ void Game::useTool()
 								if (select - 1 > 0)
 								{
 									Game::setTextStyle(GOLD, BLACK);
-									Game::setCursorXY(56, 21);
+									Game::setCursorXY(59, 21);
 									cout << --select;
 								}
 								break;
@@ -1761,7 +1761,7 @@ void Game::useTool()
 								if (select + 1 <= 6)
 								{
 									Game::setTextStyle(GOLD, BLACK);
-									Game::setCursorXY(56, 21);
+									Game::setCursorXY(59, 21);
 									cout << ++select;
 								}
 								break;
@@ -1778,7 +1778,8 @@ void Game::useTool()
 					}
 				}
 			}
-			
+			else
+				Game::useTool();
 			break;
 		}
 		else if (c == 27) //esc
@@ -2301,7 +2302,7 @@ void Game::sellLocal()
 
 void Game::blackHole()
 {
-	Sleep(3000);
+	Sleep(5000);
 	Game::players[Game::playerState].position = 7;
 	Game::players[Game::playerState].inBlack = true;
 	Game::allShowOnTheMap();

@@ -30,7 +30,9 @@ void BackToEarthFortune::method(Player& player)
 void TimeTunnelFortune::method(Player& player)
 {
 	player.position = rand() % 28;
-	cout << "你被傳送到了位置" << player.position << endl;
+	Game::setCursorXY(52, 25);
+	cout << "你被傳送到了 ＜" << Game::locals[player.position].name << "＞" << endl;
+	Sleep(3000);
 }
 
 void ChangePropertyFortune::method(Player& player)
@@ -44,6 +46,6 @@ void ChangePropertyFortune::method(Player& player)
 	Game::players[whoId].property = p;
 
 	Game::setCursorXY(52, 25);
-	cout << "你與P" << whoId + 1 << "交換了錢包" << endl;
+	cout << "你與 " << whoId + 1 << "P 交換了錢包" << endl;
 	Sleep(5000);
 }
