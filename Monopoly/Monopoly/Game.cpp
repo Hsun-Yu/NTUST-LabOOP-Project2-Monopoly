@@ -21,6 +21,7 @@ Game::Game()
 	Game::tools.clear();
 	Game::locals.clear();
 
+	Game::tools.push_back(new Tool());
 	Game::tools.push_back(new RoadblockTool());
 	Game::tools.push_back(new BombTool());
 	Game::tools.push_back(new ToBlackHoleTool());
@@ -405,6 +406,9 @@ void Game::InGame()
 {
 	while (1)
 	{
+		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
+		Game::checkWhoWin();
+
 		int toolCount = 0;
 		for (int i = 1; i <= Game::tools.size(); i++)
 			toolCount += Game::players[Game::playerState].property.getHowManyTool(i);
@@ -412,11 +416,9 @@ void Game::InGame()
 			Game::locals[Game::players[Game::playerState].position].toolId == 0 && toolCount != 0)
 		{
 			Game::useToolYesOrNo();
-
+			Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		}
 
-		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
-		Game::checkWhoWin();
 		while (1)
 		{
 			Game::setCursorXY(109, 24);
@@ -1685,7 +1687,7 @@ void Game::useTool()
 			{
 				toolId = 3;
 			}
-			else //遙控骰子
+			else if (Game::cursorXY.Y == 26)//遙控骰子
 			{
 				toolId = 4;
 			}
@@ -1701,7 +1703,7 @@ void Game::useTool()
 						break;
 					}
 				}
-				if (toolId != 4)
+				if (toolId != 4 && toolId >= 1)
 					Game::locals[Game::players[Game::playerState].position].toolId = toolId;
 				else
 				{
@@ -1780,7 +1782,7 @@ void Game::useTool()
 		else if (c == 27) //esc
 		{
 			Game::allShowOnTheMap();
-			Game::useToolYesOrNo();
+			return;
 		}
 		else
 		{
