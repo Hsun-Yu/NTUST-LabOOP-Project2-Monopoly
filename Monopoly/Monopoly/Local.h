@@ -19,8 +19,6 @@ public:
 
 	void setToDefaultTool();
 
-	Tool defaultTool = Tool();
-
-	Tool * tool = new Tool();
+	int toolId;
 };
 

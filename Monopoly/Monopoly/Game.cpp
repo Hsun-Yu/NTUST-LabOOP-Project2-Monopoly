@@ -9,9 +9,11 @@ vector<Chance*> Game::chances;
 vector<Fortune*> Game::fortunes;
 vector<Company> Game::companys;
 vector<Tool*> Game::tools;
-
+ 
 Game::Game()
 {
+	srand(time(NULL));
+
 	Game::players.clear();
 	Game::chances.clear();
 	Game::fortunes.clear();
@@ -410,7 +412,7 @@ void Game::InGame()
 		for (int i = 1; i <= Game::tools.size(); i++)
 			toolCount += Game::players[Game::playerState].property.getHowManyTool(i);
 		if(Game::locals[Game::players[Game::playerState].position].localType == 1 && 
-			Game::locals[Game::players[Game::playerState].position].tool->id != 0 && toolCount != 0)
+			Game::locals[Game::players[Game::playerState].position].toolId == 0 && toolCount != 0)
 			Game::useToolYesOrNo();
 		while (1)
 		{
@@ -636,7 +638,7 @@ void Game::showOption(vector<string> option)
 
 void Game::rollDice()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	Game::diceNumber = rand() % (6) + 1;
 	showDice();
 }
@@ -677,7 +679,6 @@ void Game::moveCharacter()
 {
 	if (Game::players[playerState].inBlack && diceNumber < 5)
 	{
-
 		return;
 	}
 
@@ -689,10 +690,10 @@ void Game::moveCharacter()
 
 	if (Game::locals[localId].localType == 1)
 	{
-		if (Game::locals[localId].tool->id != 0)
+		if (Game::locals[localId].toolId != 0)
 		{
 			//Do something if has tool
-			Game::locals[localId].tool->method(Game::players[playerState]);
+			Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
 			Game::locals[localId].setToDefaultTool();
 
 			if (localId != Game::players[playerState].position)
@@ -857,7 +858,7 @@ void Game::moveCharacter()
 			cout << Board[i];
 		}
 		Sleep(1000);
-		srand(time(NULL));
+		//srand(time(NULL));
 		int r = rand() % Game::fortunes.size();
 		vector<string> FortuneBoard;
 		FortuneBoard = {
@@ -901,7 +902,8 @@ void Game::moveCharacter()
 			Game::setCursorXY(50, 16 + i);
 			cout << Board[i];
 		}
-		srand(time(NULL));
+		Sleep(1000);
+		//srand(time(NULL));
 		int r = rand() % Game::chances.size();
 		vector<string> ChanceBoard;
 		ChanceBoard = {
@@ -1652,77 +1654,107 @@ void Game::useTool()
 		{
 			if (Game::cursorXY.Y == 17) //路障
 			{
-				if (Game::players[Game::playerState].property.getHowManyTool(1) != 0)
-				{
-					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
-					{
-						if (Game::players[Game::playerState].property.toolIds[i] == 1)
-						{
-							Game::players[Game::playerState].property.toolIds.erase(
-								Game::players[Game::playerState].property.toolIds.begin() + i);
-							break;
-						}
-					}
-
-					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[0];
-				}
-				Game::showTool();
-				return;
+				toolId = 1;
 			}
 			else if (Game::cursorXY.Y == 20) //炸彈
 			{
-				if (Game::players[Game::playerState].property.getHowManyTool(2) != 0)
-				{
-					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
-					{
-						if (Game::players[Game::playerState].property.toolIds[i] == 2)
-						{
-							Game::players[Game::playerState].property.toolIds.erase(
-								Game::players[Game::playerState].property.toolIds.begin() + i);
-							break;
-						}
-					}
-
-					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[1];
-				}
-				Game::showTool();
-				return;
+				toolId = 2;
 			}
 			else if (Game::cursorXY.Y == 23) //黑洞傳送器
 			{
-				if (Game::players[Game::playerState].property.getHowManyTool(3) != 0)
-				{
-					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
-					{
-						if (Game::players[Game::playerState].property.toolIds[i] == 3)
-						{
-							Game::players[Game::playerState].property.toolIds.erase(
-								Game::players[Game::playerState].property.toolIds.begin() + i);
-							break;
-						}
-					}
-
-					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[2];
-				}
-				Game::showTool();
-				return;
+				toolId = 3;
 			}
 			else //遙控骰子
 			{
-				if (Game::players[Game::playerState].property.getHowManyTool(4) != 0)
+				toolId = 4;
+			}
+
+			if (Game::players[Game::playerState].property.getHowManyTool(toolId) != 0)
+			{
+				for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
 				{
-					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
+					if (Game::players[Game::playerState].property.toolIds[i] == toolId)
 					{
-						if (Game::players[Game::playerState].property.toolIds[i] == 4)
-						{
-							Game::players[Game::playerState].property.toolIds.erase(
-								Game::players[Game::playerState].property.toolIds.begin() + i);
-							break;
-						}
+						Game::players[Game::playerState].property.toolIds.erase(
+							Game::players[Game::playerState].property.toolIds.begin() + i);
+						break;
 					}
 				}
-				return;
+				if (toolId != 4)
+					Game::locals[Game::players[Game::playerState].position].toolId = toolId;
+				else
+				{
+					Game::allShowOnTheMap();
+					vector<string> Board;
+					Game::setTextStyle(WHITE, BLACK);
+					Board = {
+						" ________________ " ,
+						"|                |" ,
+						"| 請問你要走幾步 |" ,
+						"|________________|" ,
+						"|                |" ,
+						"|  ＜  　　　＞  |" ,
+						"|________________|"
+					};
+					for (int i = 0; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 16 + i);
+						cout << Board[i];
+					}
+
+					int select = 1;
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(56, 21);
+					cout << select;
+
+					while (1)
+					{
+						char c = _getch();
+						if (c == 13) //Enter
+						{
+							break;
+						}
+						else if (c == 27) //esc
+						{
+							select = -1;
+							break;
+						}
+						else
+						{
+							switch (c)
+							{
+							case 75: //左
+
+								if (select - 1 > 0)
+								{
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
+									cout << --select;
+								}
+								break;
+							case 77: //右
+								if (select + 1 <= 6)
+								{
+									Game::setTextStyle(GOLD, BLACK);
+									Game::setCursorXY(56, 21);
+									cout << ++select;
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
+
+					if (select > 0)
+					{
+						Game::diceNumber = select;
+						Game::moveCharacter();
+					}
+				}
 			}
+			
+			break;
 		}
 		else
 		{
@@ -1739,16 +1771,6 @@ void Game::useTool()
 			default:
 				break;
 			}
-		}
-	}
-	Game::locals[Game::players[Game::playerState].position].tool = Game::tools[toolId];
-
-	for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
-	{
-		if (Game::players[Game::playerState].property.toolIds[i] == toolId)
-		{
-			Game::players[Game::playerState].property.toolIds.erase(Game::players[Game::playerState].property.toolIds.begin() + i);
-			break;
 		}
 	}
 }
@@ -1952,7 +1974,7 @@ void Game::bankMenu()
 	"|      賣地      |",
 	"|＿＿＿＿＿＿＿＿|",
 	"|                |" ,
-	"|    存款提款    |" ,
+	"|      提款      |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |" ,
 	"|     賣股票     |" ,
@@ -2261,15 +2283,15 @@ void Game::showTool()
 	for (int i = 0; i < 28; i++)
 	{
 		processMarkToolPosition(i);
-		if (Game::locals[i].tool->id == 1) //路障
+		if (Game::locals[i].toolId == 1) //路障
 		{
 			cout << "⚐";
 		}
-		else if (Game::locals[i].tool->id == 2) //炸彈
+		else if (Game::locals[i].toolId == 2) //炸彈
 		{
 			cout << "☢";
 		}
-		else if (Game::locals[i].tool->id == 3) //黑洞傳送器
+		else if (Game::locals[i].toolId == 3) //黑洞傳送器
 		{
 			cout << "♨";
 		}

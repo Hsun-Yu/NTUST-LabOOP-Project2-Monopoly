@@ -17,7 +17,7 @@ void StopChance::method(Player& player)
 
 void GetStockChance::method(Player& player)
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	int companysId = rand() % Game::companys.size();
 	player.property.componyIds.push_back(companysId);
 }

@@ -20,7 +20,6 @@ int Local::getNowPriceOfLevel()
 
 void Local::setToDefaultTool()
 {
-	free(Local::tool);
-	Local::tool = new Tool();
+	Local::toolId = 0;
 }
 
