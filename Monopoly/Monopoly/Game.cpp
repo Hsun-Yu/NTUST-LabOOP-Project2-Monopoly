@@ -684,9 +684,12 @@ void Game::showDice()
 
 void Game::moveCharacter()
 {
-	if (Game::players[playerState].inBlack && diceNumber < 5)
+	if (Game::players[playerState].inBlack )
 	{
-		return;
+		if (diceNumber < 5)
+			return;
+		else
+			Game::players[playerState].inBlack = false;
 	}
 
 	Game::deleteBeforePlace();
@@ -695,19 +698,21 @@ void Game::moveCharacter()
 	int localId = Game::players[playerState].position;
 	Game::allShowOnTheMap();
 
+	if (Game::locals[localId].toolId != 0)
+	{
+		//Do something if has tool
+		Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
+		Game::locals[localId].setToDefaultTool();
+
+		if (localId != Game::players[playerState].position)
+			Game::allShowOnTheMap();
+	}
+
+	localId = Game::players[playerState].position;
+
 	if (Game::locals[localId].localType == 1)
 	{
-		if (Game::locals[localId].toolId != 0)
-		{
-			//Do something if has tool
-			Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
-			Game::locals[localId].setToDefaultTool();
 
-			if (localId != Game::players[playerState].position)
-				Game::allShowOnTheMap();
-		}
-
-		localId = Game::players[playerState].position;
 
 		if (Game::locals[localId].level == 0)
 		{
@@ -999,6 +1004,10 @@ void Game::moveCharacter()
 
 void Game::changeplayerState()
 {
+	if (Game::players[Game::playerState].property.money < 0)
+		Game::players[Game::playerState].alive = false;
+
+
 	if (Game::playerState < Game::howManyPlayer - 1)
 		Game::playerState += 1;
 	else
@@ -1513,18 +1522,11 @@ void Game::buyLocal()
 
 void Game::getFee()
 {
-	if (Game::locals[Game::players[playerState].position].getNowPriceOfLevel() > Game::players[playerState].property.money)
+	Game::players[playerState].property.money -= Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
+	for (int i = 0; i < Game::players.size(); i++)
 	{
-		return;
-	}
-	else
-	{
-		Game::players[playerState].property.money -= Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
-		for (int i = 0; i < Game::players.size(); i++)
-		{
-			if (Game::players[i].property.isMyLocal(Game::players[playerState].position))
-				Game::players[i].property.money += Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
-		}
+		if (Game::players[i].property.isMyLocal(Game::players[playerState].position))
+			Game::players[i].property.money += Game::locals[Game::players[playerState].position].getNowPriceOfLevel();
 	}
 }
 
