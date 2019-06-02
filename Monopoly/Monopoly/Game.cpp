@@ -1619,21 +1619,37 @@ void Game::useTool()
 {
 	int toolId = 0;
 	Game::allShowOnTheMap();
+	vector <string> Board;
+	Board = { 
+	"|                |" ,
+	"|使用道具成功！！|" ,
+	"|＿＿＿＿＿＿＿＿|" };
 	vector<string> option;
 	option = { " ＿＿＿＿＿＿＿＿ " ,
 	"|                |" ,
-	"|      路障      |",
+	"|    路障 x ",
 	"|＿＿＿＿＿＿＿＿|",
 	"|                |" ,
-	"|      炸彈      |" ,
+	"|    炸彈 x " ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |" ,
-	"|   黑洞傳送器   |" ,
+	"| 黑洞傳送器 x " ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
-	"|    遙控骰子    |" ,
+	"|  遙控骰子 x " ,
 	"|＿＿＿＿＿＿＿＿|" };
-
+	std::string s1 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(1));
+	s1 += "    |";
+	std::string s2 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(2));
+	s2 += "    |";
+	std::string s3 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(3));
+	s3+= " |";
+	std::string s4 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(4));
+	s4+= "  |";
+	option[2] += s1;
+	option[5] += s2;
+	option[8] += s3;
+	option[11] += s4;
 	Game::setTextStyle(GOLD, BLACK);
 	for (int i = 0; i < 4; i++)
 	{
@@ -1646,6 +1662,7 @@ void Game::useTool()
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i] << endl;
 	}
+
 	Game::setCursorXY(59, 17);
 	while (1)
 	{
@@ -1755,6 +1772,11 @@ void Game::useTool()
 			}
 			
 			break;
+		}
+		else if (c == 27) //esc
+		{
+			Game::allShowOnTheMap();
+			Game::useToolYesOrNo();
 		}
 		else
 		{
