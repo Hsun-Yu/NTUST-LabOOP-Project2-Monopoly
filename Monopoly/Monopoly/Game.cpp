@@ -1617,21 +1617,37 @@ void Game::useTool()
 {
 	int toolId = 0;
 	Game::allShowOnTheMap();
+	vector <string> Board;
+	Board = { 
+	"|                |" ,
+	"|使用道具成功！！|" ,
+	"|＿＿＿＿＿＿＿＿|" };
 	vector<string> option;
 	option = { " ＿＿＿＿＿＿＿＿ " ,
 	"|                |" ,
-	"|      路障      |",
+	"|    路障 x ",
 	"|＿＿＿＿＿＿＿＿|",
 	"|                |" ,
-	"|      炸彈      |" ,
+	"|    炸彈 x " ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |" ,
-	"|   黑洞傳送器   |" ,
+	"| 黑洞傳送器 x " ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
-	"|    遙控骰子    |" ,
+	"|  遙控骰子 x " ,
 	"|＿＿＿＿＿＿＿＿|" };
-
+	std::string s1 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(1));
+	s1 += "    |";
+	std::string s2 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(2));
+	s2 += "    |";
+	std::string s3 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(3));
+	s3+= " |";
+	std::string s4 = std::to_string(Game::players[Game::playerState].property.getHowManyTool(4));
+	s4+= "  |";
+	option[2] += s1;
+	option[5] += s2;
+	option[8] += s3;
+	option[11] += s4;
 	Game::setTextStyle(GOLD, BLACK);
 	for (int i = 0; i < 4; i++)
 	{
@@ -1644,6 +1660,7 @@ void Game::useTool()
 		Game::setCursorXY(51, 15 + i);
 		cout << option[i] << endl;
 	}
+
 	Game::setCursorXY(59, 17);
 	while (1)
 	{
@@ -1652,6 +1669,13 @@ void Game::useTool()
 		{
 			if (Game::cursorXY.Y == 17) //路障
 			{
+				Game::setTextStyle(CYAN, BLACK);
+				for (int i = 0; i < 3; i++)
+				{
+					Game::setCursorXY(51, 28 + i);
+					cout << Board[i];
+				}
+				Sleep(3000);
 				if (Game::players[Game::playerState].property.getHowManyTool(1) != 0)
 				{
 					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
@@ -1663,16 +1687,25 @@ void Game::useTool()
 							break;
 						}
 					}
-
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[0];
+					Game::allShowOnTheMap();
+					Game::setCursorXY(109, 24);
+					return;
 				}
-				Game::showTool();
-				return;
+				else
+					Game::useTool();
 			}
 			else if (Game::cursorXY.Y == 20) //炸彈
 			{
 				if (Game::players[Game::playerState].property.getHowManyTool(2) != 0)
 				{
+					Game::setTextStyle(CYAN, BLACK);
+					for (int i = 0; i < 3; i++)
+					{
+						Game::setCursorXY(51, 28 + i);
+						cout << Board[i];
+					}
+					Sleep(3000);
 					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
 					{
 						if (Game::players[Game::playerState].property.toolIds[i] == 2)
@@ -1682,14 +1715,23 @@ void Game::useTool()
 							break;
 						}
 					}
-
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[1];
+					Game::allShowOnTheMap();
+					Game::setCursorXY(109, 24);
+					return;
 				}
-				Game::showTool();
-				return;
+				else
+					Game::useTool();
 			}
 			else if (Game::cursorXY.Y == 23) //黑洞傳送器
 			{
+				Game::setTextStyle(CYAN, BLACK);
+				for (int i = 0; i < 3; i++)
+				{
+					Game::setCursorXY(51, 28 + i);
+					cout << Board[i];
+				}
+				Sleep(3000);
 				if (Game::players[Game::playerState].property.getHowManyTool(3) != 0)
 				{
 					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
@@ -1703,14 +1745,24 @@ void Game::useTool()
 					}
 
 					Game::locals[Game::players[Game::playerState].position].tool = Game::tools[2];
+					Game::allShowOnTheMap();
+					Game::setCursorXY(109, 24);
+					return;
 				}
-				Game::showTool();
-				return;
+				else
+					Game::useTool();
 			}
 			else //遙控骰子
 			{
 				if (Game::players[Game::playerState].property.getHowManyTool(4) != 0)
 				{
+					Game::setTextStyle(CYAN, BLACK);
+					for (int i = 0; i < 3; i++)
+					{
+						Game::setCursorXY(51, 28 + i);
+						cout << Board[i];
+					}
+					Sleep(3000);
 					for (int i = 0; i < Game::players[Game::playerState].property.toolIds.size(); i++)
 					{
 						if (Game::players[Game::playerState].property.toolIds[i] == 4)
@@ -1723,6 +1775,11 @@ void Game::useTool()
 				}
 				return;
 			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::allShowOnTheMap();
+			Game::useToolYesOrNo();
 		}
 		else
 		{
