@@ -408,6 +408,9 @@ void Game::InGame()
 {
 	while (Game::isInGame)
 	{
+		if (Game::playerState == 0)
+			Game::resetCompanyStock();
+
 		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
 		Game::checkWhoWin();
 
@@ -425,6 +428,7 @@ void Game::InGame()
 		{
 			Game::setCursorXY(109, 24);
 			char c = ' ';
+			
 			if (!useSuperDice)
 				c = _getch();
 			if (c == 13 || useSuperDice) //Enter
@@ -474,13 +478,21 @@ void Game::InGame()
 					cout << Board[i] << endl;
 				}
 
+				int compreset = 1;
 				while (1)
 				{
+					if (compreset && Game::playerState == 0)
+					{
+						Game::resetCompanyStock();
+						compreset = 0;
+					}
+
 					Game::setCursorXY(109, 24);
 					char c = _getch();
 					if (c == 13) //Enter
 					{
 						Game::changeplayerState();
+						compreset = 1;
 						break;
 					}
 					else if (c == 27) //esc
@@ -1073,6 +1085,8 @@ void Game::changeplayerState()
 
 	if (Game::players[Game::playerState].stop > 0)
 		Game::changeplayerState();
+
+	
 }
 
 void Game::changeRound()
@@ -1220,8 +1234,11 @@ void Game::processFile(string filename)
 
 void Game::resetCompanyStock()
 {
+	int price;
 	for (int i = 0; i < Game::companys.size(); i++)
-		Game::companys[i].updateStockPrice();
+	{
+		price = Game::companys[i].updateStockPrice();
+	}
 }
 
 void Game::menu()
@@ -2344,10 +2361,6 @@ void Game::bankMenu()
 			}
 			else if (Game::cursorXY.Y == 23) //賣股票
 			{
-				//TODO: 賣股票測試.
-				Game::players[Game::playerState].property.componyIds.push_back(2); 
-				Game::players[Game::playerState].property.componyIds.push_back(3); 
-				Game::players[Game::playerState].property.componyIds.push_back(4); 
 
 				int company_total = Game::players[Game::playerState].property.componyIds.size();
 
@@ -2415,6 +2428,11 @@ void Game::bankMenu()
 							break;
 						}
 					}
+				}
+				else
+				{
+					Game::setCursorXY(55, 23);
+					cout << "你沒有股票";
 				}
 			}
 			else //繼續遊戲
@@ -2664,11 +2682,72 @@ void Game::spaceStation()
 			}
 			else if (Game::cursorXY.Y == 23) //買股票
 			{
-				//TODO:
+				int company_n = 0;
+
+				vector<string> selectCompanyBoard;
+				selectCompanyBoard = {
+					" ________________ " ,
+					"|                |" ,
+					"|    選擇公司    |" ,
+					"|________________|" ,
+					"|                |" ,
+					"| ＜    １    ＞ |" ,
+					"|________________|" };
+
+				for (int i = 0; i < selectCompanyBoard.size(); i++)
+				{
+					Game::setTextStyle(CYAN, BLACK);
+					Game::setCursorXY(51, 20 + i);
+					cout << selectCompanyBoard[i] << endl;
+				}
+
+				Game::setCursorXY(56, 25);
+				cout << Game::companys[company_n].name;
+
+				while (1)
+				{
+					Game::setCursorXY(56, 25);
+					char c = _getch();
+					if (c == 13)
+					{
+						if (Game::players[Game::playerState].property.money >= Game::companys[company_n].stockPrice)
+						{
+							Game::players[Game::playerState].property.money -= Game::companys[company_n].stockPrice;
+							Game::players[Game::playerState].property.componyIds.push_back(Game::companys[company_n].Id);
+							break;
+						}
+						else
+						{
+							Game::setCursorXY(51, 22);
+							cout << "金錢不足";
+						}
+
+						break;
+					}
+					else
+					{
+						switch (c)
+						{
+						case 75:
+							company_n = company_n <= 0 ? 0 : company_n - 1;
+
+							break;
+						case 77:
+							company_n = company_n >= (Game::companys.size() - 1) ? (Game::companys.size() - 1) : company_n + 1;
+
+							break;
+						default:
+							break;
+						}
+					}
+
+					Game::setCursorXY(56, 25);
+					cout << Game::companys[company_n].name;
+				}
 			}
 			else  //買道具
 			{
-			Game::whichToolWantBuy();
+				Game::whichToolWantBuy();
 			}
 		}
 		else if (c == 27) //esc
@@ -2972,6 +3051,17 @@ void Game::displayMap()
 	for (int i = 25; i > 21; i--)
 	{
 		cout << Game::locals[i].name << " ｜ ";
+	}
+
+	for (int i = 0; i < Game::companys.size(); i++)
+	{
+		setTextStyle(GOLD, BLACK);
+		setCursorXY(0, 10 + i * 3);
+		cout << Game::companys[i].name << "股價:";
+
+		setTextStyle(WHITE, BLACK);
+		setCursorXY(2, 11 + i * 3);
+		cout << Game::companys[i].stockPrice << "元";
 	}
 }
 

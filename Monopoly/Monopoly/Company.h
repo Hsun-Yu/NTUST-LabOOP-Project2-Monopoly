@@ -11,7 +11,7 @@ public:
 	Company(int id, string name, int stockPrice) : Id(id), name(name), stockPrice(stockPrice){}
 	~Company();
 
-	void updateStockPrice();
+	int updateStockPrice();
 	int Id;
 	string name;
 	int stockPrice;

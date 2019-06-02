@@ -11,10 +11,11 @@ Company::~Company()
 {
 }
 
-void Company::updateStockPrice()
+int Company::updateStockPrice()
 {
 	srand(time(NULL));
 	Company::stockPrice += (rand() % Company::stockPrice - (Company::stockPrice / 2));
+	return Company::stockPrice;
 }
 
 Company Company::getCompanyById(const vector<Company>& comps, int id)
