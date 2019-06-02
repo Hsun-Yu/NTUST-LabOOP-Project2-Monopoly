@@ -12,34 +12,7 @@ vector<Tool*> Game::tools;
  
 Game::Game()
 {
-	srand(time(NULL));
-
-	Game::players.clear();
-	Game::chances.clear();
-	Game::fortunes.clear();
-	Game::companys.clear();
-	Game::tools.clear();
-	Game::locals.clear();
-
-	Game::tools.push_back(new Tool());
-	Game::tools.push_back(new RoadblockTool());
-	Game::tools.push_back(new BombTool());
-	Game::tools.push_back(new ToBlackHoleTool());
-	Game::tools.push_back(new ChooseWhereToGoTool());
-
-	Game::fortunes.push_back(new SolarWindFortune());
-	Game::fortunes.push_back(new BackToEarthFortune());
-	Game::fortunes.push_back(new TimeTunnelFortune());
-	Game::fortunes.push_back(new ChangePropertyFortune());
 	
-	Game::companys.push_back(CompanyA());
-	Game::companys.push_back(CompanyB());
-	Game::companys.push_back(CompanyC());
-	Game::companys.push_back(CompanyD());
-
-	Game::chances.push_back(new GetStockChance());
-	Game::chances.push_back(new GetMoneyChance());
-	Game::chances.push_back(new StopChance());
 
 	// PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -140,6 +113,35 @@ void Game::enterScreen()
 
 void Game::startGame()
 {
+	srand(time(NULL));
+
+	Game::players.clear();
+	Game::chances.clear();
+	Game::fortunes.clear();
+	Game::companys.clear();
+	Game::tools.clear();
+	Game::locals.clear();
+
+	Game::tools.push_back(new Tool());
+	Game::tools.push_back(new RoadblockTool());
+	Game::tools.push_back(new BombTool());
+	Game::tools.push_back(new ToBlackHoleTool());
+	Game::tools.push_back(new ChooseWhereToGoTool());
+
+	Game::fortunes.push_back(new SolarWindFortune());
+	Game::fortunes.push_back(new BackToEarthFortune());
+	Game::fortunes.push_back(new TimeTunnelFortune());
+	Game::fortunes.push_back(new ChangePropertyFortune());
+
+	Game::companys.push_back(CompanyA());
+	Game::companys.push_back(CompanyB());
+	Game::companys.push_back(CompanyC());
+	Game::companys.push_back(CompanyD());
+
+	Game::chances.push_back(new GetStockChance());
+	Game::chances.push_back(new GetMoneyChance());
+	Game::chances.push_back(new StopChance());
+
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
 	Game::selectPlayer();
