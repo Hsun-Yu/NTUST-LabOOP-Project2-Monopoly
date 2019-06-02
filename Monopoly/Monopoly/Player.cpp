@@ -50,10 +50,28 @@ void Player::checkAlive()
 
 void Player::goPosition(int number)
 {
+	vector<string> Board;
+	Board = {
+			" _________________ " ,
+			"|                 |" ,
+			"|     你經過了    |" ,
+			"|                 |" ,
+			"|  ＜  地 球  ＞  |" ,
+			"|                 |" ,
+			"|  獲得 $ 2000  ! |" ,
+			"|                 |" ,
+			"|＿＿＿＿＿＿＿＿_|"
+	};
 	Player::position += number;
 	if (Player::position > 27)
 	{
 		Player::position %= 28;
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << Board[i];
+		}
+		Sleep(3000);
 		Player::property.money += 2000;
 	}
 }
