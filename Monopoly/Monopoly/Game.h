@@ -91,6 +91,7 @@ public:
 	void blackHole();
 	void showTool();
 	void processMarkToolPosition(int );
+	void spaceStation();
 	
 	void checkAlive();
 	void checkWhoWin();

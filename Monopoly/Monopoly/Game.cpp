@@ -993,20 +993,22 @@ void Game::moveCharacter()
 		vector<string> Board;
 		Game::setTextStyle(WHITE, BLACK);
 		Board = {
-			" _________________ " ,
-		"|                 |" ,
-		"|    你走到了     |" ,
-		"|                 |" ,
+			" ___________________________ " ,
+		"|                          |" ,
+		"|         你走到了          |" ,
+		"|                          |" ,
 		"|  ＜ 太空站 ＞   |" ,
-		"|＿＿＿＿＿＿＿＿_|"
+		"|                          |" ,
+		"|  可以存款、借款、買股票   |" ,
+		"|                          |" ,
+		"|＿＿＿＿＿＿＿＿＿＿＿＿＿_|"
 		};
 		for (int i = 0; i < Board.size(); i++)
 		{
 			Game::setCursorXY(50, 16 + i);
 			cout << Board[i];
 		}
-		Sleep(5000);
-
+		Game::spaceStation();
 	}
 	else if (Game::locals[localId].localType == -5) //黑洞
 	{
@@ -2399,6 +2401,78 @@ void Game::processMarkToolPosition(int localId)
 	else
 	{
 		Game::setCursorXY(86 - 10 * (localId - 22), 10);
+	}
+}
+
+void Game::spaceStation()
+{
+	Sleep(5000);
+	vector<string> option;
+	option = { " ＿＿＿＿＿＿＿＿ " ,
+	"|                |" ,
+	"|      存款      |" ,
+	"|＿＿＿＿＿＿＿＿|",
+	"|                |" ,
+	"|      借款      |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |" ,
+	"|     買股票     |" ,
+	"|＿＿＿＿＿＿＿＿|" ,
+	"|                |",
+	"|    離開遊戲    |" ,
+	"|＿＿＿＿＿＿＿＿|" };
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < option.size(); i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(59, 17);
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 17) //存款
+			{
+				//TODO:
+			}
+			else if (Game::cursorXY.Y == 20) //借款
+			{
+				//TODO:
+			}
+			else if (Game::cursorXY.Y == 23) //買股票
+			{
+				//TODO:
+			}
+			else
+			{
+				Game::allShowOnTheMap();
+				Game::InGame();
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				optionUp();
+				showOption(option);
+				break;
+			case 80://下
+				optionDown();
+				showOption(option);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 
