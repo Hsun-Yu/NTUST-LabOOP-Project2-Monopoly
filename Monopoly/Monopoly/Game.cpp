@@ -424,11 +424,18 @@ void Game::InGame()
 		while (1)
 		{
 			Game::setCursorXY(109, 24);
-			char c = _getch();
-			if (c == 13) //Enter
+			char c = ' ';
+			if (!useSuperDice)
+				c = _getch();
+			if (c == 13 || useSuperDice) //Enter
 			{
-				Game::rollDice();
-				Game::moveCharacter();
+				if (useSuperDice)
+					useSuperDice = false;
+				else
+				{
+					Game::rollDice();
+					Game::moveCharacter();
+				}
 				Game::allShowOnTheMap();
 
 				vector<string>Board;
@@ -711,32 +718,34 @@ void Game::moveCharacter()
 			cout << Game::diceNumber;
 			return;
 		}
-	}
-	else
-	{
-		Game::players[playerState].inBlack = false;
-		vector <string> Board;
-		Board = {
-			" _________________ " ,
-		"|                 |" ,
-		"|    你骰到了     |" ,
-		"|                 |" ,
-		"|     ＜  ＞      |" ,
-		"|                 |" ,
-		"|   成功逃出 !!   |" ,
-		"|                 |" ,
-		"|＿＿＿＿＿＿＿＿_|"
-		};
-		Game::setTextStyle(WHITE, BLACK);
-		for (int i = 0; i < Board.size(); i++)
+		else
 		{
-			Game::setCursorXY(50, 16 + i);
-			cout << Board[i];
+			Game::players[playerState].inBlack = false;
+			vector <string> Board;
+			Board = {
+				" _________________ " ,
+			"|                 |" ,
+			"|    你骰到了     |" ,
+			"|                 |" ,
+			"|     ＜  ＞      |" ,
+			"|                 |" ,
+			"|   成功逃出 !!   |" ,
+			"|                 |" ,
+			"|＿＿＿＿＿＿＿＿_|"
+			};
+			Game::setTextStyle(WHITE, BLACK);
+			for (int i = 0; i < Board.size(); i++)
+			{
+				Game::setCursorXY(50, 16 + i);
+				cout << Board[i];
+			}
+			Game::setTextStyle(GOLD, BLACK);
+			Game::setCursorXY(60, 20);
+			cout << Game::diceNumber;
+			Sleep(5000);
 		}
-		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(60, 20);
-		cout << Game::diceNumber;
 	}
+
 
 	Game::deleteBeforePlace();
 	Game::players[playerState].goPosition(diceNumber);
@@ -1827,6 +1836,7 @@ void Game::useTool()
 					{
 						Game::diceNumber = select;
 						Game::moveCharacter();
+						useSuperDice = true;
 					}
 				}
 			}

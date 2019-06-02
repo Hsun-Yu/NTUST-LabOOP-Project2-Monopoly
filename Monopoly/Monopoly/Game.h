@@ -110,12 +110,13 @@ private:
 	static HANDLE outputHandle;
 	static COORD cursorXY; //cursor position on whole window
 	bool isInGame;
-
+	bool useSuperDice = false;
 
 	string mapName;
 	int round;
 	int tmpRound;
 	int howManyRound;
+
 
 	int playerState;
 
