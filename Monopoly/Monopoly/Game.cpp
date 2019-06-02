@@ -405,15 +405,18 @@ void Game::InGame()
 {
 	while (1)
 	{
-		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
-		Game::checkWhoWin();
-
 		int toolCount = 0;
 		for (int i = 1; i <= Game::tools.size(); i++)
 			toolCount += Game::players[Game::playerState].property.getHowManyTool(i);
-		if(Game::locals[Game::players[Game::playerState].position].localType == 1 && 
+		if (Game::locals[Game::players[Game::playerState].position].localType == 1 &&
 			Game::locals[Game::players[Game::playerState].position].toolId == 0 && toolCount != 0)
+		{
 			Game::useToolYesOrNo();
+
+		}
+
+		Game::allShowOnTheMap();  //markPlayerAndLocalPosition() && showPlayerState() && showRound() && displayMap()
+		Game::checkWhoWin();
 		while (1)
 		{
 			Game::setCursorXY(109, 24);
@@ -1589,6 +1592,7 @@ void Game::useToolYesOrNo()
 			if (Game::cursorXY.X == 54) //Yes
 			{
 				Game::useTool();
+				return;
 			}
 			else//No
 			{
