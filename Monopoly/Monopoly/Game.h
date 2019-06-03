@@ -88,11 +88,12 @@ public:
 	void saveGame();
 	void bankMenu();
 	void sellLocal();
-	void sellCompanyStock();
 	void blackHole();
 	void showTool();
 	void processMarkToolPosition(int );
 	void spaceStation();
+	void whichStockWantBuy();
+	void buyStock(int );
 	
 	void checkWhoWin();
 	void endOfGame(Player winnner);

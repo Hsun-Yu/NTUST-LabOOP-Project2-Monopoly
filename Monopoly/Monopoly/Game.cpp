@@ -2753,71 +2753,7 @@ void Game::spaceStation()
 			}
 			else if (Game::cursorXY.Y == 23) //買股票
 			{
-				int company_n = 0;
-
-				vector<string> selectCompanyBoard;
-				selectCompanyBoard = {
-					" ________________ " ,
-					"|                |" ,
-					"|    選擇公司    |" ,
-					"|________________|" ,
-					"|                |" ,
-					"| ＜    １    ＞ |" ,
-					"|________________|" };
-
-				for (int i = 0; i < selectCompanyBoard.size(); i++)
-				{
-					Game::setTextStyle(CYAN, BLACK);
-					Game::setCursorXY(51, 20 + i);
-					cout << selectCompanyBoard[i] << endl;
-				}
-
-				Game::setCursorXY(56, 25);
-				cout << Game::companys[company_n].name;
-
-				while (1)
-				{
-					Game::setCursorXY(56, 25);
-					char c = _getch();
-					if (c == 13)
-					{
-						if (Game::players[Game::playerState].property.money >= Game::companys[company_n].stockPrice)
-						{
-							Game::players[Game::playerState].property.money -= Game::companys[company_n].stockPrice;
-							Game::players[Game::playerState].property.componyIds.push_back(Game::companys[company_n].Id);
-							break;
-						}
-						else
-						{
-							Game::setCursorXY(51, 22);
-							cout << "金錢不足";
-						}
-
-						break;
-					}
-					else
-					{
-						switch (c)
-						{
-						case 75:
-							company_n = company_n <= 0 ? 0 : company_n - 1;
-
-							break;
-						case 77:
-							company_n = company_n >= (Game::companys.size() - 1) ? (Game::companys.size() - 1) : company_n + 1;
-
-							break;
-						default:
-							break;
-						}
-					}
-
-					Game::setCursorXY(56, 25);
-					cout << Game::companys[company_n].name;
-
-				}
-				Game::spaceStation();
-				return;
+				Game::whichStockWantBuy();
 			}
 			else if(Game::cursorXY.Y == 26) //買道具
 			{
@@ -2842,6 +2778,158 @@ void Game::spaceStation()
 			case 80://下
 				menuDown();
 				showMenuOption(option);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+void Game::whichStockWantBuy()
+{
+	int company_n = 0;
+
+	vector<string> selectCompanyBoard;
+	selectCompanyBoard = {
+		"|＿＿＿＿＿＿＿＿|" ,
+		"|                |" ,
+		"|    選擇公司    |" ,
+		"|________________|" ,
+		"|                |" ,
+		"| ＜          ＞ |" ,
+		"|＿＿＿＿＿＿＿＿|" };
+
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < selectCompanyBoard.size(); i++)
+	{
+		Game::setCursorXY(51, 18 + i);
+		cout << selectCompanyBoard[i] << endl;
+	}
+
+	Game::setCursorXY(56, 23);
+	cout << Game::companys[company_n].name;
+
+	while (1)
+	{
+		Game::setCursorXY(56, 23);
+		char c = _getch();
+		if (c == 13)
+		{
+			Game::buyStock(company_n);
+			break;
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75:
+				company_n = company_n <= 0 ? 0 : company_n - 1;
+
+				break;
+			case 77:
+				company_n = company_n >= (Game::companys.size() - 1) ? (Game::companys.size() - 1) : company_n + 1;
+
+				break;
+			default:
+				break;
+			}
+		}
+
+		Game::setCursorXY(56, 23);
+		cout << Game::companys[company_n].name;
+
+	}
+	Game::spaceStation();
+	return;
+}
+void Game::buyStock(int company_n)
+{
+	vector<string> Board;
+	Game::setTextStyle(WHITE, BLACK);
+	Board = {
+		" ________________ " ,
+		"|                |" ,
+		"| 請問你要買幾張 |" ,
+		"|________________|" ,
+		"|                |" ,
+		"|  每張 $        |" ,
+		"|                |" ,
+		"|  ＜  　　　＞  |" ,
+		"|                |" ,
+		"|擁有存款 $      |" ,
+		"|                |" ,
+		"|                |" ,
+		"|________________|"
+	};
+	for (int i = 0; i < Board.size(); i++)
+	{
+		Game::setCursorXY(51, 15 + i);
+		cout << Board[i];
+	}
+
+	Game::setCursorXY(62, 20);
+	cout << Game::companys[company_n].stockPrice;
+	Game::setCursorXY(63, 24);
+	cout << Game::players[Game::playerState].property.bankMoney;
+
+	int select = 1;
+	Game::setTextStyle(GOLD, BLACK);
+	Game::setCursorXY(59, 22);
+	cout << select;
+
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			Game::setTextStyle(GOLD, BLACK);
+			Game::setCursorXY(55, 26);
+			if (Game::Game::companys[company_n].stockPrice * select > Game::players[Game::playerState].property.bankMoney)
+			{
+				cout << "你的錢不夠 !";
+				Sleep(3000);
+				Game::spaceStation();
+				return;
+			}
+			else
+			{
+				Game::players[Game::playerState].property.bankMoney -= Game::companys[company_n].stockPrice * select;
+				for (int i = 0; i < select; i++)
+				{
+					Game::players[Game::playerState].property.toolIds.push_back(company_n);
+				}
+				cout << "購買成功 !!";
+				Sleep(3000);
+				Game::allShowOnTheMap();
+				Game::spaceStation();
+				return;
+			}
+		}
+		else if (c == 27) //esc
+		{
+			Game::whichStockWantBuy();
+			return;
+		}
+		else
+		{
+			switch (c)
+			{
+			case 75: //左
+
+				if (select - 1 > 0)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(59, 22);
+					cout << --select;
+				}
+				break;
+			case 77: //右
+				if (select + 1 <= 9)
+				{
+					Game::setTextStyle(GOLD, BLACK);
+					Game::setCursorXY(59, 22);
+					cout << ++select;
+				}
 				break;
 			default:
 				break;
