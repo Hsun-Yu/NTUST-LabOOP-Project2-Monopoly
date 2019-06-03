@@ -755,6 +755,7 @@ void Game::moveCharacter()
 			Game::setTextStyle(GOLD, BLACK);
 			Game::setCursorXY(59, 20);
 			cout << Game::diceNumber;
+			Game::moveCharacter();
 			Sleep(5000);
 			return;
 		}
@@ -769,12 +770,15 @@ void Game::moveCharacter()
 
 	if (Game::locals[localId].toolId != 0)
 	{
+		int toolID = Game::locals[localId].toolId;
 		//Do something if has tool
 		Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
 		Game::locals[localId].setToDefaultTool();
 
 		if (localId != Game::players[playerState].position)
 		{
+			if (toolID == 3)
+				diceNumber = 0;
 			Game::moveCharacter();
 			return;
 		}
