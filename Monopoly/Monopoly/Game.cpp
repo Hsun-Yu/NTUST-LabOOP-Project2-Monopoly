@@ -774,15 +774,16 @@ void Game::moveCharacter()
 		Game::locals[localId].setToDefaultTool();
 
 		if (localId != Game::players[playerState].position)
-			Game::allShowOnTheMap();
+		{
+			Game::moveCharacter();
+			return;
+		}
 	}
 
 	localId = Game::players[playerState].position;
 
 	if (Game::locals[localId].localType == 1)
 	{
-
-
 		if (Game::locals[localId].level == 0)
 		{
 			if (Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
@@ -1914,7 +1915,7 @@ void Game::buyTool(int toolId)
 	}
 
 	Game::setCursorXY(62, 20);
-	cout << Game::tools[toolId - 1]->price;
+	cout << Game::tools[toolId]->price;
 	Game::setCursorXY(63, 24);
 	cout << Game::players[Game::playerState].property.money;
 
@@ -1935,6 +1936,7 @@ void Game::buyTool(int toolId)
 				cout << "你的錢不夠，請重新選擇";
 				Sleep(3000);
 				Game::whichToolWantBuy();
+				return;
 			}
 			else
 			{
@@ -1946,11 +1948,13 @@ void Game::buyTool(int toolId)
 					Game::players[Game::playerState].property.toolIds.push_back(toolId);
 				}
 				Game::whichToolWantBuy();
+				return;
 			}
 		}
 		else if (c == 27) //esc
 		{
 			Game::whichToolWantBuy();
+			return;
 		}
 		else
 		{

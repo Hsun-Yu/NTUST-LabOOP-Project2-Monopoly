@@ -34,6 +34,8 @@ BombTool::BombTool():Tool(2, "炸彈", 1000)
 void BombTool::method(Player & player)
 {
 	player.position -= 3;
+	if (player.position < 0)
+		player.position += 28;
 }
 
 ToBlackHoleTool::ToBlackHoleTool():Tool(3, "黑洞傳送器", 1000)
