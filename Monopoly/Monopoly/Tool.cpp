@@ -34,7 +34,7 @@ BombTool::BombTool():Tool(2, "炸彈", 1000)
 
 void BombTool::method(Player & player)
 {
-	cout << "後退三步!";
+	cout << " 後退三步!";
 	player.position -= 3;
 	if (player.position < 0)
 		player.position += 28;

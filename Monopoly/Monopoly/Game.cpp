@@ -793,7 +793,14 @@ void Game::moveCharacter()
 		}
 
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(54, 20);
+		if (tools[toolID]->name.size() > 8)
+		{
+			Game::setCursorXY(54, 20);
+		}
+		else
+		{
+			Game::setCursorXY(57, 20);
+		}
 		cout << tools[toolID]->name;
 
 		Game::setCursorXY(54, 22);
@@ -802,6 +809,8 @@ void Game::moveCharacter()
 		Sleep(3000);
 
 		Game::locals[localId].setToDefaultTool();
+		return;
+
 		if (localId != Game::players[playerState].position)
 		{
 			if (toolID == 3)
