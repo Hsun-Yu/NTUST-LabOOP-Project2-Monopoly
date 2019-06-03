@@ -1042,11 +1042,20 @@ void Game::moveCharacter()
 		}
 		Sleep(1000);
 		Game::setTextStyle(GOLD, BLACK);
-		Game::setCursorXY(40, 24);
+		Game::setCursorXY(42, 24);
 		cout << Game::chances[r]->name;
 		Sleep(5000);
+		Game::setCursorXY(54, 25);
+		Game::setTextStyle(CYAN, BLACK);
 		Game::chances[r]->method(Game::players[Game::playerState]);
-
+		if (r == 0)
+		{
+			Game::setCursorXY(47, 25);
+			cout << "得到了 ";
+			Game::setCursorXY(56, 25);
+			cout << "公司的一張股票 ！";
+			Sleep(5000);
+		}
 		Game::allShowOnTheMap();
 		Game::diceNumber = 0;
 		if (localId != Game::players[Game::playerState].position)
