@@ -770,11 +770,38 @@ void Game::moveCharacter()
 
 	if (Game::locals[localId].toolId != 0)
 	{
-		int toolID = Game::locals[localId].toolId;
-		//Do something if has tool
-		Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
-		Game::locals[localId].setToDefaultTool();
+		vector <string> toolBoard;
+		toolBoard = {
+			" _________________ " ,
+		"|                 |" ,
+		"|    你踩到了     |" ,
+		"|                 |" ,
+		"| ＜          ＞  |" ,
+		"|                 |" ,
+		"|                 |" ,
+		"|                 |" ,
+		"|＿＿＿＿＿＿＿＿_|"
+		};
 
+		int toolID = Game::locals[localId].toolId;
+
+		Game::setTextStyle(WHITE, BLACK);
+		for (int i = 0; i < toolBoard.size(); i++)
+		{
+			Game::setCursorXY(50, 16 + i);
+			cout << toolBoard[i];
+		}
+
+		Game::setTextStyle(GOLD, BLACK);
+		Game::setCursorXY(54, 20);
+		cout << tools[toolID]->name;
+
+		Game::setCursorXY(54, 22);
+		Game::tools[Game::locals[localId].toolId]->method(Game::players[playerState]);
+
+		Sleep(3000);
+
+		Game::locals[localId].setToDefaultTool();
 		if (localId != Game::players[playerState].position)
 		{
 			if (toolID == 3)
@@ -2969,7 +2996,7 @@ void Game::endOfGame(Player winner)
 			cout << p1[i];
 		}
 	}
-	else if(winner.Id + 2 == 2)
+	else if(winner.Id + 1 == 2)
 	{
 		for (int i = 0; i < p2.size(); i++)
 		{
@@ -2977,7 +3004,7 @@ void Game::endOfGame(Player winner)
 			cout << p2[i];
 		}
 	}
-	else if (winner.Id + 3 == 3)
+	else if (winner.Id + 1 == 3)
 	{
 		for (int i = 0; i < p3.size(); i++)
 		{
