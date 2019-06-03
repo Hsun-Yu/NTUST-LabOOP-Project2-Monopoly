@@ -1027,7 +1027,7 @@ void Game::moveCharacter()
 		"|                           |" ,
 		"|       ＜ 太空站 ＞        |" ,
 		"|                           |" ,
-		"|      可以 存款、借款      |" ,
+		"|      可以 存款、貸款      |" ,
 		"|                           |" ,
 		"|       買股票、買道具      |" ,
 		"|                           |" ,
@@ -2540,7 +2540,7 @@ void Game::spaceStation()
 	"|      存款      |" ,
 	"|＿＿＿＿＿＿＿＿|",
 	"|                |" ,
-	"|      借款      |" ,
+	"|      貸款      |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |" ,
 	"|     買股票     |" ,
@@ -2639,7 +2639,7 @@ void Game::spaceStation()
 				"|                 |" ,
 				"|  \"           \"  |" ,
 				"|   -----------   |" ,
-				"|   上限:            |" ,
+				"|   上限:         |" ,
 				"|＿＿＿＿＿＿＿＿_|" ,
 				"|                 |" ,
 				"|  輸入完按Enter  |" ,
@@ -2666,22 +2666,36 @@ void Game::spaceStation()
 				if (howmuch <= Game::players[Game::playerState].property.getAllProperty())
 				{
 					loanMoney(Game::players[Game::playerState].property, howmuch);
+					vector<string> Board;
+					Board = {
+					"|＿＿＿＿＿＿＿＿_|" ,
+					"|                 |" ,
+					"|    貸款成功！   |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(GOLD, BLACK);
+					for (int i = 0; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 23 + i);
+						cout << Board[i];
+					}
+					Game::setCursorXY(60, 25);
+					Sleep(5000);
 					Game::allShowOnTheMap();
 				}
 				else
 				{
-					allShowOnTheMap();
 					vector<string> Board;
 					Board = {
-					" _________________ " ,
+					"|＿＿＿＿＿＿＿＿_|" ,
 					"|                 |" ,
-					"| 你沒有這麼多錢！ |" ,
+					"| 你沒有這麼多錢！|" ,
 					"|＿＿＿＿＿＿＿＿_|" ,
 					};
-					Game::setTextStyle(WHITE, BLACK);
+					Game::setTextStyle(GOLD, BLACK);
 					for (int i = 0; i < Board.size(); i++)
 					{
-						Game::setCursorXY(50, 16 + i);
+						Game::setCursorXY(50, 23 + i);
 						cout << Board[i];
 					}
 					Sleep(5000);
