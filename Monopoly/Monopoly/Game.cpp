@@ -2768,7 +2768,10 @@ void Game::spaceStation()
 
 					Game::setCursorXY(56, 25);
 					cout << Game::companys[company_n].name;
+
 				}
+				Game::spaceStation();
+				return;
 			}
 			else if(Game::cursorXY.Y == 26) //買道具
 			{
