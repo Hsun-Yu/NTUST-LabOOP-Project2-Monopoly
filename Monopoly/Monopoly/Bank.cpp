@@ -22,6 +22,7 @@ void loanMoney(Property& p, unsigned int howmuch)
 {
 	if (p.getAllProperty() >= howmuch)
 	{
+		p.money += howmuch;
 		p.loan += howmuch;
 		p.loanCount = 3;
 	}

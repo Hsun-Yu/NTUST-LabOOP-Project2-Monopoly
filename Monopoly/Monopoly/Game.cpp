@@ -1487,7 +1487,7 @@ void Game::showPlayerProperty()
 	Game::setCursorXY(62, 18);
 	cout << Game::players[Game::playerState].property.bankMoney;
 	Game::setCursorXY(62, 20);
-	//貸款
+	cout << Game::players[Game::playerState].property.loan;
 	Game::setCursorXY(62, 22);
 	cout << Game::players[Game::playerState].property.getAllProperty();
 
@@ -2641,32 +2641,43 @@ void Game::spaceStation()
 				if (howmuch <= Game::players[Game::playerState].property.money)
 				{
 					deposit(Game::players[Game::playerState].property, howmuch);
-					Game::allShowOnTheMap();
+					vector<string> Board;
+					Board = {
+					"|＿＿＿＿＿＿＿＿_|" ,
+					"|                 |" ,
+					"|    存款成功！   |" ,
+					"|＿＿＿＿＿＿＿＿_|" ,
+					};
+					Game::setTextStyle(GOLD, BLACK);
+					for (int i = 0; i < Board.size(); i++)
+					{
+						Game::setCursorXY(50, 23 + i);
+						cout << Board[i];
+					}
 				}
 				else
 				{
-					allShowOnTheMap();
 					vector<string> Board;
 					Board = {
-					" _________________ " ,
+					"|＿＿＿＿＿＿＿＿_|" ,
 					"|                 |" ,
-					"| 你沒有這麼多錢！ |" ,
+					"| 你沒有這麼多錢！|" ,
 					"|＿＿＿＿＿＿＿＿_|" ,
 					};
-					Game::setTextStyle(WHITE, BLACK);
+					Game::setTextStyle(GOLD, BLACK);
 					for (int i = 0; i < Board.size(); i++)
 					{
-						Game::setCursorXY(50, 16 + i);
+						Game::setCursorXY(50, 23 + i);
 						cout << Board[i];
 					}
-					Sleep(5000);
-					Game::allShowOnTheMap();
 				}
-
+				Game::setCursorXY(60, 25);
+				Sleep(3000);
+				Game::allShowOnTheMap();
 				Game::spaceStation();
 				return;
 			}
-			else if (Game::cursorXY.Y == 20) //借款
+			else if (Game::cursorXY.Y == 20) //貸款
 			{
 				allShowOnTheMap();
 				vector<string> Board;
@@ -2717,9 +2728,6 @@ void Game::spaceStation()
 						Game::setCursorXY(50, 23 + i);
 						cout << Board[i];
 					}
-					Game::setCursorXY(60, 25);
-					Sleep(5000);
-					Game::allShowOnTheMap();
 				}
 				else
 				{
@@ -2736,10 +2744,10 @@ void Game::spaceStation()
 						Game::setCursorXY(50, 23 + i);
 						cout << Board[i];
 					}
-					Sleep(5000);
-					allShowOnTheMap();
 				}
-
+				Game::setCursorXY(60, 25);
+				Sleep(3000);
+				Game::allShowOnTheMap();
 				Game::spaceStation();
 				return;
 			}
