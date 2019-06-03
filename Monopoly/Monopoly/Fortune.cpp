@@ -37,7 +37,6 @@ void TimeTunnelFortune::method(Player& player)
 
 void ChangePropertyFortune::method(Player& player)
 {
-	//srand(time(NULL));
 	int whoId = rand() % Game::players.size();
 	while (whoId == player.Id)
 		whoId = rand() % Game::players.size();

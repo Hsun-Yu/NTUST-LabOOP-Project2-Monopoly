@@ -2923,15 +2923,20 @@ void Game::checkWhoWin()
 	}
 	else
 	{
-		vector<Player> checkList;
-		for (int i = 0; i < Game::players.size(); i++)
+		if (Game::howManyPlayer == 1)
+			return;
+		else
 		{
-			if (Game::players[i].alive)
-				checkList.push_back(Game::players[i]);
-		}
+			vector<Player> checkList;
+			for (int i = 0; i < Game::players.size(); i++)
+			{
+				if (Game::players[i].alive)
+					checkList.push_back(Game::players[i]);
+			}
 
-		if (checkList.size() == 1)
-			Game::endOfGame(checkList[0]);
+			if (checkList.size() == 1)
+				Game::endOfGame(checkList[0]);
+		}
 	}
 }
 
@@ -3020,8 +3025,82 @@ void Game::endOfGame(Player winner)
 			cout << p4[i];
 		}
 	}
-	
-	Game::isInGame = false;
+	vector<string> option;
+	option = {
+		" ________________ " ,
+		"|                |" ,
+		"|    回主選單    |" ,
+		"|________________|" ,
+		"|                |" ,
+		"|    離開遊戲    |" ,
+		"|________________|" };
+	Game::setTextStyle(GOLD, BLACK);
+	for (int i = 0; i < 4; i++)
+	{
+		Game::setCursorXY(49, 30 + i);
+		cout << option[i];
+	}
+	Game::setTextStyle(WHITE, BLACK);
+	for (int i = 4; i < option.size(); i++)
+	{
+		Game::setCursorXY(49, 30 + i);
+		cout << option[i] << endl;
+	}
+	Game::setCursorXY(57, 32);
+	int select = 1;
+	while (1)
+	{
+		char c = _getch();
+		if (c == 13) //Enter
+		{
+			if (Game::cursorXY.Y == 32) //回主選單
+			{
+				Game::enterScreen();
+			}
+			else //離開遊戲
+			{
+				exit(1);
+			}
+		}
+		else
+		{
+			switch (c)
+			{
+			case 72://上
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 0; i < 4; i++)
+				{
+					Game::setCursorXY(49, 30 + i);
+					cout << option[i];
+				}
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 4; i < option.size(); i++)
+				{
+					Game::setCursorXY(49, 30 + i);
+					cout << option[i] << endl;
+				}
+				Game::setCursorXY(57, 32);
+				break;
+			case 80://下
+				Game::setTextStyle(WHITE, BLACK);
+				for (int i = 0; i < 4; i++)
+				{
+					Game::setCursorXY(49, 30 + i);
+					cout << option[i];
+				}
+				Game::setTextStyle(GOLD, BLACK);
+				for (int i = 4; i < option.size(); i++)
+				{
+					Game::setCursorXY(49, 30 + i);
+					cout << option[i] << endl;
+				}
+				Game::setCursorXY(57, 35);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void Game::displayTemplate()
