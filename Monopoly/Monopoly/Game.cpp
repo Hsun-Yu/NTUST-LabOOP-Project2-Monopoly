@@ -755,8 +755,8 @@ void Game::moveCharacter()
 			Game::setTextStyle(GOLD, BLACK);
 			Game::setCursorXY(59, 20);
 			cout << Game::diceNumber;
-			Game::moveCharacter();
 			Sleep(5000);
+			Game::moveCharacter();
 			return;
 		}
 	}
