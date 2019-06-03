@@ -13,7 +13,6 @@ Company::~Company()
 
 int Company::updateStockPrice()
 {
-	srand(time(NULL));
 	Company::stockPrice += (rand() % Company::stockPrice - (Company::stockPrice / 2));
 	return Company::stockPrice;
 }

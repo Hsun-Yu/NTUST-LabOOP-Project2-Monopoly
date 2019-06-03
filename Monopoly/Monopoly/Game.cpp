@@ -2747,9 +2747,11 @@ void Game::spaceStation()
 					cout << Game::companys[company_n].name;
 				}
 			}
-			else  //買道具
+			else if(Game::cursorXY.Y == 26) //買道具
 			{
 				Game::whichToolWantBuy();
+				Game::spaceStation();
+				return;
 			}
 		}
 		else if (c == 27) //esc
@@ -2829,7 +2831,8 @@ void Game::whichToolWantBuy()
 		}
 		else if (c == 27) //esc
 		{
-			Game::spaceStation();
+			//Game::spaceStation();
+			return;
 		}
 		else
 		{
