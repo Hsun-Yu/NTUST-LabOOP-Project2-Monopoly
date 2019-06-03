@@ -2430,7 +2430,7 @@ void Game::bankMenu()
 						cout << Company::getCompanyById(Game::companys, stockId).name;
 					}
 
-					Game::players[Game::playerState].property.money += Game::companys[stockId].stockPrice;
+					Game::players[Game::playerState].property.money += Game::companys[stockId - 1].stockPrice;
 					for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
 					{
 						if (Game::players[Game::playerState].property.componyIds[i] == stockId)
@@ -2445,6 +2445,8 @@ void Game::bankMenu()
 					Game::setCursorXY(55, 23);
 					cout << "你沒有股票";
 				}
+				Game::allShowOnTheMap();
+				return;
 			}
 			else //繼續遊戲
 			{
