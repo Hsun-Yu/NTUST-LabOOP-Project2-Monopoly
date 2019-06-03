@@ -3282,28 +3282,44 @@ void Game::displayMap()
 
 	for (int i = 0; i < 8; i++)
 	{
-		Game::setCursorXY(21, 9 + i * 4);
+		if(Game::locals[i].name.size() > 10) //四個字
+			Game::setCursorXY(20, 9 + i * 4);
+		else if (Game::locals[i].name.size() > 8) //三個字
+			Game::setCursorXY(21, 9 + i * 4);
+		else
+			Game::setCursorXY(22, 9 + i * 4);
 		cout << Game::locals[i].name;
 	}
-	Game::setCursorXY(31, 37);
 	for (int i = 8; i < 15; i++)
 	{
-		cout << Game::locals[i].name << " ｜ ";
+		if (Game::locals[i].name.size() > 10) //四個字
+			Game::setCursorXY(30 + 10 * (i - 8), 37);
+		else if (Game::locals[i].name.size() > 8) //三個字
+			Game::setCursorXY(31 + 10 * (i - 8), 37);
+		else
+			Game::setCursorXY(32 + 10 * (i - 8), 37);
+		cout << Game::locals[i].name ;
 	}
 	for (int i = 15; i < 22; i++)
 	{
-		Game::setCursorXY(91, 37 - (i - 14) * 4);
+		if (Game::locals[i].name.size() > 10) //四個字
+			Game::setCursorXY(90, 37 - (i - 14) * 4);
+		else if (Game::locals[i].name.size() > 8) //三個字
+			Game::setCursorXY(91, 37 - (i - 14) * 4);
+		else
+			Game::setCursorXY(92, 37 - (i - 14) * 4);
 		cout << Game::locals[i].name;
 	}
-	Game::setCursorXY(32, 9);
-	for (int i = 27; i > 25; i--)
-	{
-		cout << Game::locals[i].name << "  ｜  ";
-	}
 	Game::setCursorXY(51, 9);
-	for (int i = 25; i > 21; i--)
+	for (int i = 27; i > 21; i--)
 	{
-		cout << Game::locals[i].name << " ｜ ";
+		if (Game::locals[i].name.size() > 10) //四個字
+			Game::setCursorXY(30 - 10 * (i - 27), 9);
+		else if (Game::locals[i].name.size() > 8) //三個字
+			Game::setCursorXY(31 - 10 * (i - 27), 9);
+		else
+			Game::setCursorXY(32 - 10 * (i - 27), 9);
+		cout << Game::locals[i].name ;
 	}
 
 	for (int i = 0; i < Game::companys.size(); i++)
