@@ -813,7 +813,7 @@ void Game::moveCharacter()
 
 		if (localId != Game::players[playerState].position)
 		{
-			if (toolID == 3)
+			if (toolID == 3 && toolID == 2)
 				diceNumber = 0;
 			Game::moveCharacter();
 			return;
