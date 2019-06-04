@@ -2522,11 +2522,7 @@ void Game::bankMenu()
 				while (1)
 				{
 					ccc = _getch();
-					if (ccc == 27)
-					{
-
-					}
-					else if (ccc == 13)
+					if (ccc == 13)
 					{
 						if (Game::players[Game::playerState].property.loan > Game::players[Game::playerState].property.money)
 						{
@@ -2535,10 +2531,17 @@ void Game::bankMenu()
 						}
 						else
 						{
+							Game::players[Game::playerState].property.money -= Game::players[Game::playerState].property.loan;
+							Game::players[Game::playerState].property.loan = 0;
+							Game::players[Game::playerState].property.loanCount = 0;
 							Game::setTextStyle(GOLD, BLACK);
 							cout << "還款成功";
 						}
+						Game::allShowOnTheMap();
+						return;
 					}
+					else
+						break;
 				}
 			}
 		}
