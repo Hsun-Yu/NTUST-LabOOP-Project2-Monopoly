@@ -2499,22 +2499,24 @@ void Game::bankMenu()
 				vector<string> Board;
 				Game::setTextStyle(WHITE, BLACK);
 				Board = {
-					" ________________ " ,
-					"|                |" ,
-					"| 一件還清:       |" ,
-					"|________________|" ,
-					"|                |" ,
-					"|  ＜Enter＞  |" ,
-					"|________________|"
+					" _________________ " ,
+					"|                 |" ,
+					"|一件還清:        |" ,
+					"|_________________|" ,
+					"|                 |" ,
+					"|    ＜Enter＞    |" ,
+					"|_________________|"
 				};
+				Game::setTextStyle(GOLD, BLACK);
 				for (int i = 0; i < Board.size(); i++)
 				{
 					Game::setCursorXY(50, 16 + i);
 					cout << Board[i];
 				}
-				Game::setCursorXY(60, 24);
-				Game::setTextStyle(GOLD, BLACK);
+				Game::setCursorXY(61, 18);
+				Game::setTextStyle(BLUE, BLACK);
 				cout << "$" << Game::players[Game::playerState].property.loan;
+				Game::setCursorXY(55, 21);
 
 				char ccc;
 				while (1)
@@ -2528,11 +2530,13 @@ void Game::bankMenu()
 					{
 						if (Game::players[Game::playerState].property.loan > Game::players[Game::playerState].property.money)
 						{
-							cout << "";
+							Game::setTextStyle(RED, BLACK);
+							cout << "你的錢不夠";
 						}
 						else
 						{
-							
+							Game::setTextStyle(GOLD, BLACK);
+							cout << "還款成功";
 						}
 					}
 				}
