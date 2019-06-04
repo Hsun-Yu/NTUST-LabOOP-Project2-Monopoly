@@ -12,7 +12,34 @@ vector<Tool*> Game::tools;
  
 Game::Game()
 {
-	
+	srand(time(NULL));
+
+	Game::players.clear();
+	Game::chances.clear();
+	Game::fortunes.clear();
+	Game::companys.clear();
+	Game::tools.clear();
+	Game::locals.clear();
+
+	Game::tools.push_back(new Tool());
+	Game::tools.push_back(new RoadblockTool());
+	Game::tools.push_back(new BombTool());
+	Game::tools.push_back(new ToBlackHoleTool());
+	Game::tools.push_back(new ChooseWhereToGoTool());
+
+	Game::fortunes.push_back(new SolarWindFortune());
+	Game::fortunes.push_back(new BackToEarthFortune());
+	Game::fortunes.push_back(new TimeTunnelFortune());
+	Game::fortunes.push_back(new ChangePropertyFortune());
+
+	Game::companys.push_back(CompanyA());
+	Game::companys.push_back(CompanyB());
+	Game::companys.push_back(CompanyC());
+	Game::companys.push_back(CompanyD());
+
+	Game::chances.push_back(new GetStockChance());
+	Game::chances.push_back(new GetMoneyChance());
+	Game::chances.push_back(new StopChance());
 
 	//PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
@@ -113,34 +140,7 @@ void Game::enterScreen()
 
 void Game::startGame()
 {
-	srand(time(NULL));
-
-	Game::players.clear();
-	Game::chances.clear();
-	Game::fortunes.clear();
-	Game::companys.clear();
-	Game::tools.clear();
-	Game::locals.clear();
-
-	Game::tools.push_back(new Tool());
-	Game::tools.push_back(new RoadblockTool());
-	Game::tools.push_back(new BombTool());
-	Game::tools.push_back(new ToBlackHoleTool());
-	Game::tools.push_back(new ChooseWhereToGoTool());
-
-	Game::fortunes.push_back(new SolarWindFortune());
-	Game::fortunes.push_back(new BackToEarthFortune());
-	Game::fortunes.push_back(new TimeTunnelFortune());
-	Game::fortunes.push_back(new ChangePropertyFortune());
-
-	Game::companys.push_back(CompanyA());
-	Game::companys.push_back(CompanyB());
-	Game::companys.push_back(CompanyC());
-	Game::companys.push_back(CompanyD());
-
-	Game::chances.push_back(new GetStockChance());
-	Game::chances.push_back(new GetMoneyChance());
-	Game::chances.push_back(new StopChance());
+	
 
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
@@ -809,11 +809,10 @@ void Game::moveCharacter()
 		Sleep(3000);
 
 		Game::locals[localId].setToDefaultTool();
-		return;
 
 		if (localId != Game::players[playerState].position)
 		{
-			if (toolID == 3 && toolID == 2)
+			if (toolID == 3 || toolID == 2)
 				diceNumber = 0;
 			Game::moveCharacter();
 			return;
@@ -1135,7 +1134,7 @@ void Game::changeplayerState()
 	else
 		Game::playerState = 0;
 
-	if (Game::players[Game::playerState].stop > 0)
+	if (Game::players[Game::playerState].stop > 0 || !Game::players[Game::playerState].alive)
 		Game::changeplayerState();
 
 	
@@ -2225,7 +2224,7 @@ void Game::bankMenu()
 	"|     賣股票     |" ,
 	"|＿＿＿＿＿＿＿＿|" ,
 	"|                |",
-	"|    繼續遊戲    |" ,
+	"|      還款      |" ,
 	"|＿＿＿＿＿＿＿＿|" };
 
 	Game::setTextStyle(GOLD, BLACK);
@@ -2339,6 +2338,7 @@ void Game::bankMenu()
 							if (Game::players[Game::playerState].property.localIds[i] == localId)
 							{
 								Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
+								Game::locals[Game::players[Game::playerState].property.localIds[i]].level = 0;
 								allShowOnTheMap();
 								return;
 							}
@@ -2493,10 +2493,49 @@ void Game::bankMenu()
 				Game::allShowOnTheMap();
 				return;
 			}
-			else //繼續遊戲
+			else //還款
 			{
 				Game::allShowOnTheMap();
-				return;
+				vector<string> Board;
+				Game::setTextStyle(WHITE, BLACK);
+				Board = {
+					" ________________ " ,
+					"|                |" ,
+					"| 一件還清:       |" ,
+					"|________________|" ,
+					"|                |" ,
+					"|  ＜Enter＞  |" ,
+					"|________________|"
+				};
+				for (int i = 0; i < Board.size(); i++)
+				{
+					Game::setCursorXY(50, 16 + i);
+					cout << Board[i];
+				}
+				Game::setCursorXY(60, 24);
+				Game::setTextStyle(GOLD, BLACK);
+				cout << "$" << Game::players[Game::playerState].property.loan;
+
+				char ccc;
+				while (1)
+				{
+					ccc = _getch();
+					if (ccc == 27)
+					{
+
+					}
+					else if (ccc == 13)
+					{
+						if (Game::players[Game::playerState].property.loan > Game::players[Game::playerState].property.money)
+						{
+							cout << "";
+						}
+						else
+						{
+							
+						}
+					}
+				}
 			}
 		}
 		else
@@ -2721,7 +2760,8 @@ void Game::spaceStation()
 				int howmuch = 0;
 				cin >> howmuch;
 
-				if (howmuch <= Game::players[Game::playerState].property.getAllProperty())
+				if (howmuch <= Game::players[Game::playerState].property.getAllProperty() && 
+					Game::players[Game::playerState].property.loanCount == 0)
 				{
 					loanMoney(Game::players[Game::playerState].property, howmuch);
 					vector<string> Board;
@@ -2744,7 +2784,7 @@ void Game::spaceStation()
 					Board = {
 					"|＿＿＿＿＿＿＿＿_|" ,
 					"|                 |" ,
-					"| 你沒有這麼多錢！|" ,
+					"|   貸款失敗！ |" ,
 					"|＿＿＿＿＿＿＿＿_|" ,
 					};
 					Game::setTextStyle(GOLD, BLACK);

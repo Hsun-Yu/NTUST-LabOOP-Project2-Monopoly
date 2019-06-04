@@ -21,11 +21,24 @@ void Player::finishARound()
 
 	if (Player::property.loanCount == 0 && Player::property.loan != 0)
 	{
-		cout << "因為你還沒還完款，所以你把所有房產以及股票賣掉，來還款" << endl;
-
+		vector<string> Board;
+		Board = {
+		"|＿＿＿＿＿＿＿＿_|" ,
+		"|                 |" ,
+		"|   你沒繳錢，所有財產已被收購！ |" ,
+		"|＿＿＿＿＿＿＿＿_|" ,
+		};
+		Game::setTextStyle(GOLD, BLACK);
+		for (int i = 0; i < Board.size(); i++)
+		{
+			Game::setCursorXY(50, 23 + i);
+			cout << Board[i];
+		}
+		Sleep(3000);
 		for (int i = 0; i < Player::property.localIds.size(); i)
 		{
 			Player::property.money += (Game::locals[Player::property.localIds[i]].priceOfLevel[0] / 2);
+			Game::locals[Player::property.localIds[i]].level = 0;
 			Player::property.localIds.erase(Player::property.localIds.begin());
 		}
 
@@ -39,6 +52,8 @@ void Player::finishARound()
 		Player::property.bankMoney = 0;
 
 		Player::property.money -= Player::property.loan;
+		Player::property.loan = 0;
+		Player::property.loanCount = 0;
 	}
 }
 

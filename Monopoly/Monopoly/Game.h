@@ -53,7 +53,7 @@ public:
 	void processMarkPlayerPosition(int, int);
 	void settingGame();
 	void moveCursor(int x, int y);
-	void setTextStyle(int color, int backgroundColor);
+	static void setTextStyle(int color, int backgroundColor);
 	void menu();
 	void menuUp();
 	void menuDown();
