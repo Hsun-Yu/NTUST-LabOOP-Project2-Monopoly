@@ -45,7 +45,6 @@ void Game::initialGame()
 
 Game::Game()
 {
-
 	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
@@ -866,11 +865,11 @@ void Game::moveCharacter()
 					cout << Board[i];
 				}
 				if (Game::locals[localId].name.size() > 10) //四個字
-					Game::setCursorXY(56, 20);
+					Game::setCursorXY(55, 20);
 				else if (Game::locals[localId].name.size() > 8) //三個字
-					Game::setCursorXY(57, 20);
+					Game::setCursorXY(56, 20);
 				else
-					Game::setCursorXY(58, 20);
+					Game::setCursorXY(57, 20);
 				cout << Game::locals[localId].name;
 				Game::setTextStyle(GOLD, BLACK);
 				for (int i = 8; i < Board.size(); i++)
@@ -916,11 +915,11 @@ void Game::moveCharacter()
 				}
 
 				if (Game::locals[localId].name.size() > 10) //四個字
-					Game::setCursorXY(56, 20);
+					Game::setCursorXY(55, 20);
 				else if (Game::locals[localId].name.size() > 8) //三個字
-					Game::setCursorXY(57, 20);
+					Game::setCursorXY(56, 20);
 				else
-					Game::setCursorXY(58, 20);
+					Game::setCursorXY(57, 20);
 
 				cout << Game::locals[localId].name;
 				Game::setTextStyle(GOLD, BLACK);
@@ -964,7 +963,7 @@ void Game::moveCharacter()
 				if (nowLevel < 5)
 				{
 					Game::setTextStyle(GOLD, BLACK);
-					Game::setCursorXY(57, 24);
+					Game::setCursorXY(56, 24);
 					cout << nowLevel << " → " << nowLevel + 1;
 				}
 				Game::upgrate();
@@ -3131,17 +3130,33 @@ void Game::checkWhoWin()
 void Game::endOfGame(Player winner)
 {
 	system("cls");
+
+	Game::setTextStyle(KHIKI, BLACK);
+	int max = 0, maxID;
+	for (int i = 0; i < Game::howManyPlayer; i++)
+	{
+		Game::setCursorXY(40, 2 + i * 2);
+		cout << "P " << i + 1 << "         結算總資產  :   $ " << Game::players[i].property.getAllProperty();
+		if (Game::players[i].property.getAllProperty() > max)
+		{
+			max = Game::players[i].property.getAllProperty();
+			maxID = i;
+		}
+	}
+	Game::setCursorXY(77, 2 + maxID * 2);
+	cout << "★";
+
 	ifstream inputS("Image\\CHIKA.txt");
 	string str;
 	Game::setTextStyle(WHITE, BLACK);
 	int i = 0;
 	while (getline(inputS, str))
 	{
-		Game::setCursorXY(25,5 + i);
+		Game::setCursorXY(26, 20 + i);
 		cout << str << endl;
 		i++;
 	}
-	Game::setCursorXY(85, 22);
+	Game::setCursorXY(85, 35);
 	cout << "恭喜你勝利 咚搭呦 ~";
 	vector<string> p1;
 	p1 = { "    ___      __        _    _        __        _  _   ",
@@ -3185,7 +3200,7 @@ void Game::endOfGame(Player winner)
 	{
 		for (int i = 0; i < p1.size(); i++)
 		{
-			Game::setCursorXY(28, 23 + i);
+			Game::setCursorXY(28, 11 + i);
 			cout << p1[i];
 		}
 	}
@@ -3193,7 +3208,7 @@ void Game::endOfGame(Player winner)
 	{
 		for (int i = 0; i < p2.size(); i++)
 		{
-			Game::setCursorXY(28, 23 + i);
+			Game::setCursorXY(28, 11 + i);
 			cout << p2[i];
 		}
 	}
@@ -3201,7 +3216,7 @@ void Game::endOfGame(Player winner)
 	{
 		for (int i = 0; i < p3.size(); i++)
 		{
-			Game::setCursorXY(28, 23 + i);
+			Game::setCursorXY(28, 11 + i);
 			cout << p3[i];
 		}
 	}
@@ -3209,84 +3224,8 @@ void Game::endOfGame(Player winner)
 	{
 		for (int i = 0; i < p4.size(); i++)
 		{
-			Game::setCursorXY(28, 23 + i);
+			 Game::setCursorXY(28, 11 + i);
 			cout << p4[i];
-		}
-	}
-	vector<string> option;
-	option = {
-		" ________________ " ,
-		"|                |" ,
-		"|    回主選單    |" ,
-		"|________________|" ,
-		"|                |" ,
-		"|    離開遊戲    |" ,
-		"|________________|" };
-	Game::setTextStyle(GOLD, BLACK);
-	for (int i = 0; i < 4; i++)
-	{
-		Game::setCursorXY(49, 30 + i);
-		cout << option[i];
-	}
-	Game::setTextStyle(WHITE, BLACK);
-	for (int i = 4; i < option.size(); i++)
-	{
-		Game::setCursorXY(49, 30 + i);
-		cout << option[i] << endl;
-	}
-	Game::setCursorXY(57, 32);
-	int select = 1;
-	while (1)
-	{
-		char c = _getch();
-		if (c == 13) //Enter
-		{
-			if (Game::cursorXY.Y == 32) //回主選單
-			{
-				Game::enterScreen();
-			}
-			else //離開遊戲
-			{
-				exit(1);
-			}
-		}
-		else
-		{
-			switch (c)
-			{
-			case 72://上
-				Game::setTextStyle(GOLD, BLACK);
-				for (int i = 0; i < 4; i++)
-				{
-					Game::setCursorXY(49, 30 + i);
-					cout << option[i];
-				}
-				Game::setTextStyle(WHITE, BLACK);
-				for (int i = 4; i < option.size(); i++)
-				{
-					Game::setCursorXY(49, 30 + i);
-					cout << option[i] << endl;
-				}
-				Game::setCursorXY(57, 32);
-				break;
-			case 80://下
-				Game::setTextStyle(WHITE, BLACK);
-				for (int i = 0; i < 4; i++)
-				{
-					Game::setCursorXY(49, 30 + i);
-					cout << option[i];
-				}
-				Game::setTextStyle(GOLD, BLACK);
-				for (int i = 4; i < option.size(); i++)
-				{
-					Game::setCursorXY(49, 30 + i);
-					cout << option[i] << endl;
-				}
-				Game::setCursorXY(57, 35);
-				break;
-			default:
-				break;
-			}
 		}
 	}
 }
