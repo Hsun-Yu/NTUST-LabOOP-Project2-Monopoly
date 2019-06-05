@@ -41,7 +41,7 @@ Game::Game()
 	Game::chances.push_back(new GetMoneyChance());
 	Game::chances.push_back(new StopChance());
 
-	//PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
 
