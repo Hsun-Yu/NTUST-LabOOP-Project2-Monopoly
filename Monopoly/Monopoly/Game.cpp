@@ -2977,7 +2977,7 @@ void Game::buyStock(int company_n)
 				Game::players[Game::playerState].property.bankMoney -= Game::companys[company_n].stockPrice * select;
 				for (int i = 0; i < select; i++)
 				{
-					Game::players[Game::playerState].property.toolIds.push_back(company_n);
+					Game::players[Game::playerState].property.componyIds.push_back(company_n);
 				}
 				cout << "購買成功 !!";
 				Sleep(3000);
