@@ -566,7 +566,7 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 		if (Game::players[Game::playerState].alive)
 			cout << "✈";
 		else
-			cout << "☹";
+			cout << "☠";
 	}
 }
 
@@ -1443,13 +1443,13 @@ void Game::showPlayerProperty()
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　Player       　　 　   　　   　    Esc 關閉視窗｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　　         現金　     $　                       ｜",
+		"｜　　    現金　   $  　                            ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　　         存款　     $　                       ｜",
+		"｜　　    存款　   $　                              ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　　         貸款　     $　                       ｜",
+		"｜　　    貸款　   $　                              ｜",
 		"｜　　　　　 　   　　　                            ｜",
-		"｜　　       總資產　     $　                       ｜",
+		"｜　　  總資產　   $                　              ｜",
 		"｜＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿｜",
 		"｜　　　　　 　   　　　                            ｜",
 		"｜　道具　　　　 　   　　　                        ｜",
@@ -1490,13 +1490,19 @@ void Game::showPlayerProperty()
 		Game::setTextStyle(KHIKI, BLACK);
 		cout << "４Ｐ";
 	}
-	Game::setCursorXY(62, 16);
+	Game::setCursorXY(58, 16);
 	cout << Game::players[Game::playerState].property.money;
-	Game::setCursorXY(62, 18);
+	Game::setCursorXY(58, 18);
 	cout << Game::players[Game::playerState].property.bankMoney;
-	Game::setCursorXY(62, 20);
+	Game::setCursorXY(58, 20);
 	cout << Game::players[Game::playerState].property.loan;
-	Game::setCursorXY(62, 22);
+
+	if (Game::players[Game::playerState].property.loanCount > 0)
+	{
+		cout << " (還款期限剩餘" << Game::players[Game::playerState].property.loanCount << "回合)";
+	}
+
+	Game::setCursorXY(58, 22);
 	cout << Game::players[Game::playerState].property.getAllProperty();
 
 	Game::setCursorXY(50, 27);
