@@ -46,7 +46,7 @@ void Game::initialGame()
 Game::Game()
 {
 
-	//PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+	PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
 
