@@ -570,8 +570,9 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 			Game::setTextStyle(BLUE, BLACK);
 		else if (i == 3)
 			Game::setTextStyle(KHIKI, BLACK);
+
 		Game::processMarkPlayerPosition(i, players[i].position);
-		if (Game::players[Game::playerState].alive)
+		if (Game::players[i].alive)
 			cout << "✈";
 		else
 			cout << "☠";
