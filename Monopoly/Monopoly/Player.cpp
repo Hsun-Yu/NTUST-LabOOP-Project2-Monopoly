@@ -23,10 +23,11 @@ void Player::finishARound()
 	{
 		vector<string> Board;
 		Board = {
-		"|＿＿＿＿＿＿＿＿_|" ,
-		"|                 |" ,
-		"|   你沒繳錢，所有財產已被收購！ |" ,
-		"|＿＿＿＿＿＿＿＿_|" ,
+		" ＿＿＿＿＿＿＿＿＿＿" ,
+		"|                    |" ,
+		"|    你 沒 繳 錢     |" ,
+		"|   財 產 被 沒 收   |" ,
+		"|＿＿＿＿＿＿＿＿＿＿|" ,
 		};
 		Game::setTextStyle(GOLD, BLACK);
 		for (int i = 0; i < Board.size(); i++)
