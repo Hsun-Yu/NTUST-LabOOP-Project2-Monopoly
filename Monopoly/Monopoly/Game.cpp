@@ -2501,14 +2501,15 @@ void Game::bankMenu()
 					}
 
 					Game::players[Game::playerState].property.money += Game::companys[stockId - 1].stockPrice;
-					for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
+					Game::players[Game::playerState].property.componyIds.erase(Game::players[Game::playerState].property.componyIds.begin() + stockId - 1);
+					/*for (int i = 0; i < Game::players[Game::playerState].property.componyIds.size(); i++)
 					{
 						if (Game::players[Game::playerState].property.componyIds[i] == stockId)
 						{
 							Game::players[Game::playerState].property.componyIds.erase(Game::players[Game::playerState].property.componyIds.begin() + i);
 							break;
 						}
-					}
+					}*/
 				}
 				else
 				{
@@ -2978,7 +2979,7 @@ void Game::buyStock(int company_n)
 				Game::players[Game::playerState].property.bankMoney -= Game::companys[company_n].stockPrice * select;
 				for (int i = 0; i < select; i++)
 				{
-					Game::players[Game::playerState].property.componyIds.push_back(company_n);
+					Game::players[Game::playerState].property.componyIds.push_back(company_n + 1);
 				}
 				cout << "購買成功 !!";
 				Sleep(3000);
