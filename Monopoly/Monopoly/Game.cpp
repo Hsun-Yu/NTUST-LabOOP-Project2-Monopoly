@@ -1345,6 +1345,7 @@ void Game::menu()
 				Game::allShowOnTheMap();
 				//Game::showDice();
 				Game::InGame();
+				return;
 			}
 			else if (Game::cursorXY.Y == 20) //儲存遊戲
 			{
@@ -2827,6 +2828,7 @@ void Game::spaceStation()
 			else if (Game::cursorXY.Y == 23) //買股票
 			{
 				Game::whichStockWantBuy();
+				return;
 			}
 			else if(Game::cursorXY.Y == 26) //買道具
 			{
