@@ -98,6 +98,8 @@ public:
 	void checkWhoWin();
 	void endOfGame(Player winnner);
 
+	void initialGame();
+
 	static vector<Player> players;
 	static vector<Local> locals;
 	static vector<Company> companys;

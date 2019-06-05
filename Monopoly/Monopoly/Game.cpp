@@ -10,7 +10,8 @@ vector<Fortune*> Game::fortunes;
 vector<Company> Game::companys;
 vector<Tool*> Game::tools;
  
-Game::Game()
+
+void Game::initialGame()
 {
 	srand(time(NULL));
 
@@ -40,10 +41,16 @@ Game::Game()
 	Game::chances.push_back(new GetStockChance());
 	Game::chances.push_back(new GetMoneyChance());
 	Game::chances.push_back(new StopChance());
+}
+
+Game::Game()
+{
 
 	//PlaySound("Music\\background_sound.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 	Game::enterScreen();
 }
+
+
 
 
 Game::~Game()
@@ -140,8 +147,7 @@ void Game::enterScreen()
 
 void Game::startGame()
 {
-	
-
+	Game::initialGame();
 	Game::fileName = "initial.txt";
 	Game::processFile(Game::fileName);
 	Game::selectPlayer();
@@ -311,6 +317,8 @@ void Game::selectRound()
 
 void Game::loadGame()
 {
+	Game::initialGame();
+
 	vector<string> whichFileWantLoad;
 
 	whichFileWantLoad = {
@@ -2354,16 +2362,11 @@ void Game::bankMenu()
 						int localId = Game::players[Game::playerState].property.localIds[select];
 
 						Game::players[Game::playerState].property.money += Game::locals[localId].priceOfLevel[0] / 2;
-						for (int i = 0; i < Game::players[Game::playerState].property.localIds.size(); i++)
-						{
-							if (Game::players[Game::playerState].property.localIds[i] == localId)
-							{
-								Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + i);
-								Game::locals[Game::players[Game::playerState].property.localIds[i]].level = 0;
-								allShowOnTheMap();
-								return;
-							}
-						}
+						Game::locals[Game::players[Game::playerState].property.localIds[select]].level = 0;
+						Game::players[Game::playerState].property.localIds.erase(Game::players[Game::playerState].property.localIds.begin() + select);
+						
+						allShowOnTheMap();
+						return;
 					}
 					else
 					{
@@ -3285,6 +3288,8 @@ void Game::endOfGame(Player winner)
 		}
 	}
 }
+
+
 
 void Game::displayTemplate()
 {
