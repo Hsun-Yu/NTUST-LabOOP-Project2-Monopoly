@@ -32,7 +32,7 @@ void Player::finishARound()
 		Game::setTextStyle(GOLD, BLACK);
 		for (int i = 0; i < Board.size(); i++)
 		{
-			Game::setCursorXY(50, 23 + i);
+			Game::setCursorXY(49, 23 + i);
 			cout << Board[i];
 		}
 		Sleep(3000);
