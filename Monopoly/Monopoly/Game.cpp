@@ -563,7 +563,10 @@ void Game::markPlayerAndLocalPosition(vector<Player> players)
 		else if (i == 3)
 			Game::setTextStyle(KHIKI, BLACK);
 		Game::processMarkPlayerPosition(i, players[i].position);
-		cout << "✈"; 
+		if (Game::players[Game::playerState].alive)
+			cout << "✈";
+		else
+			cout << "☹";
 	}
 }
 
@@ -850,16 +853,13 @@ void Game::moveCharacter()
 					Game::setCursorXY(50, 16 + i);
 					cout << Board[i];
 				}
-				if (Game::locals[localId].name.size() < 8)
-				{
-					Game::setCursorXY(57, 20);
-					cout << Game::locals[localId].name;
-				}
-				else
-				{
+				if (Game::locals[localId].name.size() > 10) //四個字
 					Game::setCursorXY(56, 20);
-					cout << Game::locals[localId].name;
-				}
+				else if (Game::locals[localId].name.size() > 8) //三個字
+					Game::setCursorXY(57, 20);
+				else
+					Game::setCursorXY(58, 20);
+				cout << Game::locals[localId].name;
 				Game::setTextStyle(GOLD, BLACK);
 				for (int i = 8; i < Board.size(); i++)
 				{
@@ -902,16 +902,15 @@ void Game::moveCharacter()
 					Game::setCursorXY(50, 16 + i);
 					cout << FeeBoard[i];
 				}
-				if (Game::locals[localId].name.size() < 8)
-				{
-					Game::setCursorXY(57, 20);
-					cout << Game::locals[localId].name;
-				}
-				else
-				{
+
+				if (Game::locals[localId].name.size() > 10) //四個字
 					Game::setCursorXY(56, 20);
-					cout << Game::locals[localId].name;
-				}
+				else if (Game::locals[localId].name.size() > 8) //三個字
+					Game::setCursorXY(57, 20);
+				else
+					Game::setCursorXY(58, 20);
+
+				cout << Game::locals[localId].name;
 				Game::setTextStyle(GOLD, BLACK);
 				Game::setCursorXY(56, 24);
 				cout << "＄" << Game::locals[localId].getNowPriceOfLevel();
