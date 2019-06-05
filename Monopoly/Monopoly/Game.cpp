@@ -1199,6 +1199,7 @@ void Game::processFile(string filename)
 {
 	string _fileName = "Basemap\\" + filename;
 	ifstream file(_fileName);
+	ofstream fileout("Basemap\\initial2.txt");
 	string str;
 
 	//process game information
@@ -1206,13 +1207,23 @@ void Game::processFile(string filename)
 	file >> Game::howManyRound;
 	file >> Game::howManyPlayer;
 	
+	fileout << Game::mapName << " ";
+	fileout << Game::howManyRound << " ";
+	fileout << Game::howManyPlayer << "　";
+	
 	//process local information
 	for (int i = 0; i <= 27; i++)
 	{
+		fileout << "\n";
 		Local l;
 		file >> l.Id;
 		file >> l.name;
 		file >> l.localType;
+	
+		fileout << l.Id << " ";
+		fileout << l.name << " ";
+		fileout << l.localType << " ";
+		
 		if (l.localType == 1)
 		{
 			vector<int> price;
@@ -1220,6 +1231,7 @@ void Game::processFile(string filename)
 			{
 				int p = 0;
 				file >> p;
+				fileout << p << " ";
 				price.push_back(p);
 			}
 			l.priceOfLevel = price;
@@ -2153,7 +2165,7 @@ void Game::saveGame()
 	name += inputFileName;
 	name += ".txt";
 
-	ifstream file("Basemap\\initial.txt", ios::binary);
+	ifstream file("Basemap\\initial2.txt", ios::binary);
 	ofstream savefile(name, ios::binary);
 	savefile << Game::mapName << " ";
 	savefile << Game::howManyRound << " ";
