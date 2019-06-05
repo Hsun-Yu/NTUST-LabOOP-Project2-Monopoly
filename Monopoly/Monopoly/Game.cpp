@@ -3262,6 +3262,11 @@ void Game::displayMap()
 			cout << "１Ｐ";
 			Game::setTextStyle(RED, RED);
 			Game::setCursorXY(20 + i * 20, 2);
+			if (!Game::players[i].alive)
+			{
+				Game::setTextStyle(GRAY, BLACK);
+				color = "－－－－－－－－－";
+			}
 			cout << color;
 		}
 		else if (i + 1 == 2)
@@ -3269,6 +3274,11 @@ void Game::displayMap()
 			cout << "２Ｐ"; 
 			Game::setTextStyle(GREEN, GREEN);
 			Game::setCursorXY(20 + i * 20, 2);
+			if (!Game::players[i].alive)
+			{
+				Game::setTextStyle(GRAY, BLACK);
+				color = "－－－－－－－－－";
+			}
 			cout << color;
 		}
 		else if (i + 1 == 3)
@@ -3276,6 +3286,11 @@ void Game::displayMap()
 			cout << "３Ｐ";
 			Game::setTextStyle(BLUE, BLUE);
 			Game::setCursorXY(20 + i * 20, 2);
+			if (!Game::players[i].alive)
+			{
+				Game::setTextStyle(GRAY, BLACK);
+				color = "－－－－－－－－－";
+			}
 			cout << color;
 		}
 		else
@@ -3283,6 +3298,11 @@ void Game::displayMap()
 			cout << "４Ｐ ";
 			Game::setTextStyle(KHIKI, KHIKI);
 			Game::setCursorXY(20 + i * 20, 2);
+			if (!Game::players[i].alive)
+			{
+				Game::setTextStyle(GRAY, BLACK);
+				color = "－－－－－－－－－";
+			}
 			cout << color;
 		}
 	}
