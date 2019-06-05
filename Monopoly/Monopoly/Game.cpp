@@ -829,7 +829,10 @@ void Game::moveCharacter()
 		if (Game::locals[localId].level == 0)
 		{
 			if (Game::players[playerState].property.money >= locals[localId].getNowPriceOfLevel())
+			{
 				Game::buyLocal();
+				return;
+			}
 			else
 			{
 				vector<string>Board;
@@ -1637,7 +1640,7 @@ void Game::buyLocal()
 			}
 			else//No
 			{
-				Game::changeplayerState();
+				//Game::changeplayerState();
 				Game::allShowOnTheMap();
 				//Game::displayTemplate();
 				//Game::showDice();
