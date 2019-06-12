@@ -474,7 +474,7 @@ void Game::InGame()
 				"",
 			" __________ " ,
 			"|          |" ,
-			"|   換人   |" ,
+			"| 結束回合 |" ,
 			"|__________|",
 				"",
 				" 請按 Enter  " };
@@ -3228,6 +3228,8 @@ void Game::endOfGame(Player winner)
 			cout << p4[i];
 		}
 	}
+
+	Sleep(50000);
 }
 
 
